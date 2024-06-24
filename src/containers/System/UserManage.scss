@@ -46,3 +46,39 @@
         color: rgb(110, 19, 19) !important;
     }
   }
+
+  .modal-user-container{
+    
+    .modal-header {
+      button {
+        background-color: transparent !important;
+        color: white;
+        border: none;
+        font-size: 27px;
+      }
+    }
+    .modal-user-body{
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+
+      .input-container{
+        display: flex;
+        flex-direction: column;
+        width: 48%;
+
+        &.max-width-input {
+          width: 100%;
+        }
+
+        input{
+          border-radius: 3px;
+          border: 1px solid grey;
+          height: 30px;
+          outline: none;
+          padding: 0 10px;
+        }
+      }
+    }
+    
+  }
