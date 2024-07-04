@@ -1,4 +1,16 @@
 {
+    "homeheader": {
+        "speciality": "Medical speciality",
+        "searchdoctor": "Find a doctor by speciality",
+        "health-facility": "Health facilities",
+        "select-room": "Choose a hospital and clinic",
+        "doctor": "Doctor",
+        "select-doctor": "Choose doctor",
+        "examination-package": "Examination package",
+        "general-examination": "General examination",
+        "support": "Support"
+    },
+
     "common": {
         "add": "Add",
         "edit": "Edit",
