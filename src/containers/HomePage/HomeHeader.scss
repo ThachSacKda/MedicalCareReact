@@ -55,8 +55,20 @@
 
             .language-vi{
                 cursor: pointer;
+                opacity: 0.2;
                 &.active{
-                    color: orange;
+                    opacity: 1;
+                    span{
+                        font-size: 20px;
+                        color: red;
+
+                        
+                    }
+                    
+                }
+                &:hover{
+                    color: red;
+                    opacity: 1;
                 }
 
             }
@@ -64,8 +76,17 @@
             .language-en{
                 margin: 0 10px;
                 cursor: pointer;
+                opacity: 0.2;
                 &.active{
+                    opacity: 1;
+                    span{
+                        font-size: 20px;
+                        color: blue;
+                    }
+                }
+                &:hover{
                     color: blue;
+                    opacity: 1;
                 }
             }
         }
