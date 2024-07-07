@@ -1,4 +1,5 @@
 .home-header-cotainer {
+    
     height: 60px;
     width: 100%;
     padding: 0 20px;
@@ -95,7 +96,7 @@
 
 .home-header-banner {
     background: url('../../assets/back.avif') center center no-repeat;
-
+    
     margin-top: 12px;
     background-color: #cccccc;
     height: 800px;
@@ -158,6 +159,7 @@
     .content-down {
 
         height: 35%;
+        padding-bottom: 10px;
         padding: 0 200px;
         background-image: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.9), rgba(255,255,255,1));
 
