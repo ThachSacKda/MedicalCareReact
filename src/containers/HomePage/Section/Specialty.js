@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"
-
+import specialtyImg from '../../../assets/specialty/bone.jpg'
 
 
 class Specialty extends Component {
@@ -16,30 +16,43 @@ class Specialty extends Component {
             dots: false,
             Infinite: true,
             speed: 500,
-            slidesToShow: 1,
-            slidesToScroll:1
+            slidesToShow: 4,
+            slidesToScroll:1,
+            // nextArrow: <SampleNextArrow/>,
+            // preArrow: <SamplePreArrow/>
         };
         return (
             <div className='section-specialty'>
-                <div className='specialty-content'>
+                <div className='specialty-container'>
+                    <div className='specialty-header'>
+                        <span>Popular specialties</span>
+                        <button>View Details</button>
+                    </div>
+
                     <Slider {...settings}>
-                    <div className='img-customize'>
-                        <h3>1</h3>
+                    <div className='specialty-body'>
+                        <img src={specialtyImg}/>
+                        <div>Musculoskeletal 1</div>
                     </div>
                     <div className='img-customize'>
-                        <h3>2</h3>
+                        <img src={specialtyImg}/>
+                        <div>Musculoskeletal 2</div>
                     </div>
                     <div className='img-customize'>
-                        <h3>3</h3>
+                        <img src={specialtyImg}/>
+                        <div>Musculoskeletal 3</div>
                     </div>
                     <div className='img-customize'>
-                        <h3>4</h3>
+                        <img src={specialtyImg}/>
+                        <div>Musculoskeletal 4</div>
                     </div>
                     <div className='img-customize'>
-                        <h3>5</h3>
+                        <img src={specialtyImg}/>
+                        <div>Musculoskeletal 5</div>
                     </div>
                     <div className='img-customize'>
-                        <h3>6</h3>
+                        <img src={specialtyImg}/>
+                        <div>Musculoskeletal 6</div>
                     </div>
                     </Slider>
                 </div>
