@@ -8,7 +8,10 @@
         "select-doctor": "Choose doctor",
         "examination-package": "Examination package",
         "general-examination": "General examination",
-        "support": "Support"
+        "support": "Support",
+        "Popular-specialties": "Popular specialties",
+        "Consultation": "Consultation",
+        "View-Details": "View Details"
     },
 
     "common": {

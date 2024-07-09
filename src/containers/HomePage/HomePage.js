@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HomeHeader from './HomeHeader'
 import Specialty from './Section/Specialty';
+import Consultation from './Section/Consultation';
+import OutstandingDoctor from './Section/OutstandingDoctor';
 
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-</head>
+
+
 
 class HomePage extends Component {
 
@@ -14,9 +15,8 @@ class HomePage extends Component {
             <div>
             <HomeHeader/>
             <Specialty/>
-            <div style={{height: '300px'}}>
-
-            </div>
+            <Consultation/>  
+            <OutstandingDoctor/>        
             </div>
             
         );

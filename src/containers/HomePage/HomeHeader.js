@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './HomeHeader.scss'
+import './HomePage.scss'
 import { LANGUAGES } from '../../utils';
 import { FormattedMessage } from 'react-intl';
 import {changeLanguageApp} from "../../store/actions"

@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import '../HomePage.scss'
+
 import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"
-import specialtyImg from '../../../assets/specialty/bone.jpg'
-import { LANGUAGES } from '../../../utils';
-
-import {changeLanguageApp} from "../../../store/actions"
+import specialtyImg from '../../../assets/specialty/talk.jpg'
+import '../HomePage.scss'
 
 
-class Specialty extends Component {
+class Consultation extends Component {
 
 
     render() {
@@ -27,8 +25,8 @@ class Specialty extends Component {
         return (
             <div className='section-specialty'>
                 <div className='specialty-container'>
-                    <div className='specialty-header'>
-                        <span><FormattedMessage id="homeheader.Consultation"/></span>
+                    <div className='Oustanding-consultation-header'>
+                        <span><FormattedMessage id="homeheader.Popular-specialties"/></span>
                         <button><FormattedMessage id="homeheader.View-Details"/></button>
                     </div>
 
@@ -80,4 +78,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default connect(mapStateToProps, mapDispatchToProps)(Consultation);
