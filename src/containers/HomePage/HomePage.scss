@@ -221,6 +221,14 @@
 
 }
 
+.section-share{
+    
+    &.section-about{
+        border: 1px solid red;
+        height: 300px;
+    }
+}
+
 .section-specialty {
     height: 350px;
 }
@@ -452,5 +460,23 @@
 
     .slick-next {
         margin-right: 20px !important;
+    }
+
+    
+}
+
+.home-footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding-top: 8px;
+    border: 1px solid #5df073;
+    background-color: #5df073;
+    margin-bottom: 0px;
+
+    a {
+        text-decoration: unset;
     }
 }

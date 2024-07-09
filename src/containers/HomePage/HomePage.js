@@ -4,7 +4,8 @@ import HomeHeader from './HomeHeader'
 import Specialty from './Section/Specialty';
 import Consultation from './Section/Consultation';
 import OutstandingDoctor from './Section/OutstandingDoctor';
-
+import About from './Section/About';
+import HomeFooter from './HomeFooter';
 
 
 
@@ -16,7 +17,10 @@ class HomePage extends Component {
             <HomeHeader/>
             <Specialty/>
             <Consultation/>  
-            <OutstandingDoctor/>        
+            <OutstandingDoctor/>   
+            <About/>
+            <HomeFooter/>
+
             </div>
             
         );

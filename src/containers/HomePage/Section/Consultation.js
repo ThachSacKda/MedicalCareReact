@@ -26,7 +26,7 @@ class Consultation extends Component {
             <div className='section-specialty'>
                 <div className='specialty-container'>
                     <div className='Oustanding-consultation-header'>
-                        <span><FormattedMessage id="homeheader.Popular-specialties"/></span>
+                        <span><FormattedMessage id="homeheader.Consultation"/></span>
                         <button><FormattedMessage id="homeheader.View-Details"/></button>
                     </div>
 
