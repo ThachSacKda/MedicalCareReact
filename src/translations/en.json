@@ -11,7 +11,8 @@
         "support": "Support",
         "Popular-specialties": "Popular specialties",
         "Consultation": "Consultation",
-        "View-Details": "View Details"
+        "View-Details": "View Details",
+        "welcome": "Welcome"
     },
 
     "common": {
@@ -41,17 +42,19 @@
         "userpass-wrong": "Invalid username or password!"
     },
     "menu": {
-        "system": {
-            "header": "System",
-            "system-administrator": {
-                "header": "System Administrator",
-                "user-manage": "User manage",
-                "user-redux": "Manage user using redux",
-                "register-package-group-or-account": "Register service package for group/account"
-            },
-            "system-parameter": {
-                "header": "System-parameter"
-            }
+
+        "admin": {
+            "manage-user": "User Management",
+            "manage-doctor": "Doctor Management",
+            "manage-admin": "Admin Management",
+            "crud": "CRUD user",
+            "crud-redux": "CRUD Redux",
+            "clinic": "Clinic",
+            "manage-clinic": "Clinic Management",
+            "speciality": "Speciality",
+            "manage-speciality": "Speciality Management",
+            "handbook": "Handbook",
+            "manage-handbook": "Handbook Management"
         }
     },
     "system": {

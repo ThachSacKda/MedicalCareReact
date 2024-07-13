@@ -11,7 +11,8 @@
         "support": "Hỗ trợ",
         "Popular-specialties": "Chuyên khoa phổ biến",
         "Consultation": "Tư vấn",
-        "View-Details": "Xem chi tiết"
+        "View-Details": "Xem chi tiết",
+        "welcome": "Xin chào"
 
     },
 
@@ -43,17 +44,20 @@
         "userpass-wrong": "Sai tên đăng nhập hoặc mật khẩu!"
     },
     "menu": {
-        "system": {
-            "header": "Hệ thống",
-            "system-administrator": {
-                "header": "Quản trị hệ thống",
-                "user-manage": "Quản lý người sử dụng",
-                "user-redux": "Quản lý user redux",
-                "register-package-group-or-account": "Đăng ký gói dịch vụ cho nhóm/tài khoản"
-            },
-            "system-parameter": {
-                "header": "Tham số hệ thống"
-            }
+        "admin": {
+            "manage-user": "Quản lí người dùng",
+            "manage-doctor": "Quản lí bác sĩ",
+            "manage-admin": "Quản lí admin",
+            "crud": "CRUD user",
+            "crud-redux": "CRUD Redux",
+            "clinic": "Phòng khám",
+            "manage-clinic": "Quản lí phòng khám",
+            "speciality": "Chuyên khoa",
+            "manage-speciality": "Quản lí chuyên khoa",
+            "handbook": "Cẩm nang",
+            "manage-handbook": "Quản lí cẩm nang"
+        
+        
         }
     },
     "system": {
