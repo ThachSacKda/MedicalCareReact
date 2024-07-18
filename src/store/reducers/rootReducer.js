@@ -28,5 +28,6 @@ const appPersisConfig ={
 export default (history) => combineReducers({
     router: connectRouter(history),
     user: persistReducer(userPersistConfig, userReducer),
-    app: persistReducer(appPersisConfig, appReducer)
+    app: persistReducer(appPersisConfig, appReducer),
+    admin: adminReducer
 })

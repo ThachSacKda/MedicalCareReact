@@ -155,7 +155,7 @@
             padding: 10px;
 
             border-radius: 30px;
-            background: #5df073;
+            background: #80ed99;
 
             i {
                 margin: 0 5px;
@@ -233,106 +233,6 @@
     height: 350px;
 }
 
-.home-header-banner {
-    background: url('../../assets/back.avif') center center no-repeat;
-    margin-top: 12px;
-    background-color: #cccccc;
-    height: 700px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-
-    .content-up {
-        background-image: linear-gradient(rgba(126, 126, 126, 0.25), rgba(239, 239, 239, 0.1));
-        height: 65%;
-        padding-top: 30px;
-
-        .title1 {
-            text-align: center;
-            font-size: 65px;
-            text-shadow: 1px 2px 10px #e6fb05;
-            margin: 30px 0 5px;
-            color: rgb(190, 245, 194);
-        }
-
-        .title2 {
-            text-align: center;
-            font-size: 30px;
-            text-shadow: 1px 2px 5px #997814;
-            color: rgb(239, 209, 195);
-            margin-bottom: 20px;
-        }
-
-        .search {
-            width: fit-content;
-            justify-content: center;
-            display: flex;
-            margin: 0 auto;
-            align-items: center;
-            padding: 10px;
-            border-radius: 30px;
-            background: #5df073;
-
-            i {
-                margin: 0 5px;
-            }
-
-            input {
-                height: 30px;
-                width: 450px;
-                background: transparent;
-                border: none;
-                outline: none;
-            }
-        }
-    }
-
-    .content-down {
-        height: 35%;
-        padding: 0 200px;
-        background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1));
-
-        .options {
-            text-align: center;
-            display: flex;
-            gap: 50px;
-            justify-content: center;
-
-            .options-child {
-                width: 125px;
-                padding-top: 25px;
-
-                .icon-child {
-                    background-color: white;
-                    width: 40px;
-                    height: 40px;
-                    padding: 10px;
-                    border-radius: 50%;
-                    text-align: center;
-                    margin: 0 auto;
-
-                    i {
-                        color: #40bd06;
-                        font-size: 20px;
-                    }
-                }
-
-                .text-child {
-                    font-size: 17px;
-                    font-weight: 500;
-                    color: white;
-                    cursor: pointer;
-
-                    &:hover {
-                        color: #40bd06;
-                    }
-                }
-            }
-        }
-    }
-}
 .specialty-container .specialty-header, .specialty-container .Oustanding-consultation-header {
     margin-top: 30px;
     display: flex;
@@ -472,8 +372,8 @@
     width: 100%;
     text-align: center;
     padding-top: 8px;
-    border: 1px solid #5df073;
-    background-color: #5df073;
+    border: 1px solid #80ed99;
+    background-color: #80ed99;
     margin-bottom: 0px;
 
     a {
