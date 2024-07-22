@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss'
-import { getAllUsers, createNewUserService, deleteUserService, editUserService } from '../../services/userService';
+import { getAllUser, createNewUserService, deleteUserService, editUserService } from '../../services/userService';
 import ModalUser from './ModalUser';
 import ModalEditUser from './ModalEditUser';
 import { emitter } from '../../utils/emitter';
@@ -61,7 +61,7 @@ class UserManage extends Component {
     }
 
     getAllUsersFromReacts = async () => {
-        let response = await getAllUsers('All');
+        let response = await getAllUser('All');
         if(response && response.errCode ===0){
             this.setState({
                 arrUsers: response.users
