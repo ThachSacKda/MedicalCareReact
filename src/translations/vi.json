@@ -139,7 +139,9 @@
         }
     },
     "manage-user":{
-        "add": "Thêm mới người dùng"
+        "add": "Thêm mới người dùng",
+        "edit": "Lưu thay đổi",
+        "save": "Lưu người dùng"
 
     }
 }

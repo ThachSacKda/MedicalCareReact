@@ -1,6 +1,6 @@
 import actionTypes from './actionTypes';
 import { getAllCodeService, createNewUserService, getAllUser, 
-deleteUserService} from '../../services/userService';
+deleteUserService, editUserService} from '../../services/userService';
 import { toast } from 'react-toastify';
 // export const fetchGenderStart = () => ({
 //     type: actionTypes.FETCH_GENDER_START
@@ -173,3 +173,32 @@ export const deleteFailed = () => ({
     type: actionTypes.DELETE_USER_FAILED
 })
 
+
+export const editUser = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await editUserService(data);
+            console.log('Response from editUserService:', res); // Thêm log để kiểm tra phản hồi từ editUserService
+            if (res && res.errCode === 0) {
+                toast.success("UPDATE SUCCESS!");
+                dispatch(editUserSuccess());
+                dispatch(fetchAllUserStart());
+            } else {
+                toast.error("UPDATE FAILED! Error: " + res.errMessage); // Thêm thông tin lỗi chi tiết
+                dispatch(editUserFailed());
+            }
+        } catch (e) {
+            console.log('Error in editUser:', e); // Thêm log để kiểm tra lỗi trong quá trình cập nhật
+            toast.error("UPDATE FAILED! Exception: " + e.message); // Thêm thông tin lỗi chi tiết
+            dispatch(editUserFailed());
+        }
+    }
+}
+
+export const editUserSuccess = () => ({
+    type: actionTypes.EDIT_USER_SUCCESS
+})
+
+export const editUserFailed = () => ({
+    type: actionTypes.EDIT_USER_FAILED
+})
