@@ -5,14 +5,32 @@ import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"
-import OSTDoctorImg from '../../../assets/OutstandingDoctor/doctor1.jpg'
 import { LANGUAGES } from '../../../utils';
 
 import { changeLanguageApp } from "../../../store/actions"
+import * as actions from '../../../store/actions';
 
 
 class OutstandingDoctor extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            arrDoctors: []
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.topDoctorsRedux !== this.props.topDoctorsRedux) {
+            this.setState({
+                arrDoctors: this.props.topDoctorsRedux
+            })
+        }
+    }
+
+    componentDidMount() {
+        this.props.loadTopDoctors();
+    }
 
     render() {
         let settings = {
@@ -21,84 +39,52 @@ class OutstandingDoctor extends Component {
             speed: 500,
             slidesToShow: 4,
             slidesToScroll: 1,
-            // nextArrow: <SampleNextArrow/>,
-            // preArrow: <SamplePreArrow/>
         };
+
+        let arrDoctors = this.state.arrDoctors;
+        let { language } = this.props;
+        arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors)
         return (
             <div className='section-outstanding-doctor'>
                 <div className='specialty-container'>
                     <div className='specialty-header'>
-                        <span>Oustanding Doctor Last Week</span>
+                        <span>Oustanding Doctor</span>
                         <button><FormattedMessage id="homeheader.View-Details" /></button>
                     </div>
-
                     <Slider {...settings}>
-                        <div className='doctor-customize'>
-                            <div className='outer-bg'>
-                                <img src={OSTDoctorImg} />
-                            </div>
+                        {arrDoctors && arrDoctors.length > 0 
+                        && arrDoctors.map((item, index) => {
+                            let imageBase64 = '';
+                            if (item.image) {
+                                imageBase64 = new Buffer(item.image, 'base64').toString('binary');
+                                console.log('imageBase64:', imageBase64);
+                            }
+                            let nameVi = ` ${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
+                            let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
+                            console.log('Doctor item:', item); 
+                            return (
+                                <div className='section-customize' key={index}>
+                                    <div className='customize-border'>
+                                        <div className='outer-bg'>
+                                            {/* <div className='bg-image section-outstading-doctor'
+                                                style={{ backgroundImage: `url(${imageBase64})` }}>
+                                                    
+                                            </div> */}
+                                            <img src={imageBase64} alt="Doctor" className='bg-image section-outstading-doctor' />
 
-                            <div className='position text-center'>
-                                <div>Lionel Messi</div>
-                                <div>Musculoskeletal</div>
-                            </div>
-                        </div>
-
-                        <div className='doctor-customize'>
-                            <div className='outer-bg'>
-                                <img src={OSTDoctorImg} />
-                            </div>
-
-                            <div className='position text-center'>
-                                <div>Lionel Messi</div>
-                                <div>Musculoskeletal</div>
-                            </div>
-                        </div>
-
-                        <div className='doctor-customize'>
-                            <div className='outer-bg'>
-                                <img src={OSTDoctorImg} />
-                            </div>
-
-                            <div className='position text-center'>
-                                <div>Neymar</div>
-                                <div>Musculoskeletal</div>
-                            </div>
-                        </div>
-
-                        <div className='doctor-customize'>
-                            <div className='outer-bg'>
-                                <img src={OSTDoctorImg} />
-                            </div>
-
-                            <div className='position text-center'>
-                                <div>Hazard</div>
-                                <div>Musculoskeletal</div>
-                            </div>
-                        </div>
-
-                        <div className='doctor-customize'>
-                            <div className='outer-bg'>
-                                <img src={OSTDoctorImg} />
-                            </div>
-
-                            <div className='position text-center'>
-                                <div>Suarez</div>
-                                <div>Musculoskeletal</div>
-                            </div>
-                        </div>
-
-                        <div className='doctor-customize'>
-                            <div className='outer-bg'>
-                                <img src={OSTDoctorImg} />
-                            </div>
-
-                            <div className='position text-center'>
-                                <div>Kevin</div>
-                                <div>Musculoskeletal</div>
-                            </div>
-                        </div>
+                                            
+                                            
+                                        </div>
+                                        <div className='position text-center'>
+                                            <div>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
+                                            <div>Cơ Xương Khớp</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </Slider>
+
                 </div>
 
 
@@ -113,11 +99,14 @@ const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
+        topDoctorsRedux: state.admin.topDoctors
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        loadTopDoctors: () => dispatch(actions.fetchTopDoctor())
+
     };
 };
 

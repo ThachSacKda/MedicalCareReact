@@ -18,7 +18,7 @@ class HomePage extends Component {
             <Specialty/>
             <Consultation/>  
             <OutstandingDoctor/>   
-            <About/>
+            {/* <About/> */}
             <HomeFooter/>
 
             </div>
