@@ -43,7 +43,7 @@ class OutstandingDoctor extends Component {
 
         let arrDoctors = this.state.arrDoctors;
         let { language } = this.props;
-        arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors)
+        // arrDoctors = arrDoctors.concat(arrDoctors).concat(arrDoctors)
         return (
             <div className='section-outstanding-doctor'>
                 <div className='specialty-container'>

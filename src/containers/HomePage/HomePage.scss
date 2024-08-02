@@ -244,10 +244,14 @@
     margin-bottom: 15px;
 }
 .section-outstanding-doctor {
-    margin-bottom: 300px;
+    margin-bottom: 100px;
+    margin-top: 20px;
+
     .specialty-container {
         padding: 20px;
-        background-color: #f8f9fa;
+        background-color: #f8faf9;
+        height: 500%;
+
     }
 
     .specialty-header {
@@ -255,6 +259,7 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
+
         
         span {
             font-size: 24px;
@@ -293,13 +298,17 @@
         position: relative;
         height: 250px;
         overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .bg-image {
-        width: 100%;
-        height: 100%;
+        width: 150px; /* Đặt kích thước hình ảnh */
+        height: 150px; /* Đặt kích thước hình ảnh */
         object-fit: cover;
-        border-bottom: 1px solid #ddd;
+        border-radius: 50%; /* Tạo hình tròn */
+        border: 1px solid #ddd;
     }
 
     .position {
@@ -318,6 +327,7 @@
         }
     }
 }
+
 
 .specialty-container {
     height: 250px;
