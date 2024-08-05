@@ -140,5 +140,13 @@
         "edit": "Save changes",
         "save": "Save"
 
+    },
+    "manage-doctor":{
+        "create-doctor-infor": "Create Information For Doctor",
+        "choose-doctor": "Choose a doctor",
+        "introductory-information": "Introductory information",
+        "save": "Save"
+
+
     }
 }

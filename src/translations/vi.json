@@ -143,5 +143,11 @@
         "edit": "Lưu thay đổi",
         "save": "Lưu người dùng"
 
+    },
+    "manage-doctor":{
+        "create-doctor-infor": "Tạo thông tin bác sĩ",
+        "choose-doctor": "Chọn Bác Sĩ",
+        "introductory-information": "Thông tin giới thiệu",
+        "save": "Lưu Thay Đổi"
     }
 }
