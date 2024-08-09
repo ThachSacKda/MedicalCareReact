@@ -9,6 +9,7 @@ import { LANGUAGES } from '../../../utils';
 
 import { changeLanguageApp } from "../../../store/actions"
 import * as actions from '../../../store/actions';
+import { withRouter } from 'react-router';
 
 
 class OutstandingDoctor extends Component {
@@ -30,6 +31,11 @@ class OutstandingDoctor extends Component {
 
     componentDidMount() {
         this.props.loadTopDoctors();
+    }
+
+    handleViewDetailDoctor = (doctor) => {
+        console.log("view infor: ", doctor)
+        this.props.history.push(`/detail-doctor/${doctor.id}`)
     }
 
     render() {
@@ -63,7 +69,7 @@ class OutstandingDoctor extends Component {
                             let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
                             console.log('Doctor item:', item); 
                             return (
-                                <div className='section-customize' key={index}>
+                                <div className='section-customize' key={index} onClick={() => this.handleViewDetailDoctor(item)}>
                                     <div className='customize-border'>
                                         <div className='outer-bg'>
                                             {/* <div className='bg-image section-outstading-doctor'
@@ -110,4 +116,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor));
