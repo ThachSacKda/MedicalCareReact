@@ -152,5 +152,11 @@
         "create": "Add"
 
 
+    },
+    "manage-schedule": {
+        "title": "Manage doctor's examination plans",
+        "choose-doctor": "Choose a doctor",
+        "choose-date": "Set Date For Doctor",
+        "save":"Save"
     }
 }

@@ -91,7 +91,7 @@ class ManageDoctor extends Component {
     }
 
     handleChangeSelect = async (selectedOption) => {
-        this.setState({ selectedOption });
+    this.setState({ selectedOption });
        let res = await getDetailInforDoctor(selectedOption.value)
        if(res && res.errCode === 0 && res.data && res.data.Markdown){
             let markdown = res.data.Markdown;
@@ -183,7 +183,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchAllDoctor: (id) => dispatch(actions.fetchAllDoctor()),
+        fetchAllDoctor: () => dispatch(actions.fetchAllDoctor()),
         saveDetailDoctor: (data) => dispatch(actions.saveDetailDoctor(data))
     };
 };

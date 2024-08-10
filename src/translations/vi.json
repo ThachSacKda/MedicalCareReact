@@ -153,5 +153,13 @@
         "introductory-information": "Thông tin giới thiệu",
         "save": "Lưu Thay Đổi",
         "create": "Lưu Thông Tin"
+    },
+
+    "manage-schedule": {
+        "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
+        "choose-doctor": "Chọn Bác Sĩ",
+        "choose-date": "Chọn Ngày Cho Bác Sĩ",
+        "save":"Lưu Thông Tin"
     }
+    
 }
