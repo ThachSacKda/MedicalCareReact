@@ -58,6 +58,9 @@
             "manage-handbook": "Quản lí cẩm nang"
         
         
+        },
+        "doctor": {
+            "manage-schedule": "Quản lí kế hoạch khám bệnh"
         }
     },
     "system": {
