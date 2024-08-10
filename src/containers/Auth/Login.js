@@ -22,7 +22,6 @@ class Login extends Component {
         this.setState({
             username: event.target.value
         })
-        console.log(event.target.value)
     }
 
     handleOnChangePassword = (event) => {
@@ -31,33 +30,32 @@ class Login extends Component {
         })
     }
 
+    handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            this.handleLogin();
+        }
+    }
+
     handleLogin = async () => {
-       this.setState({
-        errMessage: ''
-       })
+        this.setState({
+            errMessage: ''
+        })
         try {
             let data = await handleLoginApi(this.state.username, this.state.password);
-            if(data && data.errCode !== 0){
+            if (data && data.errCode !== 0) {
                 this.setState({
                     errMessage: data.message
                 })      
             }
-            if(data && data.errCode === 0) {
+            if (data && data.errCode === 0) {
                 this.props.userLoginSuccess(data.user)
             }
-            
-            
         } catch (error) {
-            if(error.response){
-                if(error.response.data){
-                    this.setState({
-                        errMessage: error.response.data.message
-                    })
-                }
+            if (error.response && error.response.data) {
+                this.setState({
+                    errMessage: error.response.data.message
+                })
             }
-            // this.setState({
-            //     errMessage: e.message
-            // })
         }
     }
 
@@ -74,27 +72,43 @@ class Login extends Component {
                     <div className='login-content row'>
                         <div className='col-12 text-login'>Login</div>
                         <div className='col-12 form-group login-input'>
-                            <label>Username:</label>
-                            <input type='text' className='form-control' placeholder='Enter your username' value={this.state.username} onChange={(event) => this.handleOnChangeUsername(event)} />
+                            <label>Email:</label>
+                            <input 
+                                type='email' 
+                                className='form-control' 
+                                placeholder='Enter your email' 
+                                value={this.state.username} 
+                                onChange={(event) => this.handleOnChangeUsername(event)} 
+                                onKeyDown={(event) => this.handleKeyDown(event)}
+                                required
+                            />
                         </div>
                         <div className='col-12 form-group login-input'>
                             <label>Password:</label>
                             <div className='custom-input-password'>
-                                <input className='form-control'
+                                <input 
+                                    className='form-control'
                                     type={this.state.isShowPassword ? 'text' : 'password'}
                                     placeholder='Enter your password'
-                                    onChange={(event) => { this.handleOnChangePassword(event) }}
+                                    onChange={(event) => this.handleOnChangePassword(event)}
+                                    onKeyDown={(event) => this.handleKeyDown(event)}
+                                    required
                                 />
-                                <span onClick={() => { this.handleShowHidePassword() }}>
+                                <span onClick={this.handleShowHidePassword}>
                                     <i className={this.state.isShowPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}></i>
                                 </span>
                             </div>
                         </div>
-                        <div className='col-12' style={{color: 'red'}}>
+                        <div className='col-12 err-message'>
                             {this.state.errMessage}
                         </div>
                         <div className='col-12'>
-                            <button className='btn-login' onClick={() => { this.handleLogin() }}>Login</button>
+                            <button 
+                                className='btn-login' 
+                                onClick={this.handleLogin}
+                            >
+                                Login
+                            </button>
                         </div>
                         <div className='col-12'>
                             <span className='forgot-password'>Forgot your password</span>
@@ -122,8 +136,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
-        
-        // userLoginFail: () => dispatch(actions.userLoginFail()),
         userLoginSuccess: (userInfor) => dispatch(actions.userLoginSuccess(userInfor))
     };
 };

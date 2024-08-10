@@ -1,93 +1,157 @@
 .login-background {
-    
-    background: linear-gradient(135deg, rgb(13, 237, 177) 0%, rgba(65, 190, 222, 0.892) 100%);
+    background: linear-gradient(135deg, rgba(0, 198, 255, 0.7), rgba(0, 114, 255, 0.7)), 
+                url('../../assets/back.avif') center/cover no-repeat;
     height: 100vh;
-    .login-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: brightness(0.9);
 
+    .login-container {
         width: 400px;
-        position: absolute;
-        margin: auto;
-        border-radius: 10px;
-        padding: 20px;
-        background-color: rgb(241, 241, 231);
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 500px;
-        .login-container{
-            padding: 10px;
- 
+        padding: 40px 30px;
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+
+        &:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
         }
+
         .text-login {
             text-align: center;
-            font-weight: 600;
-            font-size: 24px;
-            padding-top: 10px;
+            font-weight: 700;
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
         }
-        .login-input{
-            margin: 7px 0;
+
+        .login-input {
+            margin: 15px 0;
+
+            label {
+                font-size: 14px;
+                color: #666;
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            input {
+                width: 100%;
+                padding: 10px 15px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+                background-color: #f7f7f7;
+                transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+                &:focus {
+                    border-color: #00c6ff;
+                    box-shadow: 0 0 8px rgba(0, 198, 255, 0.4);
+                }
+            }
 
             .custom-input-password {
                 position: relative;
 
-                i{
+                i {
                     position: absolute;
-                    right: 5px;
-                    top: 10px;
+                    right: 15px;
+                    top: 50%;
+                    transform: translateY(-50%);
                     cursor: pointer;
+                    color: #aaa;
+                    transition: color 0.3s ease;
+
+                    &:hover {
+                        color: #333;
+                    }
                 }
             }
         }
-        .btn-login{
+
+        .btn-login {
             width: 100%;
-            margin: 10px 0;
-            height: 35px;
-            border-radius: 15px;
+            margin: 20px 0;
+            padding: 10px 0;
+            border-radius: 25px;
             outline: none;
             border: none;
-            background: linear-gradient(135deg, rgb(13, 237, 177) 0%, rgba(65, 190, 222, 0.892) 100%);
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
             color: white;
-            font-size: 16px;
-        }
-        .forgot-password{
-            font-size: 12px;
-        }
-        .social-login{
-            display: flex;
-            text-align: center;
-            justify-content: center;
-            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 
-            
-            i{
-                font-size: 35px;
-                margin: 0 20px;
+            &:hover {
+                background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 198, 255, 0.3);
             }
-            .google{
-                font-size: 30px;
-                background: rgb(248, 26, 26);
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: none;
+            }
+        }
+
+        .forgot-password {
+            font-size: 12px;
+            color: #00c6ff;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #0072ff;
+            }
+        }
+
+        .text-other-login {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+
+            i {
+                font-size: 20px;
+                margin: 0 15px;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
                 border-radius: 50%;
-                height: 50px;
-                width: 50px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                margin-right: 10px;
+                color: #fff;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+                &:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+                }
             }
-            .facebook{
-                font-size: 30px;
-                background: rgb(23, 102, 239);
-                border-radius: 50%;
-                height: 50px;
-                width: 50px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                margin-right: 10px;
+
+            .google {
+                background: #db4437;
             }
+
+            .facebook {
+                background: #3b5998;
+            }
+        }
+
+        .err-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
         }
     }
 }
