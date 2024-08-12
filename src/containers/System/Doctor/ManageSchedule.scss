@@ -121,7 +121,7 @@
                 text-transform: uppercase;
                 cursor: pointer;
                 transition: all 0.3s ease, transform 0.3s ease;
-
+            
                 &:hover, &.active {
                     background-color: #52B788;
                     color: #fff;
@@ -129,11 +129,18 @@
                     box-shadow: 0 5px 15px rgba(82, 183, 136, 0.3);
                     transform: translateY(-3px);
                 }
-
+            
+                &.active {
+                    background-color: #40916C;
+                    color: #fff;
+                    box-shadow: 0 5px 15px rgba(82, 183, 136, 0.3);
+                }
+            
                 &:active {
                     transform: scale(0.98);
                 }
             }
+            
         }
 
         .btn-save-schedule {
