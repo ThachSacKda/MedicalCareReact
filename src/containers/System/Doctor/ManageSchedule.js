@@ -9,6 +9,7 @@ import DatePicker from '../../../components/Input/DatePicker';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 import moment from 'moment';
+import { saveBulkScheduleDoctor } from '../../../services/userService';
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -99,7 +100,7 @@ class ManageSchedule extends Component {
         }
     }
 
-    handleSaveSchedule = () => {
+    handleSaveSchedule = async () => {
         let { rangeTime, selectedDoctor, currentDate } = this.state;
         let result = [];
 
@@ -122,19 +123,31 @@ class ManageSchedule extends Component {
             return;
         }
 
+        // Định dạng ngày gửi đến backend
         let formatDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
 
         selectedTimeSlots.forEach(schedule => {
             let object = {};
             object.doctorId = selectedDoctor.value;
             object.date = formatDate;
-            object.time = schedule.keyMap;
+            object.timeType = schedule.keyMap;
             result.push(object);
         });
 
+        let res = await saveBulkScheduleDoctor({
+            arrSchedule: result,
+            doctorId: selectedDoctor.value,
+            formatDate: formatDate
+        });
+
+        console.log('check res:', res);
         console.log('check result:', result);
 
-        // Gửi kết quả đến API hoặc thực hiện hành động lưu trữ
+        if (res.errCode === 0) {
+            toast.success("Schedule saved successfully!");
+        } else {
+            toast.error("Failed to save schedule. " + res.errMessage);
+        }
     }
 
     render() {
@@ -162,7 +175,6 @@ class ManageSchedule extends Component {
                             className='form-control date-picker'
                             selected={currentDate} // Sử dụng currentDate từ state
                             minDate={new Date()}
-                            readOnly // Ngăn không cho người dùng nhập liệu bằng tay
                         />
                     </div>
                     <div className='pick-hour-container'>
