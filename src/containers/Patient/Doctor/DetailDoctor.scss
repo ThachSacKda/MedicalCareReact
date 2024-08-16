@@ -160,9 +160,20 @@
         z-index: 10;
         transform: translateY(40px);
         animation: slideUp 1.2s ease-in-out forwards;
+        margin: 0 100px;
+        display: flex;
+        height: 200px;
+        border: 1px solid red;
 
         &:hover {
             transform: translateY(-10px);
+        }
+
+        .content-left{
+            width: 50%;
+        }
+        .content-right{
+            width: 50%;
         }
     }
 
