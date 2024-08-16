@@ -101,54 +101,55 @@ class ManageSchedule extends Component {
     }
 
     handleSaveSchedule = async () => {
-        let { rangeTime, selectedDoctor, currentDate } = this.state;
-        let result = [];
+    let { rangeTime, selectedDoctor, currentDate } = this.state;
+    let result = [];
 
-        // Kiểm tra nếu ngày không hợp lệ
-        if (!currentDate || isNaN(new Date(currentDate).getTime())) {
-            toast.error("INVALID DATE!");
-            return;
-        }
-
-        // Kiểm tra nếu bác sĩ không được chọn
-        if (!selectedDoctor || _.isEmpty(selectedDoctor)) {
-            toast.error("YOU NEED TO SELECT A DOCTOR");
-            return;
-        }
-
-        // Kiểm tra xem có bất kỳ thời gian nào được chọn hay không
-        let selectedTimeSlots = rangeTime.filter(item => item.isSelected);
-        if (selectedTimeSlots.length === 0) {
-            toast.error("YOU NEED TO SELECT AT LEAST ONE TIME SLOT!");
-            return;
-        }
-
-        // Định dạng ngày gửi đến backend
-        let formatDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
-
-        selectedTimeSlots.forEach(schedule => {
-            let object = {};
-            object.doctorId = selectedDoctor.value;
-            object.date = formatDate;
-            object.timeType = schedule.keyMap;
-            result.push(object);
-        });
-
-        let res = await saveBulkScheduleDoctor({
-            arrSchedule: result,
-            doctorId: selectedDoctor.value,
-            formatDate: formatDate
-        });
-
-        console.log('check res:', res);
-        console.log('check result:', result);
-
-        if (res.errCode === 0) {
-            toast.success("Schedule saved successfully!");
-        } else {
-            toast.error("Failed to save schedule. " + res.errMessage);
-        }
+    // Kiểm tra nếu ngày không hợp lệ
+    if (!currentDate || isNaN(new Date(currentDate).getTime())) {
+        toast.error("INVALID DATE!");
+        return;
     }
+
+    // Kiểm tra nếu bác sĩ không được chọn
+    if (!selectedDoctor || _.isEmpty(selectedDoctor)) {
+        toast.error("YOU NEED TO SELECT A DOCTOR");
+        return;
+    }
+
+    // Kiểm tra xem có bất kỳ thời gian nào được chọn hay không
+    let selectedTimeSlots = rangeTime.filter(item => item.isSelected);
+    if (selectedTimeSlots.length === 0) {
+        toast.error("YOU NEED TO SELECT AT LEAST ONE TIME SLOT!");
+        return;
+    }
+
+    // Định dạng ngày gửi đến backend dưới dạng chuỗi (ví dụ: 'YYYY-MM-DD')
+    let formatDate = moment(currentDate).format('YYYY-MM-DD');
+
+    selectedTimeSlots.forEach(schedule => {
+        let object = {};
+        object.doctorId = selectedDoctor.value;
+        object.date = formatDate;  // Truyền date dưới dạng chuỗi
+        object.timeType = schedule.keyMap;
+        result.push(object);
+    });
+
+    let res = await saveBulkScheduleDoctor({
+        arrSchedule: result,
+        doctorId: selectedDoctor.value,
+        formatDate: formatDate  // Truyền date dưới dạng chuỗi
+    });
+
+    console.log('check res:', res);
+    console.log('check result:', result);
+
+    if (res.errCode === 0) {
+        toast.success("Schedule saved successfully!");
+    } else {
+        toast.error("Failed to save schedule. " + res.errMessage);
+    }
+};
+
 
     render() {
         let { rangeTime, selectedDoctor, currentDate } = this.state;

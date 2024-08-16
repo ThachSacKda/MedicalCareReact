@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import HomeHeader from '../../HomePage/HomeHeader'
-import './DetailDoctor.scss'
+import './DoctorSchedule.scss'
 import {getDetailInforDoctor} from '../../../services/userService'
 import { LANGUAGES } from '../../../utils';
 import DoctorSchedule from './DoctorSchedule';
