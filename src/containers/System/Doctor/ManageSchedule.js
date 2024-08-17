@@ -139,11 +139,12 @@ class ManageSchedule extends Component {
         doctorId: selectedDoctor.value,
         formatDate: formatDate  // Truyền date dưới dạng chuỗi
     });
+    
 
     console.log('check res:', res);
     console.log('check result:', result);
 
-    if (res.errCode === 0) {
+    if (res && res.errCode === 0) {
         toast.success("Schedule saved successfully!");
     } else {
         toast.error("Failed to save schedule. " + res.errMessage);
@@ -154,6 +155,7 @@ class ManageSchedule extends Component {
     render() {
         let { rangeTime, selectedDoctor, currentDate } = this.state;
         let { language } = this.props;
+        let yesterday = new Date(new Date().setDate(new Date().getDate()-1))
         return (
             <div className='manage-schedule-container'>
                 <div className='m-s-title'>
@@ -175,7 +177,7 @@ class ManageSchedule extends Component {
                             onChange={this.handleOnChangeDatePicker}
                             className='form-control date-picker'
                             selected={currentDate} // Sử dụng currentDate từ state
-                            minDate={new Date()}
+                            minDate={yesterday}
                         />
                     </div>
                     <div className='pick-hour-container'>
