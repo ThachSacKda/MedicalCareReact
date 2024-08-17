@@ -152,7 +152,13 @@
         "choose-doctor": "Chọn Bác Sĩ",
         "introductory-information": "Thông tin giới thiệu",
         "save": "Lưu Thay Đổi",
-        "create": "Lưu Thông Tin"
+        "create": "Lưu Thông Tin",
+        "price": "Giá Khám Bệnh",
+        "payment": "Phương Thức Thanh Toán",
+        "province": "Tỉnh Thành",
+        "nameClinic": "Tên Phòng Khám",
+        "addressClinic": "Địa Chỉ Phòng Khám",
+        "note": "Ghi Chú"
     },
 
     "manage-schedule": {

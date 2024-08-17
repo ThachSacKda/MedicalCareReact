@@ -149,7 +149,13 @@
         "choose-doctor": "Choose a doctor",
         "introductory-information": "Introductory information",
         "save": "Save",
-        "create": "Add"
+        "create": "Add",
+        "price": "Price",
+        "payment": "Payment Method",
+        "province": "Province",
+        "nameClinic": "Clinic Name",
+        "addressClinic": "Clinic Address",
+        "note": "Note"
 
 
     },
