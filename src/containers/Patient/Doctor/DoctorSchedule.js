@@ -110,16 +110,16 @@ class DoctorSchedule extends Component {
                         </i>
                     </div>
                     <div className="time-content">
-    {allAvailableTime && allAvailableTime.length > 0 && allAvailableTime.map((item, index) => {
-        let timeDisplay = language === LANGUAGES.VI ? item.timeTypeData.valueVi : item.timeTypeData.valueEn;
-        return (
-            <button key={index} className="time-button">
-                <span>{timeDisplay}</span>
-                <div className="pulse"></div>
-            </button>
-        );
-    })}
-</div>
+                        {allAvailableTime && allAvailableTime.length > 0 && allAvailableTime.map((item, index) => {
+                            let timeDisplay = language === LANGUAGES.VI ? item.timeTypeData.valueVi : item.timeTypeData.valueEn;
+                            return (
+                                <button key={index} className="time-button">
+                                    <span>{timeDisplay}</span>
+                                    <div className="pulse"></div>
+                                </button>
+                            );
+                        })}
+                    </div>
 
                 </div>
             </div>
