@@ -164,5 +164,19 @@
         "choose-doctor": "Choose a doctor",
         "choose-date": "Set Date For Doctor",
         "save":"Save"
-    }
+    },
+    "patient": {
+        "detail-doctor": {
+          "schedule": "Schedule",
+          "no-schedule": "CHoose another time",
+          "choose": "Choose",
+          "book-free": "book free"
+        },
+        "extra-price": "PRICE:",
+        "text-address": "Examination address",
+        "more-detail": "More Detail",
+        "payment-method": "Customers can pay fees in the form of:",
+        "hide-price": "Hiden Price"
+
+      }
 }
