@@ -5,13 +5,15 @@ import './ProfileDoctor.scss';
 import { getProfileDoctorById } from '../../../services/userService';
 import { LANGUAGES } from '../../../utils';
 import NumberFormat from 'react-number-format';
+import _ from 'lodash';
+import moment from 'moment';
 
-
-class ProfileDocor extends Component {
+class ProfileDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataProfile: {}
+            dataProfile: {},
+            isShowDetailInfor: false
         }
     }
 
@@ -19,7 +21,7 @@ class ProfileDocor extends Component {
         let data = await this.getInforDoctor(this.props.doctorId);
         this.setState({
             dataProfile: data
-        })
+        });
     }
 
     getInforDoctor = async (id) => {
@@ -34,57 +36,80 @@ class ProfileDocor extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.language !== prevProps.language) {
-
-        }
-        if (this.props.doctorId !== prevProps.doctorId) {
-
+        if (this.props.language !== prevProps.language || this.props.doctorId !== prevProps.doctorId) {
+            let data = await this.getInforDoctor(this.props.doctorId);
+            this.setState({
+                dataProfile: data
+            });
         }
     }
 
-    showHideDetailInfor = () => {
-        this.setState({
-            isShowDetailInfor: !this.state.isShowDetailInfor  // Toggle detail info visibility
-        });
+    renderTimeBooking = (dataTime) => {
+        let { language } = this.props;
+    
+        if (dataTime && !_.isEmpty(dataTime)) {
+            // Set locale based on language
+            moment.locale(language === LANGUAGES.VI ? 'vi' : 'en');
+    
+            let date = language === LANGUAGES.VI
+                ? moment(dataTime.date).format('dddd - DD/MM/YYYY')  // 'dddd' will give full day name in the selected language
+                : moment(dataTime.date).format('dddd - MM/DD/YYYY'); // Ensure full day name in English
+    
+            let time = dataTime.timeTypeData ? (language === LANGUAGES.VI
+                ? dataTime.timeTypeData.valueVi
+                : dataTime.timeTypeData.valueEn) : '';
+    
+            return (
+                <>
+                    <div>{time} - {date}</div>
+                </>
+            );
+        }
+    
+        return <></>;
     }
+    
+    
 
     render() {
-        let { dataProfile } = this.state;
-        let { language } = this.props;
+        let { dataProfile, isShowDetailInfor } = this.state;
+        let { language, dataTime } = this.props;
         let nameVi = '', nameEn = '';
+
         if (dataProfile && dataProfile.positionData) {
-            nameVi = ` ${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;
-            nameEn = `${dataProfile.positionData.valueEn}, ${dataProfile.firstName} ${dataProfile.lastName}`;
+            nameVi = `Thạc sĩ ${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName}`;
+            nameEn = `Doctor ${dataProfile.positionData.valueEn}, ${dataProfile.firstName} ${dataProfile.lastName}`;
         }
+
         return (
             <div className='profile-doctor-container'>
                 <div className='intro-doctor'>
                     <div className='content-left'
                         style={{ backgroundImage: `url(${dataProfile && dataProfile.image ? dataProfile.image : ''})` }}>
-
                     </div>
                     <div className='content-right'>
                         <div className='up'>
                             {language === LANGUAGES.VI ? nameVi : nameEn}
                         </div>
                         <div className='down'>
-                            {dataProfile.Markdown
-                                && dataProfile.Markdown.description
-                                &&
-                                <span>
-                                    {dataProfile.Markdown.description}
-                                </span>
+                            {isShowDetailInfor === true ?
+                                <>
+                                    {dataProfile.Markdown && dataProfile.Markdown.description &&
+                                        <span>{dataProfile.Markdown.description}</span>
+                                    }
+                                </>
+                                :
+                                <>
+                                    {this.renderTimeBooking(dataTime)}
+                                </>
                             }
                         </div>
                     </div>
-
-
                 </div>
 
                 <div className='price'>
-                <FormattedMessage id='patient.extra-price' />
+                    <FormattedMessage id='patient.extra-price' />
                     {dataProfile && dataProfile.Doctor_infor && language === LANGUAGES.VI ?
-
                         <NumberFormat
                             value={dataProfile.Doctor_infor.priceTypeData.valueVi}
                             displayType={'text'}
@@ -94,7 +119,6 @@ class ProfileDocor extends Component {
                         : ''
                     }
                     {dataProfile && dataProfile.Doctor_infor && language === LANGUAGES.EN ?
-
                         <NumberFormat
                             value={dataProfile.Doctor_infor.priceTypeData.valueEn}
                             displayType={'text'}
@@ -105,8 +129,6 @@ class ProfileDocor extends Component {
                     }
                 </div>
             </div>
-
-
         );
     }
 }
@@ -117,4 +139,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(ProfileDocor);
+export default connect(mapStateToProps)(ProfileDoctor);

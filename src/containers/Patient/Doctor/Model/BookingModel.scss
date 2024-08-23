@@ -1,66 +1,73 @@
 .booking-modal-container {
     .booking-modal-content {
-        height: auto;
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 20px;  // Reduce padding
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         max-height: 80vh;
         overflow-y: auto;
-        background-color: #fff;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 
         .booking-modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e9ecef;
+            border-bottom: 1px solid #f1f1f1;
+            padding-bottom: 10px; // Reduce padding
 
             .left {
-                font-size: 18px;
+                font-size: 20px;  // Reduce font size
                 font-weight: bold;
                 color: #333;
             }
 
             .right {
-                font-size: 20px;
+                font-size: 22px;  // Reduce font size
                 color: #ff5a5f;
                 cursor: pointer;
                 transition: color 0.3s ease;
 
                 &:hover {
-                    color: #ff3b3f;
+                    color: #ff1f1f;
                 }
 
                 i {
-                    font-size: 24px;
+                    font-size: 24px;  // Reduce icon size
                 }
             }
         }
 
         .booking-modal-body {
-            padding: 20px;
-            font-size: 16px;
-            color: #555;
-            line-height: 1.6;
+            padding: 15px 0;  // Reduce padding
 
-            /* Example body content styling */
-            p {
-                margin-bottom: 15px;
+            .doctor-info {
+                margin-bottom: 20px;  // Reduce margin
+                padding: 10px;  // Reduce padding
+                background-color: #f7f7f7;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             }
 
-            .input-group {
-                margin-bottom: 20px;
+            .form-group {
+                margin-bottom: 15px;  // Reduce margin
+
                 label {
                     font-weight: 600;
-                    margin-bottom: 5px;
+                    margin-bottom: 5px;  // Reduce margin
                     display: block;
+                    color: #333;
                 }
-                input, select {
-                    width: 100%;
-                    padding: 10px;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    font-size: 16px;
+
+                input {
+                    padding: 8px;  // Reduce input padding
+                    border: 1px solid #dcdcdc;
+                    border-radius: 6px;
+                    font-size: 14px;  // Reduce font size
+                    transition: all 0.3s ease;
+
+                    &:focus {
+                        border-color: #007bff;
+                        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+                    }
                 }
             }
         }
@@ -68,30 +75,36 @@
         .booking-modal-footer {
             display: flex;
             justify-content: flex-end;
-            padding-top: 15px;
-            border-top: 1px solid #e9ecef;
+            padding-top: 10px;  // Reduce padding
+            border-top: 1px solid #f1f1f1;
 
             button {
-                padding: 10px 20px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 4px;
+                padding: 10px 20px;  // Reduce button padding
+                font-size: 14px;  // Reduce font size
+                font-weight: bold;
+                border-radius: 6px;
                 cursor: pointer;
-                font-size: 16px;
-                transition: background-color 0.3s ease;
+                transition: all 0.3s ease;
 
-                &:hover {
-                    background-color: #0056b3;
+                &.confirm-btn {
+                    background-color: #28a745;
+                    color: white;
+                    margin-right: 8px;  // Reduce margin
+
+                    &:hover {
+                        background-color: #218838;
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                    }
                 }
-            }
 
-            button.close-btn {
-                background-color: #6c757d;
-                margin-right: 10px;
+                &.close-btn {
+                    background-color: #6c757d;
+                    color: white;
 
-                &:hover {
-                    background-color: #565e64;
+                    &:hover {
+                        background-color: #565e64;
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                    }
                 }
             }
         }
