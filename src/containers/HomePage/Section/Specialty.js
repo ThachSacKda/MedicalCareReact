@@ -1,71 +1,69 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import '../HomePage.scss'
+import '../HomePage.scss';
 import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css"
-import specialtyImg from '../../../assets/specialty/bone.jpg'
-import { LANGUAGES } from '../../../utils';
-
-import {changeLanguageApp} from "../../../store/actions"
-
+import "slick-carousel/slick/slick-theme.css";
+import { getAllSpecialty } from '../../../services/userService';
 
 class Specialty extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataSpecialty: []
+        };
+    }
 
+    async componentDidMount() {
+        let res = await getAllSpecialty();
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataSpecialty: res.data ? res.data : []
+            });
+        }
+    }
 
     render() {
         let settings = {
             dots: false,
-            Infinite: true,
+            infinite: true,
             speed: 500,
-            slidesToShow: 4,
+            slidesToShow: 4, // Hiển thị 4 ảnh cùng lúc
             slidesToScroll: 1,
-            // nextArrow: <SampleNextArrow/>,
-            // preArrow: <SamplePreArrow/>
+            autoplay: true,
+            autoplaySpeed: 3000,
         };
+
+        let { dataSpecialty } = this.state;
+
         return (
             <div className='section-specialty'>
                 <div className='specialty-container'>
                     <div className='specialty-header'>
-                        <span><FormattedMessage id="homeheader.Popular-specialties"/></span>
-                        <button><FormattedMessage id="homeheader.View-Details"/></button>
+                        <span><FormattedMessage id="homeheader.Popular-specialties" /></span>
+                        <button><FormattedMessage id="homeheader.View-Details" /></button>
                     </div>
 
                     <Slider {...settings}>
-                        <div className='section-customize'>
-                            <img src={specialtyImg} />
-                            <div>Musculoskeletal 1</div>
-                        </div>
-                        <div className='section-customize'>
-                            <img src={specialtyImg} />
-                            <div>Musculoskeletal 2</div>
-                        </div>
-                        <div className='section-customize'>
-                            <img src={specialtyImg} />
-                            <div>Musculoskeletal 3</div>
-                        </div>
-                        <div className='section-customize'>
-                            <img src={specialtyImg} />
-                            <div>Musculoskeletal 4</div>
-                        </div>
-                        <div className='section-customize'>
-                            <img src={specialtyImg} />
-                            <div>Musculoskeletal 5</div>
-                        </div>
-                        <div className='section-customize'>
-                            <img src={specialtyImg} />
-                            <div>Musculoskeletal 6</div>
-                        </div>
+                        {dataSpecialty && dataSpecialty.length > 0 &&
+                            dataSpecialty.map((item, index) => {
+                                return (
+                                    <div className="section-customize" key={index}>
+                                        <div
+                                            className="bg-image section-specialty"
+                                            style={{ backgroundImage: `url(${item.image})` }}
+                                        ></div>
+                                        <div>{item.name}</div>
+                                    </div>
+                                );
+                            })
+                        }
                     </Slider>
                 </div>
-                
-
             </div>
-            
         );
     }
-
 }
 
 const mapStateToProps = state => {
@@ -75,9 +73,4 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default connect(mapStateToProps)(Specialty);
