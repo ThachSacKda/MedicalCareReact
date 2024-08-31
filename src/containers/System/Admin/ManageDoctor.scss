@@ -1,8 +1,8 @@
 .manage-doctor-container {
     padding: 40px;
-    background: linear-gradient(135deg, #f7f9fc, #e3e9f0); /* Màu nền nhẹ nhàng hơn */
+    background: linear-gradient(135deg, #f0fff0, #d4edda);
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Độ bóng nhẹ nhàng */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
 
     &:hover {
@@ -15,15 +15,15 @@
     font-weight: bold;
     margin-bottom: 25px;
     text-align: center;
-    color: #2c3e50; /* Màu đậm hơn cho tiêu đề */
+    color: #2c3e50;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .more-infor {
     display: flex;
-    gap: 20px; /* Khoảng cách lớn hơn giữa các khối */
+    gap: 20px;
     padding: 25px;
-    background: linear-gradient(135deg, #f0f4f8, #d9e2ec); /* Màu gradient mềm mại */
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
@@ -52,7 +52,7 @@
     margin-top: 35px;
     display: flex;
     flex-wrap: wrap;
-    gap: 25px; /* Khoảng cách rộng hơn giữa các mục */
+    gap: 25px;
     background: #ffffff;
     padding: 25px;
     border-radius: 12px;
@@ -64,7 +64,7 @@
     }
 
     .form-group {
-        flex: 0 0 calc(33.333% - 25px); /* Đảm bảo khoảng cách đều nhau giữa các cột */
+        flex: 0 0 calc(33.333% - 25px);
         background-color: #f9fafc;
         border-radius: 10px;
         padding: 15px;
@@ -92,7 +92,7 @@
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
             &:hover, &:focus {
-                border-color: #2980b9;
+                border-color: #27ae60;
                 outline: none;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             }
@@ -101,13 +101,13 @@
     
     @media (max-width: 768px) {
         .form-group {
-            flex: 0 0 calc(50% - 25px); /* 50% chiều rộng trên màn hình nhỏ */
+            flex: 0 0 calc(50% - 25px);
         }
     }
 
     @media (max-width: 480px) {
         .form-group {
-            flex: 0 0 100%; /* 100% chiều rộng trên màn hình rất nhỏ */
+            flex: 0 0 100%;
         }
     }
 }
