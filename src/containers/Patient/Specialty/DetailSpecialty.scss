@@ -1,0 +1,68 @@
+.detail-specialty-container {
+    margin: 0 auto;
+    padding: 20px;
+    background: #f8f9fa;
+
+    .specialty-description {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        height: 200px; /* Dùng cho phần mô tả, có thể điều chỉnh */
+        border: 1px solid #ddd; /* Border màu nhẹ hơn để làm nổi bật */
+    }
+
+    .each-doctor {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .doctor-content {
+        display: flex;
+        width: 90%;
+        background-color: #fff;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .content-left,
+    .content-right {
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    .content-left {
+        flex: 1;
+        border-right: 1px solid #ddd;
+    }
+
+    .content-right {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .doctor-schedule,
+    .doctor-extra-infor {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+        .doctor-content {
+            flex-direction: column;
+        }
+
+        .content-left {
+            border-right: none;
+            border-bottom: 1px solid #ddd;
+        }
+    }
+    
+}
