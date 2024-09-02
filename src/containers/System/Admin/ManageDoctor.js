@@ -169,13 +169,14 @@ class ManageDoctor extends Component {
     // Handling changes in the selected doctor
     handleChangeSelect = async (selectedOption) => {
         this.setState({ selectedOption });
-        let { listPayment, listPrice, listProvince } = this.state;
+        let { listPayment, listPrice, listProvince, listSpecialty } = this.state;
         let res = await getDetailInforDoctor(selectedOption.value);
         if (res && res.errCode === 0 && res.data && res.data.Markdown) {
             let markdown = res.data.Markdown;
             let addressClinic = '', nameClinic = '', note = '',
                 paymentId = '', priceId = '', provinceId = '', selectedPrice = '',
-                selectedPayment = '', selectedProvince = '';
+                selectedPayment = '', selectedProvince = '',
+                selectedSpecialty = '', specialtyId = '';
 
             if (res.data.Doctor_infor) {
                 addressClinic = res.data.Doctor_infor.addressClinic;
@@ -184,10 +185,14 @@ class ManageDoctor extends Component {
                 paymentId = res.data.Doctor_infor.paymentId;
                 priceId = res.data.Doctor_infor.priceId;
                 provinceId = res.data.Doctor_infor.provinceId;
+                specialtyId = res.data.Doctor_infor.specialtyId;
+
 
                 selectedPrice = listPrice.find(item => item.value === priceId);
                 selectedPayment = listPayment.find(item => item.value === paymentId);
                 selectedProvince = listProvince.find(item => item.value === provinceId);
+
+                selectedSpecialty = listSpecialty.find(item => item.value === specialtyId);
             }
 
             this.setState({
@@ -201,6 +206,7 @@ class ManageDoctor extends Component {
                 selectedPrice: selectedPrice,
                 selectedPayment: selectedPayment,
                 selectedProvince: selectedProvince,
+                selectedSpecialty: selectedSpecialty,
             });
         } else {
             this.setState({
@@ -213,7 +219,8 @@ class ManageDoctor extends Component {
                 note: '',
                 selectedPrice: '',
                 selectedPayment: '',
-                selectedProvince: ''
+                selectedProvince: '',
+                selectedSpecialty:'',
             });
         }
     }

@@ -19,17 +19,12 @@ class DetailDoctor extends Component {
     async componentDidMount() {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
             let id = this.props.match.params.id;
-
-            // Set the current doctor ID in the state
             this.setState({
                 currentDoctorId: id
             });
-
-            // Fetch the details for the doctor using the ID
             let res = await getDetailInforDoctor(id);
 
             if (res && res.errCode === 0) {
-                // Update the state with the doctor's details
                 this.setState({
                     detailDoctor: res.data
                 });
