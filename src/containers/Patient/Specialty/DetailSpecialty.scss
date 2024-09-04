@@ -4,22 +4,28 @@
     max-width: 1200px;
     background-color: #f4f6f8;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Thêm hiệu ứng chiều sâu cho toàn container
 
     .specialty-description {
-        margin-bottom: 20px;
+        margin-bottom: 40px; // Thêm khoảng trống phía dưới
         padding: 15px;
         background: #ffffff;
         border-radius: 8px;
         border: 1px solid #e0e0e0;
         font-size: 16px;
         line-height: 1.6;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Hiệu ứng chiều sâu cho description
+        h1,h2,h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        background-color: white !important;
+        margin: 15px 0;
     }
 
     .search-sp-doctor {
-        margin-bottom: 20px;
-        text-align: center;
-
+        margin-bottom: 40px; // Thêm khoảng trống phía dưới
+        text-align: left; // Đưa select option về bên trái
         select {
             padding: 10px;
             border-radius: 5px;
@@ -32,7 +38,7 @@
     }
 
     .each-doctor {
-        margin-bottom: 20px;
+        margin-bottom: 40px; // Thêm khoảng trống phía dưới cho mỗi bác sĩ
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -40,7 +46,7 @@
         border-radius: 8px;
         border: 1px solid #e0e0e0;
         padding: 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Hiệu ứng chiều sâu cho từng bác sĩ
     }
 
     .content-left {
@@ -78,6 +84,7 @@
         border-radius: 8px;
         padding: 15px;
         border: 1px solid #d1d8e0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Thêm hiệu ứng chiều sâu cho các phần thông tin bác sĩ
     }
 
     @media (max-width: 768px) {

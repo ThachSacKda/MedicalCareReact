@@ -7,6 +7,7 @@ import { LANGUAGES } from '../../../utils';
 import NumberFormat from 'react-number-format';
 import _ from 'lodash';
 import moment from 'moment';
+import { Link } from 'react-router-dom'; // Import Link
 
 class ProfileDoctor extends Component {
     constructor(props) {
@@ -46,34 +47,31 @@ class ProfileDoctor extends Component {
 
     renderTimeBooking = (dataTime) => {
         let { language } = this.props;
-    
+
         if (dataTime && !_.isEmpty(dataTime)) {
-            // Set locale based on language
             moment.locale(language === LANGUAGES.VI ? 'vi' : 'en');
-    
+
             let date = language === LANGUAGES.VI
-                ? moment(dataTime.date).format('dddd - DD/MM/YYYY')  // 'dddd' will give full day name in the selected language
-                : moment(dataTime.date).format('dddd - MM/DD/YYYY'); // Ensure full day name in English
-    
+                ? moment(dataTime.date).format('dddd - DD/MM/YYYY')
+                : moment(dataTime.date).format('dddd - MM/DD/YYYY');
+
             let time = dataTime.timeTypeData ? (language === LANGUAGES.VI
                 ? dataTime.timeTypeData.valueVi
                 : dataTime.timeTypeData.valueEn) : '';
-    
+
             return (
                 <>
                     <div>{time} - {date}</div>
                 </>
             );
         }
-    
+
         return <></>;
     }
-    
-    
 
     render() {
         let { dataProfile, isShowDetailInfor } = this.state;
-        let { language, dataTime } = this.props;
+        let { language, dataTime, isShowLinkDetail, isShowPrice } = this.props;
         let nameVi = '', nameEn = '';
 
         if (dataProfile && dataProfile.positionData) {
@@ -106,28 +104,35 @@ class ProfileDoctor extends Component {
                         </div>
                     </div>
                 </div>
+                {isShowLinkDetail === true &&
+                    <div className='view-detail-doctor'>
+                        <Link to={`/detail-doctor/${dataProfile && dataProfile.id ? dataProfile.id : ''}`}>Xem thêm</Link>
+                    </div>}
 
-                <div className='price'>
-                    <FormattedMessage id='patient.extra-price' />
-                    {dataProfile && dataProfile.Doctor_infor && language === LANGUAGES.VI ?
-                        <NumberFormat
-                            value={dataProfile.Doctor_infor.priceTypeData.valueVi}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            suffix={' VND'}
-                        />
-                        : ''
-                    }
-                    {dataProfile && dataProfile.Doctor_infor && language === LANGUAGES.EN ?
-                        <NumberFormat
-                            value={dataProfile.Doctor_infor.priceTypeData.valueEn}
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            prefix={'$'}
-                        />
-                        : ''
-                    }
-                </div>
+
+                {isShowPrice === true &&
+                    <div className='price'>
+                        <FormattedMessage id='patient.extra-price' />
+                        {dataProfile && dataProfile.Doctor_infor && language === LANGUAGES.VI ?
+                            <NumberFormat
+                                value={dataProfile.Doctor_infor.priceTypeData.valueVi}
+                                displayType={'text'}
+                                thousandSeparator={true}
+                                suffix={' VND'}
+                            />
+                            : ''
+                        }
+                        {dataProfile && dataProfile.Doctor_infor && language === LANGUAGES.EN ?
+                            <NumberFormat
+                                value={dataProfile.Doctor_infor.priceTypeData.valueEn}
+                                displayType={'text'}
+                                thousandSeparator={true}
+                                prefix={'$'}
+                            />
+                            : ''
+                        }
+                    </div>
+                }
             </div>
         );
     }
