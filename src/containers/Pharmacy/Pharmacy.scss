@@ -1,0 +1,218 @@
+.medicine-form-container {
+    width: 100%;
+    max-width: 90%; // Increase the width to balance with the table
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f0f8e2; // Xanh lá nhạt chủ đạo
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        text-align: center;
+        color: #558c2f;
+        margin-bottom: 20px;
+        font-size: 28px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); // 3 columns per row
+        gap: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #4e774a;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 20px; // Increase padding to make the fields more spacious
+            border: 2px solid #558c2f;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f7f9f2;
+            color: #3b5631;
+            transition: all 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: #73a942;
+                box-shadow: 0 0 5px rgba(115, 169, 66, 0.5);
+                background-color: #f9fef0;
+            }
+        }
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #73a942;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-weight: bold;
+
+        &:hover {
+            background-color: #558c2f;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        &:focus {
+            outline: none;
+            background-color: #4e774a;
+            box-shadow: 0 0 5px rgba(78, 119, 74, 0.5);
+        }
+    }
+
+    animation: fadeIn 0.5s ease-in-out;
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+// Medicine list table outside the form
+.medicine-list-container {
+    width: 90%;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #e3f4dc;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        text-align: center;
+        color: #558c2f;
+        margin-bottom: 20px;
+        font-size: 28px;
+    }
+
+    .medicine-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .medicine-table th, .medicine-table td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .medicine-table th {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .medicine-table td {
+        background-color: #fafafa;
+        color: #3b5631;
+    }
+
+    .medicine-table td a {
+        color: #73a942;
+        text-decoration: none;
+    }
+
+    .medicine-table td a:hover {
+        text-decoration: underline;
+    }
+
+    .medicine-table tr:hover {
+        background-color: #f4f9f4;
+        transition: background-color 0.2s;
+    }
+
+    .edit-button, .delete-button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    .edit-button i {
+        color: #f0ad4e; // Edit icon color (yellow)
+    }
+
+    .delete-button i {
+        color: #d9534f; // Delete icon color (red)
+    }
+
+    .edit-button:hover i {
+        color: #ec971f; // Darker yellow on hover
+    }
+
+    .delete-button:hover i {
+        color: #c9302c; // Darker red on hover
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+
+    button {
+        background-color: #f0f8e2;
+        border: 1px solid #558c2f;
+        padding: 8px 12px;
+        margin: 0 5px;
+        cursor: pointer;
+        border-radius: 4px;
+        color: #558c2f;
+
+        &:hover {
+            background-color: #558c2f;
+            color: white;
+        }
+
+        &.active {
+            background-color: #73a942;
+            color: white;
+        }
+    }
+}
+
+
+// Search input styling
+.search-container {
+    margin: 20px auto; // Adjust margins for spacing
+    display: flex;
+    justify-content: center;
+    width: 80%; // Widen the search container
+
+    input {
+        width: 100%;
+        max-width: 400px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        border: 2px solid #73a942;
+        font-size: 16px;
+        color: #3b5631;
+        background-color: #f7f9f2;
+        transition: all 0.3s ease;
+
+        &:focus {
+            outline: none;
+            border-color: #558c2f;
+            box-shadow: 0 0 5px rgba(115, 169, 66, 0.5);
+        }
+    }
+}

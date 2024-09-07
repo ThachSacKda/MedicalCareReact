@@ -14,11 +14,7 @@ const createNewUserService = (data) => {
 
 const deleteUserService = (userId) => {
     // return axios.post('/api/delete-user',{id: userId})
-    return axios.delete('/api/delete-user', {
-        data: {
-            id: userId
-        }
-    });
+    return axios.delete('/api/delete-user', {data: {id: userId}});
 }
 
 const editUserService = (inputData) => {
@@ -84,6 +80,31 @@ const getDetailDpecialtyById = (data) => {
     return axios.get(`/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`)
 }
 
+// Create new medicine
+const createNewMedicine = (data) => {
+    return axios.post(`/api/create-new-medicine`, data);
+}
+
+// Get all medicines
+const getAllMedicines = () => {
+    return axios.get(`/api/get-all-medicine`);
+}
+
+const updateMedicine = (inputData) => {
+    return axios.put(`/api/update-medicine`, inputData); // Gửi dữ liệu cập nhật qua body
+};
+
+
+
+const deleteMedicine = (id) => {
+    return axios.delete('/api/delete-medicine', {
+        data: { id } // Gửi ID trong body của yêu cầu
+    });
+};
+
+
+
+
 
 
 
@@ -93,5 +114,6 @@ export { handleLoginApi, getAllUser, createNewUserService,
     getDetailInforDoctor, saveBulkScheduleDoctor,
     getScheduleDoctorByDate, getExtraInforDoctorById, getProfileDoctorById,
     postPatientBookingAppointment, postVerifyBookingAppointment, CreateNewSpecialty,
-    getAllSpecialty, getDetailDpecialtyById
+    getAllSpecialty, getDetailDpecialtyById, createNewMedicine, getAllMedicines,
+    updateMedicine, deleteMedicine
 };

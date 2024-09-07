@@ -49,10 +49,10 @@ export const adminMenu = [
         ]
     },
     { //quan li cẩm nang
-        name: 'menu.admin.handbook',
+        name: 'menu.admin.medicine',
         menus: [
             {
-                name: 'menu.admin.manage-handbook', link: '/system/manage-handbook',
+                name: 'menu.admin.manage-medicine', link: '/manage-medicine',
 
             },
 
