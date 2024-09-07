@@ -5,6 +5,8 @@ import { LANGUAGES } from '../../utils';
 import { FormattedMessage } from 'react-intl';
 import { changeLanguageApp } from "../../store/actions"
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
+
 
 class HomeHeader extends Component {
 
@@ -13,7 +15,7 @@ class HomeHeader extends Component {
     }
 
     returnToHome = () => {
-        if(this.props.history){
+        if (this.props.history) {
             this.props.history.push(`/home`)
         }
     }
@@ -26,7 +28,7 @@ class HomeHeader extends Component {
                     <div className='home-header-content'>
                         <div className='left-content'>
                             <i className="fa-solid fa-bars"></i>
-                            <div className='header-logo' onClick={()=>this.returnToHome()}>
+                            <div className='header-logo' onClick={() => this.returnToHome()}>
 
                             </div>
                         </div>
@@ -49,48 +51,60 @@ class HomeHeader extends Component {
                             </div>
                         </div>
                         <div className='right-content'>
-                            <div className='support'><i className="fa-regular fa-circle-question"></i>
-                                <FormattedMessage id="homeheader.support" />
+                            {/* Link to Register page */}
+                            <div className='register-link'>
+                                <Link to="/register">
+                                    <span>Register</span>
+                                </Link>
                             </div>
-                            <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}><span onClick={() => this.changeLanguage(LANGUAGES.VI)}>VN</span></div>
-                            <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}><span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span></div>
+
+                          
+                            <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}>
+                                <span onClick={() => this.changeLanguage(LANGUAGES.VI)}>VN</span>
+                            </div>
+                            <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}>
+                                <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span>
+                            </div>
+
+                            
                         </div>
+
 
                     </div>
 
                 </div>
-                {this.props.isShowBanner===true && 
-                     <div className='home-header-banner'>
-                    <div className='content-up'>
-                        <div className='title1'>MEDICAL CARE PROVISION</div>
-                        <div className='title2'>Comprehensive health care</div>
-                        <div className='search'>
-                            <i className="fa-solid fa-magnifying-glass"></i>
-                            <input type='text' placeholder='Searching...' />
-                        </div>
-
-                    </div>
-                    <div className='content-down'>
-                        <div className='options'>
-                            <div className='options-child'>
-                                <div className='icon-child'><i className="fa-regular fa-hospital"></i></div>
-                                <div className='text-child'>Specialized examination</div>
-                            </div>
-
-                            <div className='options-child'>
-                                <div className='icon-child'><i className="fa-solid fa-mobile"></i></div>
-                                <div className='text-child'>Remote examination</div>
-                            </div>
-                            <div className='options-child'>
-                                <div className='icon-child'><i className="fa-solid fa-truck-medical"></i></div>
-                                <div className='text-child'>Medical tests</div>
+                {this.props.isShowBanner === true &&
+                    <div className='home-header-banner'>
+                        <div className='content-up'>
+                            <div className='title1'>MEDICAL CARE PROVISION</div>
+                            <div className='title2'>Comprehensive health care</div>
+                            <div className='search'>
+                                <i className="fa-solid fa-magnifying-glass"></i>
+                                <input type='text' placeholder='Searching...' />
                             </div>
 
                         </div>
+                        <div className='content-down'>
+                            <div className='options'>
+                                <div className='options-child'>
+                                    <div className='icon-child'><i className="fa-regular fa-hospital"></i></div>
+                                    <div className='text-child'>Specialized examination</div>
+                                </div>
+
+                                <div className='options-child'>
+                                    <div className='icon-child'><i className="fa-solid fa-mobile"></i></div>
+                                    <div className='text-child'>Remote examination</div>
+                                </div>
+                                <div className='options-child'>
+                                    <div className='icon-child'><i className="fa-solid fa-truck-medical"></i></div>
+                                    <div className='text-child'>Medical tests</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
                     </div>
-
-
-                </div>
                 }
 
             </React.Fragment>
@@ -113,4 +127,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default  withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeHeader));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeHeader));

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
 import { adminMenu, doctorMenu } from './menuApp';
@@ -58,7 +57,6 @@ class Header extends Component {
                     <span className={language === LANGUAGES.EN ? "language-en active" : "language-en"}
                     onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}>EN</span>
                 
-                {/* nút logout */}
                 <div className="btn btn-logout" onClick={processLogout} title='Log Out'>
                     <i className="fas fa-sign-out-alt"></i>
                 </div>

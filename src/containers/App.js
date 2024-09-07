@@ -19,6 +19,7 @@ import VerifyEmail from './Patient/VerifyEmail';
 import Specialty from './HomePage/Section/Specialty';
 import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
 import Medicine from './Pharmacy/Medicine';
+import Register from './Auth/Register';
 
 class App extends Component {
 
@@ -59,6 +60,7 @@ class App extends Component {
                                 <Route path={path.DETAIL_SPECIALTY} component={DetailSpecialty} />
                                 <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                                 <Route path={path.MEDICINE} component={Medicine} /> 
+                                <Route path={path.REGISTER} component={Register} />
 
                             </Switch>
                         </CustomScrollbars>

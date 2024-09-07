@@ -1,0 +1,153 @@
+.user-register-container {
+    // Padding and background for the full container
+    padding: 50px 0;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .form-container {
+        // Centering the form and adding shadow and padding
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        width: 100%;
+        padding: 40px;
+        margin: 20px;
+
+        .form-header {
+            // Header styling
+            text-align: center;
+            margin-bottom: 30px;
+
+            h2 {
+                font-size: 28px;
+                color: #333333;
+                text-transform: uppercase;
+                letter-spacing: 1.2px;
+            }
+        }
+
+        .form-row {
+            // Layout of form rows
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+
+            .form-group {
+                // Each input field
+                width: calc(50% - 10px);  // Two columns layout
+                margin-right: 20px;
+
+                // Last input in the row has no margin-right
+                &:nth-child(2n) {
+                    margin-right: 0;
+                }
+
+                label {
+                    // Input label styles
+                    display: block;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #555555;
+                    margin-bottom: 8px;
+                }
+
+                input,
+                select {
+                    // Input field styles
+                    width: 100%;
+                    padding: 12px;
+                    font-size: 16px;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 8px;
+                    background-color: #f9f9f9;
+                    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+                    // Input focus state
+                    &:focus {
+                        outline: none;
+                        border-color: #48bb78;
+                        box-shadow: 0 0 8px rgba(72, 187, 120, 0.3);
+                    }
+                }
+            }
+        }
+
+        .full-width {
+            // Full width input fields
+            width: 100% !important;
+        }
+
+        .preview-image-container {
+            // Centering and styling image preview container
+            text-align: center;
+
+            .label-upload {
+                // Upload button styles
+                background-color: #48bb78;
+                color: white;
+                padding: 10px 15px;
+                font-size: 14px;
+                border-radius: 30px;
+                display: inline-block;
+                cursor: pointer;
+                transition: background-color 0.3s ease-in-out;
+
+                // Hover state for the upload button
+                &:hover {
+                    background-color: darken(#48bb78, 10%);
+                }
+
+                i {
+                    margin-left: 5px;  // Icon margin
+                }
+            }
+
+            .preview-image {
+                // Circular image preview with a hover effect
+                margin-top: 15px;
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                border: 3px solid #48bb78;
+                background-size: cover;
+                background-position: center;
+                box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                transition: transform 0.3s ease-in-out;
+
+                &:hover {
+                    transform: scale(1.1);  // Scale effect on hover
+                }
+            }
+        }
+
+        .submit-button {
+            // Button container
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+
+            button {
+                // Register button styling
+                background-color: #48bb78;
+                color: white;
+                padding: 12px 30px;
+                font-size: 16px;
+                border-radius: 30px;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+                // Hover effect for button
+                &:hover {
+                    background-color: darken(#48bb78, 10%);
+                    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+                }
+            }
+        }
+    }
+}
