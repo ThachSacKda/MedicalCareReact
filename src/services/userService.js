@@ -94,13 +94,15 @@ const updateMedicine = (inputData) => {
     return axios.put(`/api/update-medicine`, inputData); // Gửi dữ liệu cập nhật qua body
 };
 
-
-
 const deleteMedicine = (id) => {
     return axios.delete('/api/delete-medicine', {
         data: { id } // Gửi ID trong body của yêu cầu
     });
 };
+
+const createNewClinic = (data) => {
+    return axios.post(`/api/create-new-clinic`, data);
+}
 
 
 
@@ -115,5 +117,5 @@ export { handleLoginApi, getAllUser, createNewUserService,
     getScheduleDoctorByDate, getExtraInforDoctorById, getProfileDoctorById,
     postPatientBookingAppointment, postVerifyBookingAppointment, CreateNewSpecialty,
     getAllSpecialty, getDetailDpecialtyById, createNewMedicine, getAllMedicines,
-    updateMedicine, deleteMedicine
+    updateMedicine, deleteMedicine, createNewClinic
 };

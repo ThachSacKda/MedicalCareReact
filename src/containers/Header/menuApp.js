@@ -45,7 +45,7 @@ export const adminMenu = [
 
         ]
     },
-    { //quan li cẩm nang
+    { //quan li thuốc
         name: 'menu.admin.medicine',
         menus: [
             {
