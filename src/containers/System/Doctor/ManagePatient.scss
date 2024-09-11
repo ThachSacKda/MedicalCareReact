@@ -1,0 +1,78 @@
+.manage-patient-container {
+    padding: 20px;
+    background-color: #f4f9f4; // Light greenish background
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    .m-p-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2d572c; // Dark green for the title
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .manage-patient-body {
+        .form-group {
+            label {
+                font-weight: 600;
+                font-size: 16px;
+                color: #2d572c; // Dark green for labels
+                margin-bottom: 5px;
+                display: block;
+            }
+
+            .form-control {
+                padding: 10px;
+                font-size: 14px;
+                border: 1px solid #c8e6c9; // Light green border
+                border-radius: 4px;
+                transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+                &:focus {
+                    border-color: #388e3c; // Medium green on focus
+                    box-shadow: 0 0 8px rgba(56, 142, 60, 0.2); // Green shadow
+                }
+            }
+        }
+
+        .table-manage-patient {
+            margin-top: 20px;
+            overflow-x: auto;
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+                th, td {
+                    padding: 12px 15px;
+                    text-align: left;
+                    border: 1px solid #c8e6c9; // Light green borders for all cells
+                }
+
+                th {
+                    background-color: #388e3c; // Green table header
+                    color: #fff;
+                    font-weight: 700;
+                    font-size: 16px;
+                }
+
+                tr:nth-child(even) {
+                    background-color: #f1f8e9; // Light green for alternate rows
+                }
+
+                td {
+                    font-size: 14px;
+                    color: #2d572c; // Dark green for text
+                }
+
+                tr:hover {
+                    background-color: #c8e6c9; // Light green on hover
+                }
+            }
+        }
+    }
+}

@@ -57,7 +57,8 @@
             "manage-medicine": "Medicine Management"
         }, 
         "doctor": {
-            "manage-schedule": "Manage Doctor's Schedule"
+            "manage-schedule": "Manage Doctor's Schedule",
+            "manage-patient": "Manage Patient Schudule"
         }
     },
     "system": {

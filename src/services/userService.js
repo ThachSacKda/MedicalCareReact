@@ -104,6 +104,9 @@ const createNewClinic = (data) => {
     return axios.post(`/api/create-new-clinic`, data);
 }
 
+const getAllPatientsForDoctor = (data) => {
+    return axios.get(`/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`);
+}
 
 
 
@@ -117,5 +120,5 @@ export { handleLoginApi, getAllUser, createNewUserService,
     getScheduleDoctorByDate, getExtraInforDoctorById, getProfileDoctorById,
     postPatientBookingAppointment, postVerifyBookingAppointment, CreateNewSpecialty,
     getAllSpecialty, getDetailDpecialtyById, createNewMedicine, getAllMedicines,
-    updateMedicine, deleteMedicine, createNewClinic
+    updateMedicine, deleteMedicine, createNewClinic, getAllPatientsForDoctor
 };
