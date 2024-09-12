@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';  // Thêm withRouter
 import './ManagePatient.scss';
 import DatePicker from '../../../components/Input/DatePicker';
 import moment from 'moment';
 import { getAllPatientsForDoctor } from '../../../services/userService';
+import { path } from "../../../utils"; // Đảm bảo import path để truy cập đường dẫn
 
 class ManagePatient extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentDate: moment(new Date()).startOf('day').valueOf(),  // Lưu giá trị thời gian đầy đủ
+            currentDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: []
         }
     }
@@ -17,14 +19,14 @@ class ManagePatient extends Component {
     async componentDidMount() {
         let { user } = this.props;
         let { currentDate } = this.state;
-        let formattedDate = moment(currentDate).toISOString(); // Sử dụng định dạng ISO 8601
-        this.getDataPatient(user, formattedDate); // Gửi request với định dạng ISO đầy đủ
+        let formattedDate = moment(currentDate).toISOString();
+        this.getDataPatient(user, formattedDate);
     }
 
     getDataPatient = async (user, formattedDate) => {
         let res = await getAllPatientsForDoctor({
             doctorId: user.id,
-            date: formattedDate  // Đảm bảo gửi định dạng ISO có cả thời gian
+            date: formattedDate
         });
         if (res && res.errCode === 0) {
             this.setState({
@@ -38,15 +40,31 @@ class ManagePatient extends Component {
     handleOnChangeDatePicker = (date) => {
         if (date) {
             this.setState({
-                currentDate: date[0] // Cập nhật currentDate với ngày được chọn
+                currentDate: date[0]
             }, () => {
                 let { user } = this.props;
                 let { currentDate } = this.state;
-                let formattedDate = moment(currentDate).toISOString();  // Định dạng ISO đầy đủ
-                this.getDataPatient(user, formattedDate);  // Gọi API với định dạng ISO đầy đủ
+                let formattedDate = moment(currentDate).toISOString();
+                this.getDataPatient(user, formattedDate);
             });
         }
     }
+
+    handleViewDetail = (patient) => {
+        console.log("Patient data:", patient);  // Kiểm tra dữ liệu bệnh nhân
+        const patientId = patient.patientId;  // Lấy ID bệnh nhân từ patient.patientId
+    
+        if (patientId) {
+            // Lưu dữ liệu bệnh nhân vào localStorage
+            localStorage.setItem('selectedPatient', JSON.stringify(patient));
+    
+            // Chuyển hướng tới trang hiển thị thông tin bệnh nhân
+            this.props.history.push(`${path.MEDICAL_RECORD}/${patientId}`);
+        } else {
+            console.log('Patient ID is undefined.');
+        }
+    }
+    
 
     render() {
         const { currentDate, dataPatient } = this.state;
@@ -80,24 +98,28 @@ class ManagePatient extends Component {
                             </thead>
                             <tbody>
                                 {dataPatient && dataPatient.length > 0 ? (
-                                    dataPatient.map((item, index) => (
-                                        <tr key={index}>
-                                            <td>{index + 1}</td>
-                                            <td>{item.timeTypeDataPatient ? item.timeTypeDataPatient.valueVi : ''}</td>
-                                            <td>{item.patientData ? item.patientData.firstName : ''}</td>
-                                            <td>{item.patientData ? item.patientData.address : ''}</td>
-                                            <td>{item.patientData && item.patientData.genderData ? item.patientData.genderData.valueVi : ''}</td>
-                                            <td>
-                                                <button onClick={() => this.handleViewDetail(item)}>View</button>
-                                            </td>
-                                        </tr>
-                                    ))
+                                    dataPatient.map((item, index) => {
+                                        console.log("Item patientData:", item.patientData);  // In kiểm tra cấu trúc của item.patientData
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{item.timeTypeDataPatient ? item.timeTypeDataPatient.valueVi : ''}</td>
+                                                <td>{item.patientData ? item.patientData.firstName : ''}</td>
+                                                <td>{item.patientData ? item.patientData.address : ''}</td>
+                                                <td>{item.patientData && item.patientData.genderData ? item.patientData.genderData.valueVi : ''}</td>
+                                                <td>
+                                                    <button onClick={() => this.handleViewDetail(item)}>View</button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
                                 ) : (
                                     <tr>
                                         <td colSpan="6">No patients found</td>
                                     </tr>
                                 )}
                             </tbody>
+
                         </table>
                     </div>
                 </div>
@@ -106,6 +128,7 @@ class ManagePatient extends Component {
     }
 }
 
+// Thêm withRouter để có thể sử dụng đối tượng history
 const mapStateToProps = state => {
     return {
         language: state.app.language,
@@ -113,4 +136,5 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(ManagePatient);
+// Bọc component với withRouter để có thể sử dụng history.push()
+export default withRouter(connect(mapStateToProps)(ManagePatient));

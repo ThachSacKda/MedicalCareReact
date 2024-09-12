@@ -20,6 +20,7 @@ import Specialty from './HomePage/Section/Specialty';
 import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
 import Medicine from './Pharmacy/Medicine';
 import Register from './Auth/Register';
+import MedicalRecord from './Patient/MedicalRecord/MedicalRecord'
 
 class App extends Component {
 
@@ -61,17 +62,13 @@ class App extends Component {
                                 <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                                 <Route path={path.MEDICINE} component={Medicine} /> 
                                 <Route path={path.REGISTER} component={Register} />
+                                <Route path={`${path.MEDICAL_RECORD}/:id`} component={MedicalRecord} />
+
 
                             </Switch>
                         </CustomScrollbars>
                         </div>
 
-                        {/* <ToastContainer
-                            className="toast-container" toastClassName="toast-item" bodyClassName="toast-item-body"
-                            autoClose={false} hideProgressBar={true} pauseOnHover={false}
-                            pauseOnFocusLoss={true} closeOnClick={false} draggable={false}
-                            closeButton={<CustomToastCloseButton />}
-                        /> */}
 
                         <ToastContainer
                             position='bottom-right'
