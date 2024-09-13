@@ -111,6 +111,18 @@ const getDetailPatientById = (data) => {
     return axios.get(`/api/get-detail-patient-by-id?patientId=${data.patientId}`);
 };
 
+const addMedicalRecord = (data) => {
+    return axios.post('/api/add-medical-record', data);
+};
+
+const getMedicalRecordsByPatientId = (patientId) => {
+    return axios.get(`/api/get-medical-records?patientId=${patientId}`);
+};
+
+
+
+
+
 
 
 
@@ -123,5 +135,5 @@ export { handleLoginApi, getAllUser, createNewUserService,
     postPatientBookingAppointment, postVerifyBookingAppointment, CreateNewSpecialty,
     getAllSpecialty, getDetailDpecialtyById, createNewMedicine, getAllMedicines,
     updateMedicine, deleteMedicine, createNewClinic, getAllPatientsForDoctor, 
-    getDetailPatientById
+    getDetailPatientById, addMedicalRecord, getMedicalRecordsByPatientId
 };

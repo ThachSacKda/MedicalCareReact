@@ -3,7 +3,8 @@ import './MedicalRecord.scss';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'; 
 import Select from 'react-select'; 
-
+import { getAllMedicines, addMedicalRecord } from '../../../services/userService';  // Import API calls
+import Header from '../../Header/Header';
 
 class MedicalRecord extends Component {
     constructor(props) {
@@ -13,6 +14,9 @@ class MedicalRecord extends Component {
             diagnosis: '',  // Lưu chẩn đoán
             selectedMedicines: [],  // Lưu danh sách thuốc được chọn
             note: '',  // Lưu ghi chú
+            medicineOptions: [],  // Lưu các thuốc từ API cho React Select
+            medicines: [],  // Lưu các thuốc để hiển thị trong bảng
+            addedMedicines: [], // Lưu các thuốc đã thêm vào kê đơn để hiển thị bên dưới
         };
     }
 
@@ -20,11 +24,36 @@ class MedicalRecord extends Component {
         // Lấy dữ liệu từ localStorage
         const storedPatient = localStorage.getItem('selectedPatient');
         if (storedPatient) {
+            const patientData = JSON.parse(storedPatient);
             this.setState({
-                dataPatient: JSON.parse(storedPatient)  
+                dataPatient: patientData  // Make sure patientData contains patientId
             });
         } else {
             console.error('No patient data found in localStorage.');
+        }
+
+        // Gọi API để lấy danh sách thuốc
+        this.fetchAllMedicines();
+    }
+
+    // Fetch all medicines from the API
+    fetchAllMedicines = async () => {
+        try {
+            const response = await getAllMedicines();
+            if (response && response.errCode === 0) {
+                const medicines = response.data;
+                const medicineOptions = medicines.map(med => ({
+                    value: med.id,
+                    label: med.medicineName,
+                    composition: med.composition,
+                    uses: med.uses,
+                    sideEffects: med.sideEffects,
+                    manufacturer: med.manufacturer
+                }));
+                this.setState({ medicines, medicineOptions });
+            }
+        } catch (error) {
+            console.error('Error fetching medicines:', error);
         }
     }
 
@@ -40,100 +69,158 @@ class MedicalRecord extends Component {
         this.setState({ note: e.target.value });
     }
 
-    handleAddPrescription = () => {
-        const { diagnosis, selectedMedicines, note } = this.state;
-        console.log('Diagnosis:', diagnosis);
-        console.log('Medicines:', selectedMedicines);
-        console.log('Note:', note);
-        alert('Prescription added!');
+    handleAddPrescription = async () => {
+        const { diagnosis, selectedMedicines, note, dataPatient } = this.state;
+        const selectedMedicineIds = selectedMedicines.map(med => med.value);
+    
+        // Log the patient ID to check if it's being retrieved correctly
+        if (dataPatient && dataPatient.patientId) {
+            console.log('Patient ID:', dataPatient.patientId);  // Log the patient ID
+        } else {
+            console.error('No patient ID found');
+            return; // Stop execution if no patientId is found
+        }
+    
+        try {
+            const response = await addMedicalRecord({
+                diagnosis,
+                medicines: selectedMedicineIds,
+                note,
+                userId: dataPatient.patientId,  // Send the patient ID
+            });
+    
+            if (response && response.errCode === 0) {
+                alert('Medical record added successfully!');
+                this.setState({
+                    addedMedicines: selectedMedicines // Store the selected medicines to display
+                });
+            } else {
+                alert('Failed to add medical record');
+            }
+        } catch (error) {
+            console.error('Error adding medical record:', error);
+        }
+    }
+
+    renderSelectedMedicines = () => {
+        const { addedMedicines, medicineOptions } = this.state;
+
+        if (addedMedicines.length === 0) {
+            return null; // No medicines added yet
+        }
+
+        return (
+            <div className="added-medicines">
+                <h3>Thuốc đã kê</h3>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Tên thuốc</th>
+                            <th>Thành phần</th>
+                            <th>Công dụng</th>
+                            <th>Tác dụng phụ</th>
+                            <th>Nhà sản xuất</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {addedMedicines.map((med, index) => {
+                            const medicineDetail = medicineOptions.find(option => option.value === med.value);
+                            return (
+                                <tr key={index}>
+                                    <td>{medicineDetail ? medicineDetail.label : ''}</td>
+                                    <td>{medicineDetail ? medicineDetail.composition : ''}</td>
+                                    <td>{medicineDetail ? medicineDetail.uses : ''}</td>
+                                    <td>{medicineDetail ? medicineDetail.sideEffects : ''}</td>
+                                    <td>{medicineDetail ? medicineDetail.manufacturer : ''}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+        );
     }
 
     render() {
-        const { dataPatient, diagnosis, selectedMedicines, note } = this.state;
+        const { dataPatient, diagnosis, selectedMedicines, note, medicineOptions } = this.state;
 
         if (!dataPatient) {
             return <div>Không có dữ liệu bệnh nhân.</div>;  
         }
-        const patient = dataPatient.patientData || {}; 
+
+        const patient = dataPatient || {}; 
         const timeTypeData = dataPatient.timeTypeDataPatient || {}; 
 
-        // Các tùy chọn thuốc cho React Select
-        const medicineOptions = [
-            { value: 'med1', label: 'Paracetamol' },
-            { value: 'med2', label: 'Amoxicillin' },
-            { value: 'med3', label: 'Ibuprofen' },
-            { value: 'med4', label: 'Metformin' }
-        ];
-
         return (
+            <>
+            <Header/>
             <div className="resume-wrapper">
-    <div className="container">
-        <div className="row">
-            <section className="profile section-padding col-lg-6">
-                <div className="profile-info">
-                    <div className="profile-avatar">
-                        <img src={patient.image} alt="Patient Avatar" className="avatar" />
+                <div className="container medical-layout">
+                    <div className="patient-section">
+                        <section className="profile section-padding">
+                            <div className="profile-info">
+                                <div className="profile-details">
+                                    <h1>{patient.firstName || 'N/A'} {patient.lastName || ''}</h1>
+                                    <ul className="contact-info">
+                                        <li><strong>Email:</strong> {patient.email || 'N/A'}</li>
+                                        <li><strong>Giới Tính:</strong> {patient.genderData ? patient.genderData.valueVi : 'N/A'}</li>
+                                        <li><strong>Địa chỉ:</strong> {patient.address || 'N/A'}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className="experience section-padding">
+                            <div className="experience-info">
+                                <h3 className="experience-title">Thông tin giờ khám</h3>
+                                <p>Giờ khám: {timeTypeData.valueVi || 'N/A'}</p>
+                            </div>
+                        </section>
                     </div>
-                    <div className="profile-details">
-                        <h1>{patient.firstName || 'N/A'} {patient.lastName || ''}</h1>
-                        <ul className="contact-info">
-                            <li><strong>Email:</strong> {patient.email || 'N/A'}</li>
-                            <li><strong>Giới Tính:</strong> {patient.genderData ? patient.genderData.valueVi : 'N/A'}</li>
-                            <li><strong>Địa chỉ:</strong> {patient.address || 'N/A'}</li>
-                        </ul>
+
+                    <div className="prescription-section">
+                        <section className="prescription section-padding">
+                            <h3 className="section-title">Chẩn đoán và kê thuốc</h3>
+                            <div className="form-group">
+                                <label>Chẩn đoán</label>
+                                <textarea 
+                                    className="form-control"
+                                    value={diagnosis}
+                                    onChange={this.handleDiagnosisChange}
+                                    placeholder="Nhập chẩn đoán"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Kê thuốc</label>
+                                <Select
+                                    isMulti
+                                    value={selectedMedicines}
+                                    onChange={this.handleMedicineChange}
+                                    options={medicineOptions}
+                                    placeholder="Chọn thuốc"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Ghi chú</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={note}
+                                    onChange={this.handleNoteChange}
+                                    placeholder="Nhập ghi chú"
+                                />
+                            </div>
+                            <button className="btn btn-primary" onClick={this.handleAddPrescription}>
+                                Thêm kê đơn
+                            </button>
+                        </section>
                     </div>
+
+                    {/* Render selected medicines and their details */}
+                    {this.renderSelectedMedicines()}
                 </div>
-            </section>
-
-            <section className="experience section-padding col-lg-6">
-                <div className="experience-info">
-                    <h3 className="experience-title">Thông tin giờ khám</h3>
-                    <p>Giờ khám: {timeTypeData.valueVi || 'N/A'}</p>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <section className="prescription section-padding">
-        <div className="container">
-            <h3 className="section-title">Chẩn đoán và kê thuốc</h3>
-            <div className="form-group">
-                <label>Chẩn đoán</label>
-                <textarea 
-                    className="form-control"
-                    value={diagnosis}
-                    onChange={this.handleDiagnosisChange}
-                    placeholder="Nhập chẩn đoán"
-                />
             </div>
-            <div className="form-group">
-                <label>Kê thuốc</label>
-                <Select
-                    isMulti
-                    value={selectedMedicines}
-                    onChange={this.handleMedicineChange}
-                    options={medicineOptions}
-                    placeholder="Chọn thuốc"
-                />
-            </div>
-            <div className="form-group">
-                <label>Ghi chú</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    value={note}
-                    onChange={this.handleNoteChange}
-                    placeholder="Nhập ghi chú"
-                />
-            </div>
-            <button className="btn btn-primary" onClick={this.handleAddPrescription}>
-                Thêm kê đơn
-            </button>
-        </div>
-    </section>
-</div>
-
-
+            </>
         );
     }
 }
@@ -145,5 +232,4 @@ const mapStateToProps = state => {
     };
 };
 
-// Bọc component với withRouter để có thể sử dụng history.push()
 export default withRouter(connect(mapStateToProps)(MedicalRecord));

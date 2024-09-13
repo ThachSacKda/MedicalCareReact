@@ -1,133 +1,179 @@
 $primary-color: #4CAF50; // Màu xanh chủ đạo
 $secondary-color: #f9f9f9; // Màu nền phụ
 $text-color: #333; // Màu văn bản
-$border-radius: 8px; // Bo góc
-$box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); // Đổ bóng
+$border-radius: 10px; // Bo góc mềm hơn
+$box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); // Đổ bóng nhẹ nhàng hơn
 $transition: 0.3s ease-in-out; // Hiệu ứng chuyển đổi
+$background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background gradient
 
+// General layout and wrapper
 .resume-wrapper {
-    padding: 30px;
-    background-color: $secondary-color;
+    padding: 40px;
+    background: $background-gradient;
     min-height: 100vh;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+.container.medical-layout {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 20px 0;
+
+    // Flex-wrap for mobile responsiveness
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+
+.patient-section, .prescription-section {
+    flex: 1;
     background-color: white;
     border-radius: $border-radius;
     box-shadow: $box-shadow;
     padding: 30px;
-}
+    transition: $transition;
+    
+    &:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
 
-.profile-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
-}
-
-.profile-avatar {
-    flex: 0 0 120px;
-    margin-right: 20px;
-
-    img.avatar {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: 4px solid $primary-color;
-        box-shadow: $box-shadow;
+    @media (max-width: 768px) {
+        margin-bottom: 20px;
     }
 }
 
-.profile-details {
-    flex-grow: 1;
+// Styling for patient info section
+.profile-details h1 {
+    font-size: 2.2rem;
+    color: darken($primary-color, 10%);
+    margin-bottom: 15px;
+    border-bottom: 2px solid lighten($primary-color, 30%);
+    padding-bottom: 10px;
+}
 
-    .profile-name {
-        font-size: 1.8rem;
+.contact-info li {
+    font-size: 1.2rem;
+    color: $text-color;
+    margin-bottom: 8px;
+
+    strong {
+        color: $primary-color;
+        margin-right: 10px;
+    }
+}
+
+// Styling for the prescription section
+.prescription-section .section-title {
+    font-size: 1.8rem;
+    color: darken($primary-color, 10%);
+    margin-bottom: 25px;
+    border-bottom: 2px solid lighten($primary-color, 30%);
+    padding-bottom: 10px;
+}
+
+.prescription-section .form-group {
+    margin-bottom: 25px;
+
+    label {
+        font-size: 1.3rem;
         font-weight: bold;
-        color: $text-color;
+        color: $primary-color;
         margin-bottom: 10px;
+        display: block;
     }
 
-    .contact-info {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .form-control {
+        width: 100%;
+        padding: 15px;
+        border-radius: $border-radius;
+        border: 1px solid #ddd;
+        font-size: 1.1rem;
+        background-color: #fafafa;
+        transition: $transition;
 
-        li {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-            color: $text-color;
-
-            strong {
-                color: $primary-color;
-            }
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+            box-shadow: 0px 0px 12px rgba(102, 204, 153, 0.3);
         }
     }
-}
 
-.experience {
-    padding: 30px 0;
-
-    .experience-title {
-        font-size: 1.5rem;
-        color: $primary-color;
-        margin-bottom: 15px;
+    textarea {
+        min-height: 200px;
+        resize: vertical;
     }
 
-    p {
-        font-size: 1.1rem;
-        color: $text-color;
+    input {
+        min-height: 50px;
     }
 }
 
-.prescription {
+// Button styling
+.prescription-section .btn {
+    background-color: $primary-color;
+    color: white;
+    border-radius: $border-radius;
+    padding: 12px 25px;
+    font-weight: bold;
+    transition: $transition;
+    font-size: 1.2rem;
+
+    &:hover {
+        background-color: darken($primary-color, 10%);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+}
+
+// Improve table styling for medicine list
+.medicine-table {
     margin-top: 40px;
 
-    .section-title {
-        font-size: 1.5rem;
-        color: $primary-color;
-        margin-bottom: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-
-        label {
-            font-weight: bold;
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        background-color: white;
+        border-radius: $border-radius;
+        overflow: hidden;
+        box-shadow: $box-shadow;
+        
+        th, td {
+            padding: 20px;
+            text-align: left;
             font-size: 1.1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: $primary-color;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: lighten($primary-color, 50%);
+        }
+
+        td {
             color: $text-color;
         }
 
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border-radius: $border-radius;
-            border: 1px solid #ccc;
-            transition: $transition;
-
-            &:focus {
-                outline: none;
-                border-color: $primary-color;
-                box-shadow: 0px 0px 8px rgba(102, 204, 153, 0.5);
-            }
+        tr:hover {
+            background-color: lighten($primary-color, 60%);
+            cursor: pointer;
         }
     }
+}
 
-    .btn {
-        background-color: $primary-color;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: $border-radius;
-        transition: $transition;
-        font-weight: bold;
-        cursor: pointer;
+// Responsive styling for smaller screens
+@media (max-width: 768px) {
+    .patient-section, .prescription-section {
+        margin-bottom: 20px;
+    }
 
-        &:hover {
-            background-color: darken($primary-color, 10%);
-        }
+    .prescription-section .form-control {
+        padding: 12px;
     }
 }
