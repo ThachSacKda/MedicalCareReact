@@ -21,6 +21,7 @@ import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
 import Medicine from './Pharmacy/Medicine';
 import Register from './Auth/Register';
 import MedicalRecord from './Patient/MedicalRecord/MedicalRecord'
+import MRecordByPatient from './Patient/MedicalRecord/MRecordByPatient';
 
 class App extends Component {
 
@@ -63,6 +64,8 @@ class App extends Component {
                                 <Route path={path.MEDICINE} component={Medicine} /> 
                                 <Route path={path.REGISTER} component={Register} />
                                 <Route path={`${path.MEDICAL_RECORD}/:id`} component={MedicalRecord} />
+                                <Route path={`${path.MEDICAL_RECORD_BY_PATIENT_ID}/:id`} component={MRecordByPatient} />
+
 
 
                             </Switch>

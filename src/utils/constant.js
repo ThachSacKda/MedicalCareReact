@@ -9,7 +9,8 @@ export const path = {
     VERIFY_EMAIL_BOOKING: '/verify-booking',
     MEDICINE: '/manage-medicine',
     REGISTER: '/register',
-    MEDICAL_RECORD: '/patient-medical-record'
+    MEDICAL_RECORD: '/patient-medical-record',
+    MEDICAL_RECORD_BY_PATIENT_ID: '/medical-record-by-patient-id',
 };
 
 export const LANGUAGES = {
