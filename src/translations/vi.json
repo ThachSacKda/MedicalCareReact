@@ -12,7 +12,12 @@
         "Popular-specialties": "Chuyên khoa phổ biến",
         "Consultation": "Tư vấn",
         "View-Details": "Xem chi tiết",
-        "welcome": "Xin chào"
+        "welcome": "Xin chào",
+
+        "view-profile": "Xem Hồ Sơ",
+        "Medical-Record": "Hồ Sơ Bệnh Án",
+        "login": "Đăng nhập",
+        "register": "Tạo Tài Khoản"
 
     },
 

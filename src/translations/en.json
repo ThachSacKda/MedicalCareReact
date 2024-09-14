@@ -12,7 +12,11 @@
         "Popular-specialties": "Popular specialties",
         "Consultation": "Consultation",
         "View-Details": "View Details",
-        "welcome": "Welcome"
+        "welcome": "Welcome",
+        "view-profile": "View Profile",
+        "Medical-Record": "Medical Record",
+        "login": "Login",
+        "register": "Register"
     },
 
     "common": {
