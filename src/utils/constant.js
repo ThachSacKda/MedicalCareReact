@@ -10,7 +10,7 @@ export const path = {
     MEDICINE: '/manage-medicine',
     REGISTER: '/register',
     MEDICAL_RECORD: '/patient-medical-record',
-    MEDICAL_RECORD_BY_PATIENT_ID: '/medical-record-by-patient-id',
+    MEDICAL_RECORD_BY_PATIENT_ID: '/medical-record-by-patient',
 };
 
 export const LANGUAGES = {

@@ -73,14 +73,14 @@ class MedicalRecord extends Component {
     handleAddPrescription = async () => {
         const { diagnosis, selectedMedicines, note, dataPatient } = this.state;
         const selectedMedicineIds = selectedMedicines.map(med => med.value);
-
+    
         if (dataPatient && dataPatient.patientId) {
             console.log('Patient ID:', dataPatient.patientId);  // Log the patient ID
         } else {
             console.error('No patient ID found');
             return; // Stop execution if no patientId is found
         }
-
+    
         try {
             const response = await addMedicalRecord({
                 diagnosis,
@@ -88,12 +88,12 @@ class MedicalRecord extends Component {
                 note,
                 userId: dataPatient.patientId,  // Send the patient ID
             });
-
+    
             if (response && response.errCode === 0) {
                 alert('Medical record added successfully!');
-                this.setState({
-                    addedMedicines: selectedMedicines // Store the selected medicines to display
-                });
+                
+                // After successfully adding the record, navigate to the MRecordByPatient page
+                this.props.history.push(`/medical-record-by-patient/${dataPatient.patientId}`);  // Use patientId to navigate
             } else {
                 alert('Failed to add medical record');
             }
@@ -101,6 +101,7 @@ class MedicalRecord extends Component {
             console.error('Error adding medical record:', error);
         }
     }
+    
 
     // Render selected medicines table
     renderSelectedMedicines = () => {
