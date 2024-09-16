@@ -116,8 +116,9 @@ const addMedicalRecord = (data) => {
 };
 
 const getMedicalRecordsByPatientId = (patientId) => {
-    return axios.get(`/api/get-medical-records?patientId=${patientId}`);
+    return axios.get(`/api/medical-records/${patientId}`);
 };
+
 
 
 

@@ -2,51 +2,63 @@
     padding: 20px;
     background-color: #f9f9f9;
     min-height: 100vh;
+
     h1 {
         color: #4CAF50;
         font-size: 2.4rem;
         margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
     }
-}
 
-.medical-records-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.medical-record-card {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease-in-out;
-    &:hover {
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    }
-}
-
-.record-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #4CAF50;
-    margin-bottom: 15px;
-}
-
-.record-details {
-    font-size: 1rem;
-    color: #333;
-    p {
-        margin: 10px 0;
-        strong {
-            color: #4CAF50;
+    .medical-record-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 1.1rem;
+        text-align: left;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        
+        th {
+            background-color: #4CAF50;
+            color: white;
+            text-transform: uppercase;
+            padding: 12px;
         }
-    }
-    ul {
-        list-style: disc;
-        margin-left: 20px;
-        li {
-            margin-bottom: 8px;
+
+        td {
+            background-color: #fff;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+
+            &:first-child {
+                font-weight: bold;
+            }
+
+            &:last-child {
+                text-align: center;
+            }
+
+            ul {
+                padding-left: 0;
+                list-style-type: none;
+
+                li {
+                    padding: 8px;
+                    background-color: #e8f5e9;
+                    border-radius: 4px;
+                    margin-bottom: 5px;
+                }
+            }
+        }
+
+        tr {
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: #f1f8e9;
+            }
         }
     }
 }
