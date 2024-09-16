@@ -28,8 +28,8 @@ class HomeHeader extends Component {
 
     render() {
         let language = this.props.language;
-        const { isLoggedIn, userInfor } = this.props; // Use isLoggedIn to show/hide the logout button
-
+        const { isLoggedIn, userInfor } = this.props; // Sử dụng userInfor để hiển thị tên người dùng
+    
         return (
             <React.Fragment>
                 <div className='home-header-cotainer'>
@@ -51,7 +51,7 @@ class HomeHeader extends Component {
                                 <div><b><FormattedMessage id="homeheader.doctor" /></b></div>
                                 <div><FormattedMessage id="homeheader.select-doctor" /></div>
                             </div>
-
+    
                             {/* Conditionally render "View Your Profile" only when user is logged in */}
                             {isLoggedIn && (
                                 <div className='child-content'>
@@ -61,7 +61,13 @@ class HomeHeader extends Component {
                             )}
                         </div>
                         <div className='right-content'>
-                            {/* Conditionally render the "Login" button if the user is not logged in */}
+                            
+                            {isLoggedIn && userInfor && (
+                                <div className="user-name">
+                                    <span><FormattedMessage id="homeheader.welcome" /> {userInfor.firstName} {userInfor.lastName}</span>
+                                </div>
+                            )}
+    
                             {!isLoggedIn && (
                                 <div className='register-link'>
                                     <Link to={path.LOGIN}>
@@ -70,14 +76,14 @@ class HomeHeader extends Component {
                                     </Link>
                                 </div>
                             )}
-
+    
                             {/* Link to Register page */}
                             <div className='register-link'>
                                 <Link to="/register">
                                     <span><FormattedMessage id="homeheader.register" /></span>
                                 </Link>
                             </div>
-
+    
                             {/* Language Switch */}
                             <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}>
                                 <span onClick={() => this.changeLanguage(LANGUAGES.VI)}>VN</span>
@@ -85,7 +91,7 @@ class HomeHeader extends Component {
                             <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}>
                                 <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span>
                             </div>
-
+    
                             {/* Conditionally render the logout button if the user is logged in */}
                             {isLoggedIn && (
                                 <div className="btn btn-logout" onClick={this.handleLogout} title='Log Out'>
@@ -95,8 +101,7 @@ class HomeHeader extends Component {
                         </div>
                     </div>
                 </div>
-
-
+    
                 {/* Banner Section */}
                 {this.props.isShowBanner === true &&
                     <div className='home-header-banner'>
@@ -129,6 +134,7 @@ class HomeHeader extends Component {
             </React.Fragment>
         );
     }
+    
 }
 
 const mapStateToProps = state => {
