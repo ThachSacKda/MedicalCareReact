@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Select from 'react-select';
 import { getAllMedicines, addMedicalRecord } from '../../../services/userService';  // Import API calls
 import Header from '../../Header/Header';
+import Swal from 'sweetalert2';
 
 class MedicalRecord extends Component {
     constructor(props) {
@@ -73,14 +74,14 @@ class MedicalRecord extends Component {
     handleAddPrescription = async () => {
         const { diagnosis, selectedMedicines, note, dataPatient } = this.state;
         const selectedMedicineIds = selectedMedicines.map(med => med.value);
-    
+
         if (dataPatient && dataPatient.patientId) {
             console.log('Patient ID:', dataPatient.patientId);  // Log the patient ID
         } else {
             console.error('No patient ID found');
             return; // Stop execution if no patientId is found
         }
-    
+
         try {
             const response = await addMedicalRecord({
                 diagnosis,
@@ -88,20 +89,37 @@ class MedicalRecord extends Component {
                 note,
                 userId: dataPatient.patientId,  // Send the patient ID
             });
-    
+
             if (response && response.errCode === 0) {
-                alert('Medical record added successfully!');
-                
-                // After successfully adding the record, navigate to the MRecordByPatient page
-                this.props.history.push(`/medical-record-by-patient/${dataPatient.patientId}`);  // Use patientId to navigate
+                // Hiển thị thông báo thành công bằng SweetAlert2
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Add Medical Record Successfully!',
+                    showConfirmButton: false,
+                    timer: 2000  // Tự động đóng sau 2 giây
+                });
+
+                // Sau khi thêm thành công, điều hướng về trang /doctor/manage-patient
+                setTimeout(() => {
+                    this.props.history.push('/doctor/manage-patient');
+                }, 2000); // Đợi 2 giây trước khi điều hướng
             } else {
-                alert('Failed to add medical record');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Không thể thêm hồ sơ bệnh án.',
+                });
             }
         } catch (error) {
             console.error('Error adding medical record:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: 'Đã xảy ra lỗi khi thêm hồ sơ bệnh án.',
+            });
         }
     }
-    
 
     // Render selected medicines table
     renderSelectedMedicines = () => {
@@ -151,7 +169,6 @@ class MedicalRecord extends Component {
             return <div>Không có dữ liệu bệnh nhân.</div>;
         }
 
-        // Use patient.patientData for patient details
         const patient = dataPatient.patientData || {};
         const timeTypeData = dataPatient.timeTypeDataPatient || {};
 
@@ -162,7 +179,6 @@ class MedicalRecord extends Component {
                 <Header />
                 <div className="resume-wrapper">
                     <div className="container medical-layout">
-                        {/* Patient Details Section */}
                         <div className="patient-section">
                             <section className="profile section-padding">
                                 <div className="profile-info">
@@ -185,11 +201,9 @@ class MedicalRecord extends Component {
                             </section>
                         </div>
 
-                        {/* Prescription Section */}
                         <div className="prescription-section">
                             <section className="prescription section-padding">
                                 <h3 className="section-title">Chẩn đoán và kê thuốc</h3>
-                                {/* Doctor Information */}
                                 <div className="doctor-info">
                                     <h3>Bác sĩ thực hiện chẩn đoán và kê thuốc:</h3>
                                     {user ? (
@@ -235,7 +249,6 @@ class MedicalRecord extends Component {
                             </section>
                         </div>
 
-                        {/* Render selected medicines and their details */}
                         {this.renderSelectedMedicines()}
                     </div>
                 </div>
@@ -247,7 +260,7 @@ class MedicalRecord extends Component {
 const mapStateToProps = state => {
     return {
         language: state.app.language,
-        user: state.user.userInfor, // Access the logged-in user's info from Redux
+        user: state.user.userInfor,
     };
 };
 
