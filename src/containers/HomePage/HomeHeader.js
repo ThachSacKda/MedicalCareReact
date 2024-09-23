@@ -8,7 +8,6 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import * as actions from "../../store/actions";
 
-
 class HomeHeader extends Component {
 
     changeLanguage = (language) => {
@@ -38,7 +37,7 @@ class HomeHeader extends Component {
                             <i className="fa-solid fa-bars"></i>
                             <div className='header-logo' onClick={() => this.returnToHome()}></div>
                         </div>
-                        <div className='center-content'>
+                        {/* <div className='center-content'>
                             <div className='child-content'>
                                 <div><b><FormattedMessage id="homeheader.speciality" /></b></div>
                                 <div className='subs-title'><FormattedMessage id="homeheader.searchdoctor" /></div>
@@ -52,19 +51,27 @@ class HomeHeader extends Component {
                                 <div><FormattedMessage id="homeheader.select-doctor" /></div>
                             </div>
     
-                            {/* Conditionally render "View Your Profile" only when user is logged in */}
                             {isLoggedIn && (
                                 <div className='child-content'>
                                     <div><b><FormattedMessage id="homeheader.view-profile" /></b></div>
                                     <div><FormattedMessage id="homeheader.Medical-Record" /></div>
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                         <div className='right-content'>
                             
                             {isLoggedIn && userInfor && (
                                 <div className="user-name">
                                     <span><FormattedMessage id="homeheader.welcome" /> {userInfor.firstName} {userInfor.lastName}</span>
+                                </div>
+                            )}
+
+                            {/* Thêm nút điều hướng đến trang quản lý bệnh nhân cho bác sĩ */}
+                            {isLoggedIn && userInfor && userInfor.roleId === 'R2' && (
+                                <div className="manage-patient-link">
+                                    <Link to="/doctor/manage-patient">
+                                        <span>Manage Patients</span>
+                                    </Link>
                                 </div>
                             )}
     
@@ -92,7 +99,6 @@ class HomeHeader extends Component {
                                 <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span>
                             </div>
     
-                            {/* Conditionally render the logout button if the user is logged in */}
                             {isLoggedIn && (
                                 <div className="btn btn-logout" onClick={this.handleLogout} title='Log Out'>
                                     <i className="fas fa-sign-out-alt"></i>
@@ -102,7 +108,6 @@ class HomeHeader extends Component {
                     </div>
                 </div>
     
-                {/* Banner Section */}
                 {this.props.isShowBanner === true &&
                     <div className='home-header-banner'>
                         <div className='content-up'>

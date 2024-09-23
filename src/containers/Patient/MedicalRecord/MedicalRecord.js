@@ -3,7 +3,7 @@ import './MedicalRecord.scss';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import Select from 'react-select';
-import { getAllMedicines, addMedicalRecord } from '../../../services/userService';  // Import API calls
+import { getAllMedicines, addMedicalRecord, getMedicalRecordsByPatientId } from '../../../services/userService';  // Import API calls
 import Header from '../../Header/Header';
 import Swal from 'sweetalert2';
 
@@ -17,25 +17,13 @@ class MedicalRecord extends Component {
             note: '',  // Store note
             medicineOptions: [],  // Store medicines options from API
             medicines: [],  // Store medicines to be displayed
-            addedMedicines: [], // Store medicines after being added
+            medicalRecords: [], // Lấy dữ liệu hồ sơ bệnh án từ database
         };
-    }
 
-    componentDidMount() {
-        // Retrieve patient data from localStorage
-        const storedPatient = localStorage.getItem('selectedPatient');
-        if (storedPatient) {
-            const patientData = JSON.parse(storedPatient);
-            console.log('Retrieved patient data:', patientData); // Debugging line
-            this.setState({
-                dataPatient: patientData  // Store patient data in state
-            });
-        } else {
-            console.error('No patient data found in localStorage.');
-        }
-
-        // Fetch medicines list from API
-        this.fetchAllMedicines();
+        // Bind methods to the class instance
+        this.fetchAllMedicines = this.fetchAllMedicines.bind(this);
+        this.handleAddPrescription = this.handleAddPrescription.bind(this);
+        this.fetchMedicalRecords = this.fetchMedicalRecords.bind(this);
     }
 
     // Fetch all medicines from the API
@@ -59,6 +47,38 @@ class MedicalRecord extends Component {
         }
     }
 
+    // Fetch medical records from the API
+    fetchMedicalRecords = async (patientId) => {
+        try {
+            const response = await getMedicalRecordsByPatientId(patientId);
+            if (response && response.errCode === 0) {
+                this.setState({ medicalRecords: response.data });
+                console.log('medical record:', response)
+            } else {
+                console.error('Failed to fetch medical records');
+            }
+        } catch (error) {
+            console.error('Error fetching medical records:', error);
+        }
+    }
+
+    componentDidMount() {
+        // Retrieve patient data from localStorage
+        const storedPatient = localStorage.getItem('selectedPatient');
+        if (storedPatient) {
+            const patientData = JSON.parse(storedPatient);
+            this.setState({ dataPatient: patientData });
+
+            // Fetch medical records from API for the patient
+            this.fetchMedicalRecords(patientData.patientId);
+        } else {
+            console.error('No patient data found in localStorage.');
+        }
+
+        // Fetch medicines list from API
+        this.fetchAllMedicines();
+    }
+
     handleDiagnosisChange = (e) => {
         this.setState({ diagnosis: e.target.value });
     }
@@ -71,108 +91,155 @@ class MedicalRecord extends Component {
         this.setState({ note: e.target.value });
     }
 
+    // Hàm thêm kê đơn
     handleAddPrescription = async () => {
         const { diagnosis, selectedMedicines, note, dataPatient } = this.state;
-        const selectedMedicineIds = selectedMedicines.map(med => med.value);
-
+        const selectedMedicineNames = selectedMedicines.map(med => med.label); // Lấy tên thuốc trực tiếp
+    
         if (dataPatient && dataPatient.patientId) {
-            console.log('Patient ID:', dataPatient.patientId);  // Log the patient ID
+            console.log('Patient ID:', dataPatient.patientId);
         } else {
             console.error('No patient ID found');
-            return; // Stop execution if no patientId is found
+            return;
         }
-
+    
         try {
             const response = await addMedicalRecord({
                 diagnosis,
-                medicines: selectedMedicineIds,
+                medicines: selectedMedicineNames, // Lưu tên thuốc thay vì ID hoặc JSON
                 note,
-                userId: dataPatient.patientId,  // Send the patient ID
+                userId: dataPatient.patientId,
             });
-
+    
             if (response && response.errCode === 0) {
-                // Hiển thị thông báo thành công bằng SweetAlert2
+                // Thông báo thành công
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
                     text: 'Add Medical Record Successfully!',
                     showConfirmButton: false,
-                    timer: 2000  // Tự động đóng sau 2 giây
+                    timer: 2000
                 });
-
-                // Sau khi thêm thành công, điều hướng về trang /doctor/manage-patient
-                setTimeout(() => {
-                    this.props.history.push('/doctor/manage-patient');
-                }, 2000); // Đợi 2 giây trước khi điều hướng
+    
+                // Gọi lại API để lấy danh sách hồ sơ bệnh án mới nhất từ database
+                this.fetchMedicalRecords(dataPatient.patientId);
+    
+                // Reset lại giá trị các trường nhập
+                this.setState({
+                    diagnosis: '',
+                    selectedMedicines: [],
+                    note: ''
+                });
+    
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Lỗi!',
-                    text: 'Không thể thêm hồ sơ bệnh án.',
+                    title: 'Error!',
+                    text: 'Unable to add medical record.',
                 });
             }
         } catch (error) {
             console.error('Error adding medical record:', error);
             Swal.fire({
                 icon: 'error',
-                title: 'Lỗi!',
-                text: 'Đã xảy ra lỗi khi thêm hồ sơ bệnh án.',
+                title: 'Error!',
+                text: 'An error occurred while adding the medical record.',
             });
         }
     }
 
-    // Render selected medicines table
-    renderSelectedMedicines = () => {
-        const { addedMedicines, medicineOptions } = this.state;
+    handleSortByDate = () => {
+        const { medicalRecords, sortOrder } = this.state;
+        let sortedRecords = [...medicalRecords];
+    
+        sortedRecords.sort((a, b) => {
+            let dateA = new Date(a.createdAt);
+            let dateB = new Date(b.createdAt);
+    
+            if (sortOrder === 'asc') {
+                return dateA - dateB; // Sắp xếp tăng dần
+            } else {
+                return dateB - dateA; // Sắp xếp giảm dần
+            }
+        });
+    
+        this.setState({
+            medicalRecords: sortedRecords,
+            sortOrder: sortOrder === 'asc' ? 'desc' : 'asc', // Đổi trạng thái sắp xếp
+        });
+    };
+    
 
-        if (addedMedicines.length === 0) {
-            return null; // No medicines added yet
+    renderMedicalRecords = () => {
+        const { medicalRecords } = this.state;
+    
+        if (medicalRecords.length === 0) {
+            return <div>No medical records found.</div>;
         }
-
+    
         return (
-            <div className="added-medicines">
-                <h3>Thuốc đã kê</h3>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Tên thuốc</th>
-                            <th>Thành phần</th>
-                            <th>Công dụng</th>
-                            <th>Tác dụng phụ</th>
-                            <th>Nhà sản xuất</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {addedMedicines.map((med, index) => {
-                            const medicineDetail = medicineOptions.find(option => option.value === med.value);
-                            return (
-                                <tr key={index}>
-                                    <td>{medicineDetail ? medicineDetail.label : ''}</td>
-                                    <td>{medicineDetail ? medicineDetail.composition : ''}</td>
-                                    <td>{medicineDetail ? medicineDetail.uses : ''}</td>
-                                    <td>{medicineDetail ? medicineDetail.sideEffects : ''}</td>
-                                    <td>{medicineDetail ? medicineDetail.manufacturer : ''}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </div>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Diagnosis</th>
+                        <th>Medicines</th>
+                        <th>Note</th>
+                        <th onClick={this.handleSortByDate} style={{ cursor: 'pointer' }}>
+                            Created At (Date & Time) {/* Sắp xếp theo ngày và giờ */}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {medicalRecords.map((record, index) => {
+                        let medicines = [];
+    
+                        if (Array.isArray(record.medicines)) {
+                            medicines = record.medicines;
+                        } else if (typeof record.medicines === 'string') {
+                            try {
+                                medicines = JSON.parse(record.medicines);
+                                if (!Array.isArray(medicines)) {
+                                    medicines = [];
+                                }
+                            } catch (error) {
+                                console.error("Error parsing medicines:", error);
+                                medicines = [];
+                            }
+                        }
+    
+                        return (
+                            <tr key={index}>
+                                <td>{record.diagnosis}</td>
+                                <td>
+                                    <ul>
+                                        {medicines.map((medName, idx) => (
+                                            <li key={idx}>{medName}</li>
+                                        ))}
+                                    </ul>
+                                </td>
+                                <td>{record.note}</td>
+                                <td>{new Date(record.createdAt).toLocaleString()}</td> {/* Hiển thị ngày và giờ tạo */}
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
         );
-    }
+    };
+    
+    
+    
 
     render() {
         const { dataPatient, diagnosis, selectedMedicines, note, medicineOptions } = this.state;
-        const { user } = this.props; // Access the logged-in user's information (doctor)
+        const { user } = this.props;
 
         if (!dataPatient) {
-            return <div>Không có dữ liệu bệnh nhân.</div>;
+            return <div>No patient data available.</div>;
         }
 
         const patient = dataPatient.patientData || {};
         const timeTypeData = dataPatient.timeTypeDataPatient || {};
-
-        console.log('user:', user)
 
         return (
             <>
@@ -186,8 +253,8 @@ class MedicalRecord extends Component {
                                         <h1>{patient.firstName || 'N/A'} {patient.lastName || ''}</h1>
                                         <ul className="contact-info">
                                             <li><strong>Email:</strong> {patient.email || 'N/A'}</li>
-                                            <li><strong>Giới Tính:</strong> {patient.genderData ? patient.genderData.valueVi : 'N/A'}</li>
-                                            <li><strong>Địa chỉ:</strong> {patient.address || 'N/A'}</li>
+                                            <li><strong>Gender:</strong> {patient.genderData ? patient.genderData.valueVi : 'N/A'}</li>
+                                            <li><strong>Address:</strong> {patient.address || 'N/A'}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -195,61 +262,60 @@ class MedicalRecord extends Component {
 
                             <section className="experience section-padding">
                                 <div className="experience-info">
-                                    <h3 className="experience-title">Thông tin giờ khám</h3>
-                                    <p>Giờ khám: {timeTypeData.valueVi || 'N/A'}</p>
+                                    <h3 className="experience-title">Appointment Time</h3>
+                                    <p>Time: {timeTypeData.valueVi || 'N/A'}</p>
                                 </div>
                             </section>
                         </div>
 
                         <div className="prescription-section">
                             <section className="prescription section-padding">
-                                <h3 className="section-title">Chẩn đoán và kê thuốc</h3>
+                                <h3 className="section-title">Diagnosis and Prescription</h3>
                                 <div className="doctor-info">
-                                    <h3>Bác sĩ thực hiện chẩn đoán và kê thuốc:</h3>
+                                    <h3>Doctor:</h3>
                                     {user ? (
-                                        <>
-                                            <p>Tên bác sĩ: <strong>{user.firstName} {user.lastName}</strong></p>
-                                        </>
+                                        <p><strong>{user.firstName} {user.lastName}</strong></p>
                                     ) : (
-                                        <p>Thông tin bác sĩ không khả dụng.</p>
+                                        <p>Doctor information not available.</p>
                                     )}
                                 </div>
                                 <div className="form-group">
-                                    <label>Chẩn đoán</label>
+                                    <label>Diagnosis</label>
                                     <textarea
                                         className="form-control"
                                         value={diagnosis}
                                         onChange={this.handleDiagnosisChange}
-                                        placeholder="Nhập chẩn đoán"
+                                        placeholder="Enter diagnosis"
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>Kê thuốc</label>
+                                    <label>Prescription</label>
                                     <Select
                                         isMulti
                                         value={selectedMedicines}
                                         onChange={this.handleMedicineChange}
                                         options={medicineOptions}
-                                        placeholder="Chọn thuốc"
+                                        placeholder="Select medicines"
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>Ghi chú</label>
+                                    <label>Notes</label>
                                     <input
                                         type="text"
                                         className="form-control"
                                         value={note}
                                         onChange={this.handleNoteChange}
-                                        placeholder="Nhập ghi chú"
+                                        placeholder="Enter notes"
                                     />
                                 </div>
                                 <button className="btn btn-primary" onClick={this.handleAddPrescription}>
-                                    Thêm kê đơn
+                                    Add Prescription
                                 </button>
                             </section>
                         </div>
 
-                        {this.renderSelectedMedicines()}
+                        {/* Render the added medical records */}
+                        {this.renderMedicalRecords()}
                     </div>
                 </div>
             </>

@@ -1,10 +1,11 @@
-$primary-color: #4CAF50; // Màu xanh chủ đạo
-$secondary-color: #f9f9f9; // Màu nền phụ
-$text-color: #333; // Màu văn bản
-$border-radius: 10px; // Bo góc mềm hơn
-$box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); // Đổ bóng nhẹ nhàng hơn
-$transition: 0.3s ease-in-out; // Hiệu ứng chuyển đổi
-$background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background gradient
+// Variables for colors, radius, and other settings
+$primary-color: #4CAF50; // Primary green color
+$secondary-color: #f9f9f9; // Secondary background color
+$text-color: #333; // Text color
+$border-radius: 10px; // Soft border radius
+$box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); // Soft shadow for depth
+$transition: 0.3s ease-in-out; // Transition effect for smoother interaction
+$background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Gradient for background
 
 // General layout and wrapper
 .resume-wrapper {
@@ -13,6 +14,7 @@ $background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background
     min-height: 100vh;
 }
 
+// Container layout for medical sections
 .container.medical-layout {
     display: flex;
     justify-content: space-between;
@@ -20,12 +22,12 @@ $background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background
     flex-wrap: wrap;
     padding: 20px 0;
 
-    // Flex-wrap for mobile responsiveness
     @media (max-width: 768px) {
-        flex-direction: column;
+        flex-direction: column; // Stack elements on small screens
     }
 }
 
+// Patient section and prescription section styles
 .patient-section, .prescription-section {
     flex: 1;
     background-color: white;
@@ -33,9 +35,9 @@ $background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background
     box-shadow: $box-shadow;
     padding: 30px;
     transition: $transition;
-    
+
     &:hover {
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); // Add hover effect
     }
 
     @media (max-width: 768px) {
@@ -109,7 +111,7 @@ $background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background
     }
 }
 
-// Button styling
+// Button styling for submission
 .prescription-section .btn {
     background-color: $primary-color;
     color: white;
@@ -125,7 +127,7 @@ $background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background
     }
 }
 
-// Improve table styling for medicine list
+// Improved table styling for medical records
 .medicine-table {
     margin-top: 40px;
 
@@ -137,7 +139,7 @@ $background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background
         border-radius: $border-radius;
         overflow: hidden;
         box-shadow: $box-shadow;
-        
+
         th, td {
             padding: 20px;
             text-align: left;
@@ -150,6 +152,12 @@ $background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background
             color: white;
             text-transform: uppercase;
             font-weight: bold;
+            cursor: pointer;
+            transition: $transition;
+
+            &:hover {
+                background-color: darken($primary-color, 10%);
+            }
         }
 
         tr:nth-child(even) {
@@ -167,7 +175,7 @@ $background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background
     }
 }
 
-// Responsive styling for smaller screens
+// Responsive styles for mobile
 @media (max-width: 768px) {
     .patient-section, .prescription-section {
         margin-bottom: 20px;
@@ -175,5 +183,47 @@ $background-gradient: linear-gradient(to right, #f1f8e9, #ffffff); // Background
 
     .prescription-section .form-control {
         padding: 12px;
+    }
+
+    .medicine-table table {
+        th, td {
+            padding: 12px;
+            font-size: 1rem;
+        }
+    }
+}
+
+// Footer styling for the record table
+.table-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    color: $text-color;
+
+    .page-info {
+        font-weight: bold;
+    }
+
+    .pagination-buttons {
+        button {
+            background-color: $primary-color;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: $border-radius;
+            transition: $transition;
+
+            &:hover {
+                background-color: darken($primary-color, 10%);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            &:disabled {
+                background-color: lighten($primary-color, 40%);
+                cursor: not-allowed;
+            }
+        }
     }
 }

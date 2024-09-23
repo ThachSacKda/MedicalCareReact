@@ -58,12 +58,18 @@ class ManagePatient extends Component {
             // Lưu dữ liệu bệnh nhân vào localStorage
             localStorage.setItem('selectedPatient', JSON.stringify(patient));
     
-            // Chuyển hướng tới trang hiển thị thông tin bệnh nhân
+            // Lưu thêm medicalRecordId nếu có
+            if (patient.medicalRecordId) {
+                localStorage.setItem('medicalRecordId', patient.medicalRecordId);
+            }
+    
+            // Chuyển hướng tới trang hiển thị thông tin bệnh nhân và medical record
             this.props.history.push(`${path.MEDICAL_RECORD}/${patientId}`);
         } else {
             console.log('Patient ID is undefined.');
         }
     }
+    
     
 
     render() {
