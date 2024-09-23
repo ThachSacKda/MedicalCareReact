@@ -120,6 +120,10 @@ const getMedicalRecordsByPatientId = (patientId) => {
 };
 
 
+const getPatientProfileById = (patientId) => {
+    return axios.get(`/api/patient-profile/${patientId}`);
+};
+
 
 
 
@@ -136,5 +140,5 @@ export { handleLoginApi, getAllUser, createNewUserService,
     postPatientBookingAppointment, postVerifyBookingAppointment, CreateNewSpecialty,
     getAllSpecialty, getDetailDpecialtyById, createNewMedicine, getAllMedicines,
     updateMedicine, deleteMedicine, createNewClinic, getAllPatientsForDoctor, 
-    getDetailPatientById, addMedicalRecord, getMedicalRecordsByPatientId
+    getDetailPatientById, addMedicalRecord, getMedicalRecordsByPatientId, getPatientProfileById
 };

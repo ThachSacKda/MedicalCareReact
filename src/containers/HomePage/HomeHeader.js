@@ -27,8 +27,8 @@ class HomeHeader extends Component {
 
     render() {
         let language = this.props.language;
-        const { isLoggedIn, userInfor } = this.props; // Sử dụng userInfor để hiển thị tên người dùng
-    
+        const { isLoggedIn, userInfor } = this.props; // Use userInfor to display the user’s name
+
         return (
             <React.Fragment>
                 <div className='home-header-cotainer'>
@@ -37,44 +37,23 @@ class HomeHeader extends Component {
                             <i className="fa-solid fa-bars"></i>
                             <div className='header-logo' onClick={() => this.returnToHome()}></div>
                         </div>
-                        {/* <div className='center-content'>
-                            <div className='child-content'>
-                                <div><b><FormattedMessage id="homeheader.speciality" /></b></div>
-                                <div className='subs-title'><FormattedMessage id="homeheader.searchdoctor" /></div>
-                            </div>
-                            <div className='child-content'>
-                                <div><b><FormattedMessage id="homeheader.health-facility" /></b></div>
-                                <div><FormattedMessage id="homeheader.select-room" /></div>
-                            </div>
-                            <div className='child-content'>
-                                <div><b><FormattedMessage id="homeheader.doctor" /></b></div>
-                                <div><FormattedMessage id="homeheader.select-doctor" /></div>
-                            </div>
-    
-                            {isLoggedIn && (
-                                <div className='child-content'>
-                                    <div><b><FormattedMessage id="homeheader.view-profile" /></b></div>
-                                    <div><FormattedMessage id="homeheader.Medical-Record" /></div>
-                                </div>
-                            )}
-                        </div> */}
+
                         <div className='right-content'>
-                            
                             {isLoggedIn && userInfor && (
                                 <div className="user-name">
                                     <span><FormattedMessage id="homeheader.welcome" /> {userInfor.firstName} {userInfor.lastName}</span>
                                 </div>
                             )}
 
-                            {/* Thêm nút điều hướng đến trang quản lý bệnh nhân cho bác sĩ */}
-                            {isLoggedIn && userInfor && userInfor.roleId === 'R2' && (
-                                <div className="manage-patient-link">
-                                    <Link to="/doctor/manage-patient">
-                                        <span>Manage Patients</span>
+                            {/* Link to Patient Profile Page */}
+                            {isLoggedIn && userInfor && userInfor.roleId === 'R3' && ( // Assuming R1 is the patient role
+                                <div className="profile-link">
+                                    <Link to={`${path.MEDICAL_RECORD_BY_PATIENT_ID}/${userInfor.id}`}>
+                                        <span>Profile </span>
                                     </Link>
                                 </div>
                             )}
-    
+
                             {!isLoggedIn && (
                                 <div className='register-link'>
                                     <Link to={path.LOGIN}>
@@ -83,22 +62,20 @@ class HomeHeader extends Component {
                                     </Link>
                                 </div>
                             )}
-    
-                            {/* Link to Register page */}
+
                             <div className='register-link'>
                                 <Link to="/register">
                                     <span><FormattedMessage id="homeheader.register" /></span>
                                 </Link>
                             </div>
-    
-                            {/* Language Switch */}
+
                             <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}>
                                 <span onClick={() => this.changeLanguage(LANGUAGES.VI)}>VN</span>
                             </div>
                             <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}>
                                 <span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span>
                             </div>
-    
+
                             {isLoggedIn && (
                                 <div className="btn btn-logout" onClick={this.handleLogout} title='Log Out'>
                                     <i className="fas fa-sign-out-alt"></i>
@@ -107,7 +84,7 @@ class HomeHeader extends Component {
                         </div>
                     </div>
                 </div>
-    
+
                 {this.props.isShowBanner === true &&
                     <div className='home-header-banner'>
                         <div className='content-up'>
@@ -139,7 +116,6 @@ class HomeHeader extends Component {
             </React.Fragment>
         );
     }
-    
 }
 
 const mapStateToProps = state => {
