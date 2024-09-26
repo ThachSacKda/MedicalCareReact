@@ -18,7 +18,7 @@ class PatientProfile extends Component {
         this.handleSortByCreatedAt = this.handleSortByCreatedAt.bind(this); // Bind the sort handler
     }
 
-    // Convert buffer array to Base64
+    // This function takes the buffer (binary data) and converts it to a Base64 string
     arrayBufferToBase64(buffer) {
         let binary = '';
         let bytes = new Uint8Array(buffer);
@@ -26,25 +26,32 @@ class PatientProfile extends Component {
         for (let i = 0; i < len; i++) {
             binary += String.fromCharCode(bytes[i]);
         }
-        return window.btoa(binary);
+        return window.btoa(binary); // Convert binary string to Base64
     }
+
+    // Fetch and convert the image
+    fetchImageAndConvertToBase64 = async (imageBlob) => {
+        // Assuming imageBlob is the binary data (BLOB)
+        const base64String = `data:image/jpeg;base64,${this.arrayBufferToBase64(imageBlob)}`;
+        console.log(base64String); // This will log the Base64 string
+        return base64String;
+    };
+
+
 
     fetchPatientProfile = async (patientId) => {
         try {
             const response = await getPatientProfileById(patientId);
-            console.log("API Response: ", response); // Log the API response
 
             if (response && response.errCode === 0) {
                 const patientInfo = response.data.patientInfo;
 
-                // Convert image buffer to Base64
                 let imageSrc = '';
                 if (patientInfo.image && patientInfo.image.data) {
                     imageSrc = `data:image/jpeg;base64,${this.arrayBufferToBase64(patientInfo.image.data)}`;
                 }
 
                 this.setState({ patientInfo, imageSrc });
-                console.log("Patient Info: ", patientInfo); // Log the patient data to see the structure
             } else {
                 console.error('Failed to fetch patient profile');
             }
@@ -52,6 +59,9 @@ class PatientProfile extends Component {
             console.error('Error fetching patient profile:', error);
         }
     };
+
+
+
 
     componentDidMount() {
         const { userInfor } = this.props;
@@ -130,48 +140,44 @@ class PatientProfile extends Component {
         );
     };
 
-    render() {
-        const { patientInfo, imageSrc } = this.state;
+   render() {
+    const { patientInfo, imageSrc } = this.state;
 
-        if (!patientInfo) {
-            return <div>Loading patient profile...</div>;
-        }
+    if (!patientInfo) {
+        return <div>Loading patient profile...</div>;
+    }
 
-        return (
-            <div>
-                <HomeHeader />
-                <div className="patient-profile-wrapper">
-                    <div className="patient-info">
-                        <div
-                            className="patient-photo"
-                            style={{
-                                backgroundImage: imageSrc ? `url(${imageSrc})` : 'none',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                width: '150px',
-                                height: '150px',
-                                borderRadius: '50%',
-                            }}
-                        >
-                            {/* Fallback content */}
-                            {!imageSrc && <span className="no-photo">No Photo</span>}
-                        </div>
-
-                        <h1>{patientInfo.firstName || 'No First Name'} {patientInfo.lastName || 'No Last Name'}</h1>
-                        <p><strong>Email:</strong> {patientInfo.email || 'No Email'}</p>
-                        <p><strong>Gender:</strong> {patientInfo.gender === 'M' ? 'Male' : 'Female'}</p>
-                        <p><strong>Address:</strong> {patientInfo.address || 'No Address'}</p>
+    return (
+        <div>
+            <HomeHeader />
+            <div className="patient-profile-wrapper">
+                <div className="patient-info">
+                    <div className="patient-photo">
+                        {imageSrc ? (
+                            <img
+                                src={imageSrc}
+                                alt="Patient"
+                            />
+                        ) : (
+                            <span className="no-photo">No Photo</span>
+                        )}
                     </div>
 
+                    <h1>{patientInfo.firstName || 'No First Name'} {patientInfo.lastName || 'No Last Name'}</h1>
+                    <p><strong>Email:</strong> {patientInfo.email || 'No Email'}</p>
+                    <p><strong>Gender:</strong> {patientInfo.gender === 'M' ? 'Male' : 'Female'}</p>
+                    <p><strong>Address:</strong> {patientInfo.address || 'No Address'}</p>
+                </div>
 
-                    <div className="medical-records-section">
-                        <h2>Medical Records</h2>
-                        {this.renderMedicalRecords()}
-                    </div>
+                <div className="medical-records-section">
+                    <h2>Medical Records</h2>
+                    {this.renderMedicalRecords()}
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
+}
+
 }
 
 const mapStateToProps = state => {
