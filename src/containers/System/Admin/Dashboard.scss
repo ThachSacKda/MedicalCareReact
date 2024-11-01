@@ -1,0 +1,48 @@
+.dashboard-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    
+    h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .statistics-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        .stat-item {
+            text-align: center;
+
+            p {
+                font-size: 16px;
+                color: #555;
+                margin: 5px 0;
+            }
+
+            .stat-number {
+                font-size: 20px;
+                color: #333;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .chart-container {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}

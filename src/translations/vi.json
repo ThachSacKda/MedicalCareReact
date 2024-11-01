@@ -60,7 +60,9 @@
             "speciality": "Chuyên khoa",
             "manage-speciality": "Quản lí chuyên khoa",
             "medicine": "Thuốc",
-            "manage-medicine": "Quản lí thuốc"
+            "manage-medicine": "Quản lí thuốc",
+            "manage-dasboard": "Biểu Đồ",
+            "dashboard": "Biểu Đồ"
         
         
         },

@@ -51,6 +51,16 @@ export const adminMenu = [
 
         ]
     },
+    { //dashboard
+        name: 'menu.admin.dashboard',
+        menus: [
+            {
+                name: 'menu.admin.manage-dasboard', link: '/admin/dashboard',
+
+            },
+
+        ]
+    },
 ];
 
 export const doctorMenu = [

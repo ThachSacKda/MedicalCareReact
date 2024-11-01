@@ -58,7 +58,9 @@
             "speciality": "Speciality",
             "manage-speciality": "Speciality Management",
             "medicine": "Medicine",
-            "manage-medicine": "Medicine Management"
+            "manage-medicine": "Medicine Management",
+            "manage-dasboard": "Dashboard",
+            "dashboard": "Dashboard"
         }, 
         "doctor": {
             "manage-schedule": "Manage Doctor's Schedule",

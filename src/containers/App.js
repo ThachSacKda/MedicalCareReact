@@ -22,6 +22,8 @@ import Medicine from './Pharmacy/Medicine';
 import Register from './Auth/Register';
 import MedicalRecord from './Patient/MedicalRecord/MedicalRecord'
 import PatientProfile from './Patient/MedicalRecord/PatientProfile';
+import Dashboard from '../containers/System/Admin/Dashboard';
+
 
 class App extends Component {
 
@@ -65,8 +67,7 @@ class App extends Component {
                                 <Route path={path.REGISTER} component={Register} />
                                 <Route path={`${path.MEDICAL_RECORD}/:id`} component={MedicalRecord} />
                                 <Route path={`${path.MEDICAL_RECORD_BY_PATIENT_ID}/:id`} component={PatientProfile} />
-
-
+                                <Route path={path.DASHBOARD} component={Dashboard} />
 
                             </Switch>
                         </CustomScrollbars>
