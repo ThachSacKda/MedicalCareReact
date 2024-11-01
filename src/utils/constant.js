@@ -11,7 +11,9 @@ export const path = {
     REGISTER: '/register',
     MEDICAL_RECORD: '/patient-medical-record',
     MEDICAL_RECORD_BY_PATIENT_ID: '/medical-record-by-patient',
-    DASHBOARD: '/admin/dashboard'
+    DASHBOARD: '/admin/dashboard',
+    BOOKING_HISTORY: '/history/:patientId'
+
 };
 
 export const LANGUAGES = {

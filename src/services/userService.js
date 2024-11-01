@@ -129,6 +129,9 @@ const getAppointmentStatistics = () => {
 const getWeeklyBookingStatistics = () => {
     return axios.get('/api/admin/dashboard/weekly-appointments');
 };
+const getBookingHistoryByPatientId = (patientId) => {
+    return axios.get(`/api/patient/booking-history?patientId=${patientId}`);
+};
 
 
 
@@ -146,5 +149,5 @@ export { handleLoginApi, getAllUser, createNewUserService,
     getAllSpecialty, getDetailDpecialtyById, createNewMedicine, getAllMedicines,
     updateMedicine, deleteMedicine, createNewClinic, getAllPatientsForDoctor, 
     getDetailPatientById, addMedicalRecord, getMedicalRecordsByPatientId, getPatientProfileById,
-    getAppointmentStatistics, getWeeklyBookingStatistics
+    getAppointmentStatistics, getWeeklyBookingStatistics, getBookingHistoryByPatientId
 };

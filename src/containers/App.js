@@ -23,7 +23,7 @@ import Register from './Auth/Register';
 import MedicalRecord from './Patient/MedicalRecord/MedicalRecord'
 import PatientProfile from './Patient/MedicalRecord/PatientProfile';
 import Dashboard from '../containers/System/Admin/Dashboard';
-
+import BookingHistory from "../containers/Patient/BookingHistory"
 
 class App extends Component {
 
@@ -68,6 +68,8 @@ class App extends Component {
                                 <Route path={`${path.MEDICAL_RECORD}/:id`} component={MedicalRecord} />
                                 <Route path={`${path.MEDICAL_RECORD_BY_PATIENT_ID}/:id`} component={PatientProfile} />
                                 <Route path={path.DASHBOARD} component={Dashboard} />
+                                <Route path={path.BOOKING_HISTORY} component={BookingHistory} />
+
 
                             </Switch>
                         </CustomScrollbars>

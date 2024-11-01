@@ -54,6 +54,16 @@ class HomeHeader extends Component {
                                 </div>
                             )}
 
+                            {/* New Link to Booking History */}
+                            {isLoggedIn && userInfor && userInfor.roleId === 'R3' && (
+                                <div className="history-link">
+                                    <Link to={`${path.BOOKING_HISTORY.replace(':patientId', userInfor.id)}`}>
+                                        <span>Booking History</span>
+                                    </Link>
+                                </div>
+                            )}
+
+
                             {!isLoggedIn && (
                                 <div className='register-link'>
                                     <Link to={path.LOGIN}>

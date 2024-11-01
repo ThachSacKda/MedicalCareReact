@@ -51,30 +51,31 @@
         .right-content {
             display: flex;
             align-items: center;
-            gap: 15px; // Adjust spacing for better balance
+            gap: 15px;
             padding-right: 20px;
         
             .user-name {
-                font-size: 14px; // Maintain smaller font size
+                font-size: 14px;
                 font-weight: bold;
                 color: #2c3e50;
                 background-color: #fdfdfd;
-                padding: 8px 14px; // Slightly increase padding for better spacing
+                padding: 8px 14px;
                 border-radius: 12px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); // Soft shadow for subtle depth
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
                 transition: background-color 0.3s ease, box-shadow 0.3s ease;
         
                 &:hover {
                     background-color: #f7f7f7;
-                    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12); // Enhanced shadow on hover
+                    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
                 }
             }
         
-            .profile-link {
-                padding: 6px 10px; // Balanced padding
+            .profile-link, .history-link {
+                padding: 6px 10px;
                 background-color: #eaf5f9;
                 border-radius: 12px;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); // Subtle shadow
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+                transition: background-color 0.3s ease, box-shadow 0.3s ease;
         
                 a {
                     text-decoration: none;
@@ -84,7 +85,7 @@
         
                 &:hover {
                     background-color: #dff0f5;
-                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); // Enhanced shadow on hover
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
                 }
             }
         
@@ -93,7 +94,7 @@
                 background-color: #f5f5f5;
                 border-radius: 12px;
                 transition: background-color 0.3s ease, box-shadow 0.3s ease;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); // Softer shadow for balance
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         
                 a {
                     text-decoration: none;
@@ -103,7 +104,7 @@
         
                 &:hover {
                     background-color: #e0e0e0;
-                    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15); // Slightly increased shadow on hover
+                    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
                 }
             }
         
@@ -125,7 +126,7 @@
         
                 &:hover {
                     opacity: 1;
-                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); // Hover shadow
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
                 }
             }
         
@@ -166,6 +167,7 @@
                 }
             }
         }
+        
         
 
         
