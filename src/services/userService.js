@@ -126,6 +126,9 @@ const getPatientProfileById = (patientId) => {
 const getAppointmentStatistics = () => {
     return axios.get('/api/admin/dashboard/appointments');
 };
+const getWeeklyBookingStatistics = () => {
+    return axios.get('/api/admin/dashboard/weekly-appointments');
+};
 
 
 
@@ -143,5 +146,5 @@ export { handleLoginApi, getAllUser, createNewUserService,
     getAllSpecialty, getDetailDpecialtyById, createNewMedicine, getAllMedicines,
     updateMedicine, deleteMedicine, createNewClinic, getAllPatientsForDoctor, 
     getDetailPatientById, addMedicalRecord, getMedicalRecordsByPatientId, getPatientProfileById,
-    getAppointmentStatistics
+    getAppointmentStatistics, getWeeklyBookingStatistics
 };

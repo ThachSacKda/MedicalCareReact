@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getAppointmentStatistics } from '../../../services/userService';
+import { getAppointmentStatistics, getWeeklyBookingStatistics } from '../../../services/userService';
 import DashboardChart from './DashboardChart';
+import DashboardWeeklyChart from './DashboardWeeklyChart'; // Thêm biểu đồ tuần mới
 import './Dashboard.scss';
 import Header from '../../Header/Header';
 import { connect } from 'react-redux';
@@ -13,43 +14,58 @@ const Dashboard = ({ userInfor }) => {
         unconfirmedAppointments: 0,
         confirmedAppointments: 0,
     });
+    const [weeklyStats, setWeeklyStats] = useState({
+        Monday: { S1: 0, S2: 0 },
+        Tuesday: { S1: 0, S2: 0 },
+        Wednesday: { S1: 0, S2: 0 },
+        Thursday: { S1: 0, S2: 0 },
+        Friday: { S1: 0, S2: 0 },
+        Saturday: { S1: 0, S2: 0 },
+        Sunday: { S1: 0, S2: 0 },
+    });
 
     const history = useHistory();
 
     useEffect(() => {
-        // Check if the user is an admin
         if (userInfor?.roleId !== 'R1') {
-            // Redirect to login or another page if not an admin
             history.push('/login');
             return;
         }
         fetchStatistics();
+        fetchWeeklyStatistics();
     }, [userInfor]);
 
     const fetchStatistics = async () => {
         try {
             let response = await getAppointmentStatistics();
-            console.log("Full API Response:", response);
-
-            // Check if the data structure matches our expectations
             if (response && response.errCode === 0) {
                 let data = response.data;
-                console.log("Setting statistics with data:", data);
-                
-                // Update state with the fetched data
                 setStatistics({
                     totalAppointments: data.totalAppointments || 0,
                     todayAppointments: data.todayAppointments || 0,
                     unconfirmedAppointments: data.unconfirmedAppointments || 0,
                     confirmedAppointments: data.confirmedAppointments || 0,
                 });
-            } else {
-                console.error("Unexpected response data structure:", response.data);
             }
         } catch (error) {
             console.error("Error fetching appointment statistics:", error);
         }
     };
+
+    const fetchWeeklyStatistics = async () => {
+        try {
+            let response = await getWeeklyBookingStatistics();
+            console.log("Full API Response:", response); // In toàn bộ response để kiểm tra cấu trúc
+            if (response && response.errCode === 0) {          
+                setWeeklyStats(response.data); 
+            } else {
+                console.warn("Invalid response or errCode is not 0:", response);
+            }
+        } catch (error) {
+            console.error("Error fetching weekly booking statistics:", error);
+        }
+    };
+    
 
     return (
         <div>
@@ -58,19 +74,19 @@ const Dashboard = ({ userInfor }) => {
                 <h2>DASHBOARD</h2>
                 <div className="statistics-container">
                     <div className="stat-item">
-                        <p>Tổng số lịch hẹn</p>
+                        <p>Total number of appointments</p>
                         <p className="stat-number">{statistics.totalAppointments}</p>
                     </div>
                     <div className="stat-item">
-                        <p>Lịch hẹn hôm nay</p>
+                        <p>Appointment schedule today</p>
                         <p className="stat-number">{statistics.todayAppointments}</p>
                     </div>
                     <div className="stat-item">
-                        <p>Lịch hẹn chưa xác nhận (S1)</p>
+                        <p>Appointment schedule not confirmed</p>
                         <p className="stat-number">{statistics.unconfirmedAppointments}</p>
                     </div>
                     <div className="stat-item">
-                        <p>Lịch hẹn đã xác nhận (S2)</p>
+                        <p>Appointment confirmed</p>
                         <p className="stat-number">{statistics.confirmedAppointments}</p>
                     </div>
                 </div>
@@ -80,13 +96,17 @@ const Dashboard = ({ userInfor }) => {
                         confirmedAppointments={statistics.confirmedAppointments} 
                     />
                 </div>
+                <div className="weekly-chart-container">
+                    <h3>Appointment schedule by day of the week</h3>
+                    <DashboardWeeklyChart weeklyStats={weeklyStats} />
+                </div>
             </div>
         </div>
     );
 };
 
 const mapStateToProps = state => ({
-    userInfor: state.user.userInfor, // Access user info from Redux state
+    userInfor: state.user.userInfor,
 });
 
 export default connect(mapStateToProps)(Dashboard);
