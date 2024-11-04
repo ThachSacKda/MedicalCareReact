@@ -32,15 +32,14 @@
         "refresh": "Refresh",
         "accept": "Chấp nhận",
         "confirm": "Xác nhận",
-        "confirm-this-task": "Bạn có chắc chắn thực hiện tác vụ này?",
-        "fail-to-load-data": "Không thể tải về dữ liệu",
-        "unknown-error": "Có lỗi xảy ra",
-        "internal-server-error": "Lỗi kết nối",
-        "bad-request": "Yêu cầu không hợp lệ",
-        "forbiden-request": "Thông tin truyền vào không hợp lệ",
-        "fail-to-load-all-code": "Không thể tải về dữ liệu allcode",
-        "sum": "Tổng",
-        "date-range-invalid": "Khoảng thời gian không hợp lệ"
+        "history": "Lịch sử đặt lịch",
+        "warningtext": "*Hệ thống không cung cấp việc chỉnh sửa lịch hẹn. Nếu có bất cứ thay đổi nào, vui lòng hủy lịch hẹn hiện tại và đặt lại lịch hẹn mới.",
+        "No": "STT",
+        "Date": "Ngày",
+        "Status": "Trạng Thái",
+        "Time": "Thời Gian",
+        "Name": "Tên",
+        "Action": "Thao Tác"
     },
     "login": {
         "login": "Đăng nhập",

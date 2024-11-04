@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams
+import { useParams } from 'react-router-dom';
 import { getBookingHistoryByPatientId } from '../../services/userService';
 import './BookingHistory.scss';
 import HomeHeader from '../HomePage/HomeHeader';
+import { FormattedMessage } from 'react-intl';
 
 const BookingHistory = () => {
-    const { patientId } = useParams(); // Use useParams to get patientId
+    const { patientId } = useParams();
     const [bookingHistory, setBookingHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -36,6 +37,11 @@ const BookingHistory = () => {
         return date.toLocaleDateString('en-GB');
     };
 
+    const handleCancelBooking = (bookingId) => {
+        // TODO: Implement the cancel booking functionality
+        alert(`Booking with ID ${bookingId} has been canceled.`);
+    };
+
     if (loading) return <p>Loading data...</p>;
     if (error) return <p>{error}</p>;
 
@@ -43,32 +49,46 @@ const BookingHistory = () => {
         <div className="booking-history-page">
             <HomeHeader />
             <div className="booking-history-container">
-                <h2>Booking History</h2>
+                <h2><FormattedMessage id="common.history"/></h2>
                 {Array.isArray(bookingHistory) && bookingHistory.length === 0 ? (
                     <p>No booking history found.</p>
                 ) : (
-                    <table className="booking-history-table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Time</th>
-                                <th>Patient Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.isArray(bookingHistory) && bookingHistory.map((booking, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td> {/* Display index starting from 1 */}
-                                    <td>{formatDate(booking.date)}</td>
-                                    <td>{booking.statusId === 'S2' ? 'Confirmed' : 'Pending'}</td>
-                                    <td>{booking.timeTypeDataPatient?.valueVi || booking.timeType}</td>
-                                    <td>{`${booking.patientData?.firstName || ''} ${booking.patientData?.lastName || ''}`}</td>
+                    <>
+                        <table className="booking-history-table">
+                            <thead>
+                                <tr>
+                                    <th><FormattedMessage id="common.No"/> </th>
+                                    <th><FormattedMessage id="common.Date"/> </th>
+                                    <th><FormattedMessage id="common.Status"/> </th>
+                                    <th><FormattedMessage id="common.Time"/> </th>
+                                    <th><FormattedMessage id="common.Name"/> </th>
+                                    <th><FormattedMessage id="common.Action"/></th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {Array.isArray(bookingHistory) && bookingHistory.map((booking, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td> {/* Display index starting from 1 */}
+                                        <td>{formatDate(booking.date)}</td>
+                                        <td>{booking.statusId === 'S2' ? 'Confirmed' : 'Pending'}</td>
+                                        <td>{booking.timeTypeDataPatient?.valueVi || booking.timeType}</td>
+                                        <td>{`${booking.patientData?.firstName || ''} ${booking.patientData?.lastName || ''}`}</td>
+                                        <td>
+                                            <button
+                                                className="cancel-button"
+                                                onClick={() => handleCancelBooking(booking.id)}
+                                            >
+                                                Cancel
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <p className="warning-text">
+                            <FormattedMessage id="common.warningtext"/> 
+                        </p>
+                    </>
                 )}
             </div>
         </div>

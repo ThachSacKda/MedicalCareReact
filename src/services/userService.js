@@ -139,7 +139,6 @@ const getBookingHistoryByPatientId = (patientId) => {
 
 
 
-
 export { handleLoginApi, getAllUser, createNewUserService, 
     deleteUserService, editUserService, getAllCodeService, 
     getTopDocTorHomeService, getAllDoctors, saveDetailDoctorService,
@@ -149,5 +148,5 @@ export { handleLoginApi, getAllUser, createNewUserService,
     getAllSpecialty, getDetailDpecialtyById, createNewMedicine, getAllMedicines,
     updateMedicine, deleteMedicine, createNewClinic, getAllPatientsForDoctor, 
     getDetailPatientById, addMedicalRecord, getMedicalRecordsByPatientId, getPatientProfileById,
-    getAppointmentStatistics, getWeeklyBookingStatistics, getBookingHistoryByPatientId
+    getAppointmentStatistics, getWeeklyBookingStatistics, getBookingHistoryByPatientId, 
 };

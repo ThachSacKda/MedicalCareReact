@@ -64,4 +64,25 @@
         font-size: 18px;
         margin-top: 20px;
     }
+    .cancel-button {
+        padding: 8px 12px;
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    
+        &:hover {
+            background-color: #c0392b;
+        }
+    }
+    
+    .warning-text {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #e74c3c;
+        text-align: center;
+    }
+    
 }
