@@ -133,6 +133,12 @@ const getBookingHistoryByPatientId = (patientId) => {
     return axios.get(`/api/patient/booking-history?patientId=${patientId}`);
 };
 
+const deleteBookingById = (bookingId) => {
+    return axios.delete('/api/patient/booking', { 
+        data: { bookingId } // Gửi bookingId trong body
+    });
+};
+
 
 
 
@@ -148,5 +154,5 @@ export { handleLoginApi, getAllUser, createNewUserService,
     getAllSpecialty, getDetailDpecialtyById, createNewMedicine, getAllMedicines,
     updateMedicine, deleteMedicine, createNewClinic, getAllPatientsForDoctor, 
     getDetailPatientById, addMedicalRecord, getMedicalRecordsByPatientId, getPatientProfileById,
-    getAppointmentStatistics, getWeeklyBookingStatistics, getBookingHistoryByPatientId, 
+    getAppointmentStatistics, getWeeklyBookingStatistics, getBookingHistoryByPatientId, deleteBookingById
 };

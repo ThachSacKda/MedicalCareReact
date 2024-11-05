@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getBookingHistoryByPatientId } from '../../services/userService';
+import { getBookingHistoryByPatientId, deleteBookingById } from '../../services/userService';
 import './BookingHistory.scss';
 import HomeHeader from '../HomePage/HomeHeader';
 import { FormattedMessage } from 'react-intl';
@@ -11,6 +11,7 @@ const BookingHistory = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Hàm để lấy dữ liệu lịch sử booking
     useEffect(() => {
         const fetchBookingHistory = async () => {
             try {
@@ -32,14 +33,27 @@ const BookingHistory = () => {
         fetchBookingHistory();
     }, [patientId]);
 
+    // Hàm định dạng ngày tháng
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-GB');
     };
 
-    const handleCancelBooking = (bookingId) => {
-        // TODO: Implement the cancel booking functionality
-        alert(`Booking with ID ${bookingId} has been canceled.`);
+    // Hàm để xử lý hủy booking
+    const handleCancelBooking = async (bookingId) => {
+        try {
+            const response = await deleteBookingById(bookingId); // Gọi API để xóa booking
+            if (response.data.errCode === 0) {
+                alert("Booking canceled successfully.");
+                // Cập nhật lại danh sách booking sau khi xóa
+                setBookingHistory(prevHistory => prevHistory.filter(booking => booking.id !== bookingId));
+            } else {
+                alert(response.data.errMessage || "Error canceling booking.");
+            }
+        } catch (error) {
+            alert("Error canceling booking.");
+            console.error("Error canceling booking:", error);
+        }
     };
 
     if (loading) return <p>Loading data...</p>;
@@ -68,7 +82,7 @@ const BookingHistory = () => {
                             <tbody>
                                 {Array.isArray(bookingHistory) && bookingHistory.map((booking, index) => (
                                     <tr key={index}>
-                                        <td>{index + 1}</td> {/* Display index starting from 1 */}
+                                        <td>{index + 1}</td>
                                         <td>{formatDate(booking.date)}</td>
                                         <td>{booking.statusId === 'S2' ? 'Confirmed' : 'Pending'}</td>
                                         <td>{booking.timeTypeDataPatient?.valueVi || booking.timeType}</td>
