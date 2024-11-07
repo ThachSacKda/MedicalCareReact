@@ -11,45 +11,60 @@ class DoctorExtraInfor extends Component {
         super(props);
         this.state = {
             isShowDetailInfor: false,
-            extraInfor: {}
+            extraInfor: {},
+            allAvailableTime: [], // Initialize to store available time slots
         }
     }
 
     async componentDidMount() {
-        if(this.props.doctorIdFromParent){
-        let res = await getExtraInforDoctorById(this.props.doctorIdFromParent);
-            if (res && res.errCode === 0) {
-                this.setState({
-                    extraInfor: res.data
-                })
-            }
-        }
-     }
-
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.language !== prevProps.language) {
-            // Update component when language changes
-        }
-
-        if (this.props.doctorIdFromParent !== prevProps.doctorIdFromParent) {
+        if (this.props.doctorIdFromParent) {
             let res = await getExtraInforDoctorById(this.props.doctorIdFromParent);
             if (res && res.errCode === 0) {
                 this.setState({
-                    extraInfor: res.data
-                })
+                    extraInfor: res.data,
+                    allAvailableTime: res.data.availableTimeSlots || [] // Assuming API returns available time slots
+                });
             }
         }
     }
 
+    handleClickScheduleTime = (timeSlot) => {
+        if (timeSlot.isBooked) {
+            // Nếu thời gian đã được đặt, không làm gì cả
+            return;
+        }
+
+        // Nếu thời gian chưa được đặt, mở BookingModel và đánh dấu `isBooked`
+        this.setState({
+            selectedTimeSlot: timeSlot, // lưu timeSlot để truyền cho BookingModel
+            isBookingModelOpen: true
+        });
+    }
+
+    toggleBookingModel = () => {
+        this.setState({ isBookingModelOpen: !this.state.isBookingModelOpen });
+    }
+
+    onBookingSuccess = (timeSlotId) => {
+        // Cập nhật trạng thái isBooked của timeSlot đã chọn
+        this.setState((prevState) => ({
+            allAvailableTime: prevState.allAvailableTime.map((slot) =>
+                slot.id === timeSlotId ? { ...slot, isBooked: true } : slot
+            ),
+            isBookingModelOpen: false
+        }));
+    }
+
+
     showHideDetailInfor = () => {
         this.setState({
-            isShowDetailInfor: !this.state.isShowDetailInfor  // Toggle detail info visibility
+            isShowDetailInfor: !this.state.isShowDetailInfor
         });
     }
 
     render() {
-        let { isShowDetailInfor, extraInfor } = this.state;
-        let { language } = this.props; // Correctly get language from props
+        let { isShowDetailInfor, extraInfor, allAvailableTime } = this.state;
+        let { language } = this.props;
 
         return (
             <div className='doctor-extra-infor-container'>
@@ -81,7 +96,7 @@ class DoctorExtraInfor extends Component {
                                     }
                                     {extraInfor && extraInfor.priceTypeData && language === LANGUAGES.EN &&
                                         <NumberFormat
-                                            value={extraInfor.priceTypeData.valueEn} // Use valueEn for English
+                                            value={extraInfor.priceTypeData.valueEn}
                                             displayType={'text'}
                                             thousandSeparator={true}
                                             prefix={'$'}
@@ -91,7 +106,6 @@ class DoctorExtraInfor extends Component {
                             </span>
                             <span className='toggle-details' onClick={this.showHideDetailInfor}>
                                 <FormattedMessage id='patient.more-detail' />
-
                             </span>
                         </div>
                     )}
@@ -123,7 +137,6 @@ class DoctorExtraInfor extends Component {
                                 </div>
                                 <div className='note'>
                                     {extraInfor && extraInfor.note ? extraInfor.note : ''}
-
                                 </div>
                             </div>
                             <div className='payment'>
@@ -133,13 +146,27 @@ class DoctorExtraInfor extends Component {
 
                                 {extraInfor && extraInfor.paymentTypeData && language === LANGUAGES.EN
                                     ? extraInfor.paymentTypeData.valueEn : ''}
-
                             </div>
                             <div className='hide-price'>
                                 <span onClick={this.showHideDetailInfor}><FormattedMessage id='patient.hide-price' /></span>
                             </div>
                         </div>
                     )}
+
+                    {/* Render available time slots with disabled functionality */}
+                    <div className="time-content">
+                        {allAvailableTime && allAvailableTime.map((item, index) => (
+                            <button
+                                key={index}
+                                className="time-button"
+                                disabled={item.isBooked} // Vô hiệu hóa nếu thời gian đã được đặt
+                                onClick={() => this.handleClickScheduleTime(item)}
+                            >
+                                <span>{language === LANGUAGES.VI ? item.timeTypeData.valueVi : item.timeTypeData.valueEn}</span>
+                                {!item.isBooked && <div className="pulse"></div>}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
         );

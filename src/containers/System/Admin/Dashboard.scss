@@ -1,5 +1,5 @@
 .dashboard-container {
-    padding: 30px 20px 20px; /* Add padding to the top */
+    padding: 30px 20px;
     padding-top: 80px; /* Adjust this value to match your header's height */
     max-width: 1000px;
     margin: 0 auto;
@@ -69,6 +69,76 @@
             font-weight: 600;
             margin-bottom: 20px;
             text-align: center;
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+        .statistics-container {
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        h2 {
+            font-size: 32px;
+        }
+
+        .chart-container,
+        .weekly-chart-container {
+            padding: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .statistics-container {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 15px;
+        }
+
+        .stat-item {
+            margin: 10px 0;
+            padding: 10px;
+        }
+
+        h2 {
+            font-size: 28px;
+        }
+
+        .chart-container,
+        .weekly-chart-container {
+            padding: 15px;
+        }
+
+        .chart-container h3,
+        .weekly-chart-container h3 {
+            font-size: 22px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        padding: 20px 10px;
+
+        h2 {
+            font-size: 24px;
+        }
+
+        .statistics-container {
+            gap: 10px;
+        }
+
+        .stat-item {
+            padding: 8px;
+        }
+
+        .chart-container,
+        .weekly-chart-container {
+            padding: 10px;
+        }
+
+        .chart-container h3,
+        .weekly-chart-container h3 {
+            font-size: 20px;
         }
     }
 }

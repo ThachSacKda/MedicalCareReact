@@ -223,22 +223,22 @@
             gap: 15px; /* Reduced gap for smaller buttons */
 
             .time-button {
-                padding: 10px 20px; /* Smaller button size */
-                font-size: 16px; /* Smaller font */
+                padding: 10px 20px; /* Kích thước nút nhỏ hơn */
+                font-size: 16px; /* Cỡ chữ nhỏ hơn */
                 font-weight: 600;
                 text-align: center;
                 color: #ffffff;
-                background: linear-gradient(145deg, #a0e8af, #5ec976); /* Light green gradient */
+                background: linear-gradient(145deg, #a0e8af, #5ec976); /* Gradient xanh nhạt */
                 border: none;
-                border-radius: 40px; /* Smaller border radius */
+                border-radius: 40px; /* Bo tròn nhỏ hơn */
                 cursor: pointer;
                 box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), 
-                            inset 0 -2px 6px rgba(0, 0, 0, 0.15); /* Smaller shadow */
+                            inset 0 -2px 6px rgba(0, 0, 0, 0.15); /* Đổ bóng nhỏ hơn */
                 transition: all 0.3s ease;
                 position: relative;
                 overflow: hidden;
                 z-index: 1;
-
+            
                 &:before {
                     content: '';
                     position: absolute;
@@ -251,25 +251,25 @@
                     transition: opacity 0.5s ease;
                     z-index: -1;
                 }
-
+            
                 &:hover {
-                    background: linear-gradient(145deg, #5ec976, #a0e8af); /* Reversed gradient */
+                    background: linear-gradient(145deg, #5ec976, #a0e8af); /* Đảo gradient khi hover */
                     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
-                                inset 0 -4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
-                    transform: translateY(-4px); /* Slight lift effect */
+                                inset 0 -4px 8px rgba(0, 0, 0, 0.2); /* Bóng mạnh hơn khi hover */
+                    transform: translateY(-4px); /* Hiệu ứng nâng nhẹ */
                 }
-
+            
                 &:hover:before {
                     opacity: 1;
                 }
-
+            
                 &:active {
                     transform: scale(0.95);
                     background: linear-gradient(145deg, #5ec976, #a0e8af);
                     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4),
-                                inset 0 -6px 12px rgba(0, 0, 0, 0.3); /* Stronger inner shadow */
+                                inset 0 -6px 12px rgba(0, 0, 0, 0.3); /* Bóng mạnh hơn bên trong khi active */
                 }
-
+            
                 &:after {
                     content: '';
                     position: absolute;
@@ -283,12 +283,13 @@
                     transition: transform 0.4s ease;
                     z-index: -1;
                 }
-
+            
                 &:hover:after {
                     transform: scale(1.2);
                     opacity: 0;
                 }
-
+            
+                // Hiệu ứng "pulse" khi nút chưa bị vô hiệu hóa
                 .pulse {
                     position: absolute;
                     top: 50%;
@@ -300,11 +301,40 @@
                     transform: translate(-50%, -50%);
                     opacity: 0;
                 }
-
+            
                 &:hover .pulse {
                     animation: pulse 2s infinite;
                 }
+            
+                // Style cho nút khi bị vô hiệu hóa
+                &:disabled {
+                    background: #cccccc; /* Màu xám khi bị vô hiệu hóa */
+                    color: #666666;      /* Màu chữ xám khi bị vô hiệu hóa */
+                    cursor: not-allowed; /* Con trỏ chuột không được phép khi bị vô hiệu hóa */
+                    box-shadow: none;    /* Loại bỏ đổ bóng khi vô hiệu hóa */
+                    
+                    &:before, &:after, .pulse {
+                        display: none;   /* Ẩn hiệu ứng before, after, và pulse khi vô hiệu hóa */
+                    }
+                }
             }
+            
+            // Hiệu ứng "pulse" để tô điểm thêm khi nút chưa bị vô hiệu hóa
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.5);
+                    opacity: 0.5;
+                }
+                100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+            
         }
     }
 }

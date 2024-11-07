@@ -70,7 +70,7 @@
                 }
             }
         
-            .profile-link, .history-link {
+            .profile-link, .history-link, .dashboard-link {
                 padding: 6px 10px;
                 background-color: #eaf5f9;
                 border-radius: 12px;
@@ -132,7 +132,7 @@
         
             .language-vi {
                 &.active span {
-                    color: #e74c3c; // Red when active
+                    color: #e74c3c; // Đỏ khi đang active
                 }
         
                 &:hover span {
@@ -144,7 +144,7 @@
                 margin-left: 8px;
         
                 &.active span {
-                    color: #3498db; // Blue when active
+                    color: #3498db; // Xanh khi đang active
                 }
         
                 &:hover span {
@@ -166,7 +166,32 @@
                     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
                 }
             }
+        
+            .dashboard-link {
+                padding: 8px 12px;
+                background-color: #f1c40f; /* Màu vàng cho Dashboard */
+                border-radius: 12px;
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        
+                a {
+                    text-decoration: none;
+                    color: #ffffff; /* Màu trắng cho chữ */
+                    font-weight: bold;
+                }
+        
+                &:hover {
+                    background-color: #f39c12; /* Màu vàng đậm hơn khi hover */
+                    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+                    transform: translateY(-2px); /* Hiệu ứng nhấn nhẹ */
+                }
+        
+                &:active {
+                    transform: scale(0.95);
+                }
+            }
         }
+        
         
         
 

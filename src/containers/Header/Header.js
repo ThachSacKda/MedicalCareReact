@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'; // Import withRouter
+import { Link, withRouter } from 'react-router-dom';
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
 import { adminMenu, doctorMenu } from './menuApp';
@@ -47,11 +47,19 @@ class Header extends Component {
         const { language, userInfor } = this.props;
         return (
             <div className="header-container">
+                {/* Logo and Home link */}
+                <div className="header-logo">
+                    <Link to="/" className="home-link">
+                        <i className="fas fa-home"></i> Home
+                    </Link>
+                </div>
+
                 {/* Navigation bar */}
                 <div className="header-tabs-container">
                     <Navigator menus={this.state.menuApp} />
                 </div>
 
+                {/* Language selection and Logout */}
                 <div className="languages">
                     <span className="welcome">
                         <FormattedMessage id="homeheader.welcome" />, 

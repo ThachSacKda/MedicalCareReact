@@ -93,7 +93,7 @@ class BookingModel extends Component {
         let date = new Date(this.state.birthday).getTime();
         let doctorName = this.buildDoctorName(this.props.dataTime);
         let timeString = this.buildTimebooking(this.props.dataTime);
-        
+    
         let res = await postPatientBookingAppointment({
             fullName: this.state.fullName,
             phoneNumber: this.state.phoneNumber,
@@ -110,14 +110,16 @@ class BookingModel extends Component {
             doctorName: doctorName
         });
     
-        console.log(res); // Log the response for debugging
-    
         if (res && res.errCode === 0) {
             toast.success('Booking Successfully!');
+            // Gọi callback để đánh dấu khoảng thời gian là đã được đặt
+            this.props.onBookingSuccess(this.props.dataTime.id); // Use the callback from props
         } else {
             toast.error('Booking has an error.');
         }
     };
+    
+    
     
 
     buildTimebooking = (dataTime) => {

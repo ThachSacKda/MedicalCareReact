@@ -46,10 +46,10 @@ class HomeHeader extends Component {
                             )}
 
                             {/* Link to Patient Profile Page */}
-                            {isLoggedIn && userInfor && userInfor.roleId === 'R3' && ( // Assuming R1 is the patient role
+                            {isLoggedIn && userInfor && userInfor.roleId === 'R3' && (
                                 <div className="profile-link">
                                     <Link to={`${path.MEDICAL_RECORD_BY_PATIENT_ID}/${userInfor.id}`}>
-                                        <span>Profile </span>
+                                        <span>Profile</span>
                                     </Link>
                                 </div>
                             )}
@@ -63,6 +63,14 @@ class HomeHeader extends Component {
                                 </div>
                             )}
 
+                            {/* Link to Dashboard for Admin Role */}
+                            {isLoggedIn && userInfor && userInfor.roleId === 'R1' && (
+                                <div className="dashboard-link">
+                                    <Link to={path.DASHBOARD}>
+                                        <span>Manage Zone</span>
+                                    </Link>
+                                </div>
+                            )}
 
                             {!isLoggedIn && (
                                 <div className='register-link'>
@@ -92,6 +100,7 @@ class HomeHeader extends Component {
                                 </div>
                             )}
                         </div>
+
                     </div>
                 </div>
 

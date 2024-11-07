@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import HomeHeader from '../../HomePage/HomeHeader';
-import './DoctorSchedule.scss';
 import moment from 'moment';
 import 'moment/locale/vi';
 import { LANGUAGES } from '../../../utils';
@@ -10,7 +8,6 @@ import { FormattedMessage } from 'react-intl';
 import BookingModel from './Model/BookingModel';
 
 class DoctorSchedule extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +15,7 @@ class DoctorSchedule extends Component {
             allAvailableTime: [],
             isOpenModelBooking: false,
             dataScheduleTimeModal: {},
-        }
+        };
     }
 
     async componentDidMount() {
@@ -27,13 +24,22 @@ class DoctorSchedule extends Component {
 
         if (this.props.doctorIdFromParent) {
             let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value);
-            this.setState({
-                allAvailableTime: res.data ? res.data : []
+            let timeSlots = res.data ? res.data : [];
+            
+            // Kiểm tra và áp dụng trạng thái `isBooked` từ `localStorage`
+            const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots')) || [];
+            timeSlots = timeSlots.map(slot => {
+                const bookedSlot = bookedSlots.find(b => b.id === slot.id);
+                return bookedSlot ? { ...slot, isBooked: bookedSlot.isBooked } : slot;
             });
+
+            this.setState({
+                allAvailableTime: timeSlots,
+                allDays
+            });
+        } else {
+            this.setState({ allDays });
         }
-
-
-        this.setState({ allDays });
     }
 
     setArrDays = (language) => {
@@ -57,8 +63,17 @@ class DoctorSchedule extends Component {
         if (this.props.doctorIdFromParent !== prevProps.doctorIdFromParent) {
             let allDays = this.setArrDays(this.props.language);
             let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value);
+            let timeSlots = res.data ? res.data : [];
+
+            const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots')) || [];
+            timeSlots = timeSlots.map(slot => {
+                const bookedSlot = bookedSlots.find(b => b.id === slot.id);
+                return bookedSlot ? { ...slot, isBooked: bookedSlot.isBooked } : slot;
+            });
+
             this.setState({
-                allAvailableTime: res.data ? res.data : []
+                allAvailableTime: timeSlots,
+                allDays
             });
         }
     }
@@ -69,8 +84,16 @@ class DoctorSchedule extends Component {
                 let doctorId = this.props.doctorIdFromParent;
                 let date = event.target.value;
                 let res = await getScheduleDoctorByDate(doctorId, date);
+                let timeSlots = res && res.errCode === 0 ? res.data : [];
+
+                const bookedSlots = JSON.parse(localStorage.getItem('bookedSlots')) || [];
+                timeSlots = timeSlots.map(slot => {
+                    const bookedSlot = bookedSlots.find(b => b.id === slot.id);
+                    return bookedSlot ? { ...slot, isBooked: bookedSlot.isBooked } : slot;
+                });
+
                 this.setState({
-                    allAvailableTime: res && res.errCode === 0 ? res.data : []
+                    allAvailableTime: timeSlots
                 });
             }
         } catch (error) {
@@ -81,11 +104,29 @@ class DoctorSchedule extends Component {
     };
 
     handleClickScheduleTime = (time) => {
-        this.setState({
-            isOpenModelBooking: true,
-            dataScheduleTimeModal: time
+        if (!time.isBooked) { // Chỉ mở modal nếu slot chưa được đặt
+            this.setState({
+                isOpenModelBooking: true,
+                dataScheduleTimeModal: time
+            });
+        }
+    };
+
+    onBookingSuccess = (timeSlotId) => {
+        this.setState(prevState => {
+            const updatedTimeSlots = prevState.allAvailableTime.map(slot =>
+                slot.id === timeSlotId ? { ...slot, isBooked: true } : slot
+            );
+            
+            // Lưu trạng thái đã đặt vào localStorage
+            localStorage.setItem('bookedSlots', JSON.stringify(updatedTimeSlots));
+
+            return {
+                allAvailableTime: updatedTimeSlots,
+                isOpenModelBooking: false
+            };
         });
-    }
+    };
 
     toggleBookingModal = () => {
         this.setState({
@@ -120,16 +161,17 @@ class DoctorSchedule extends Component {
                             </span>
                         </div>
                         <div className="time-content">
-                            {allAvailableTime && allAvailableTime.length > 0 &&
-                                allAvailableTime.map((item, index) => {
-                                    let timeDisplay = language === LANGUAGES.VI ? item.timeTypeData.valueVi : item.timeTypeData.valueEn;
-                                    return (
-                                        <button key={index} className="time-button" onClick={() => this.handleClickScheduleTime(item)}>
-                                            <span>{timeDisplay}</span>
-                                            <div className="pulse"></div>
-                                        </button>
-                                    );
-                                })}
+                            {allAvailableTime && allAvailableTime.map((item, index) => (
+                                <button
+                                    key={index}
+                                    className="time-button"
+                                    disabled={item.isBooked} // Vô hiệu hóa nếu đã đặt
+                                    onClick={() => this.handleClickScheduleTime(item)}
+                                >
+                                    <span>{language === LANGUAGES.VI ? item.timeTypeData.valueVi : item.timeTypeData.valueEn}</span>
+                                    {!item.isBooked && <div className="pulse"></div>}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -138,6 +180,7 @@ class DoctorSchedule extends Component {
                     isOpenModel={isOpenModelBooking}
                     toggle={this.toggleBookingModal}
                     dataTime={dataScheduleTimeModal}
+                    onBookingSuccess={this.onBookingSuccess} // Truyền callback để cập nhật trạng thái sau khi đặt
                 />
             </>
         );
