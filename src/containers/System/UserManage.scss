@@ -2,126 +2,128 @@
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
-}
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-#customers td,
-#customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#customers tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-#customers tr:hover {
-  background-color: #ddd;
-}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #18ca24;
-  color: white;
-}
-
-.btn-edit {
-  width: 50px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: rgb(255, 208, 0);
-
-  &:hover {
-    background-color: transparent !important;
-    color: rgb(164, 120, 32) !important;
+  td, th {
+    border: 1px solid #ddd;
+    padding: 12px;
   }
-}
 
-.btn-delete {
-  width: 50px;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: rgb(246, 10, 10);
-
-  &:hover {
-    background-color: transparent !important;
-    color: rgb(110, 19, 19) !important;
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
   }
-}
 
-.modal-user-container {
-  
+  tr:hover {
+    background-color: #e1e1e1;
+    cursor: pointer;
+  }
 
-  .modal-header {
-    background-color: #007bff;
+  th {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    text-align: left;
+    background-color: #18ca24;
     color: white;
     font-weight: bold;
-
-    button {
-      background-color: transparent !important;
-      color: white;
-      border: none;
-      font-size: 27px;
-    }
-
+    text-transform: uppercase;
   }
 
-  .modal-user-body {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+  // Đáp ứng cho màn hình nhỏ
+  @media (max-width: 768px) {
+    th, td {
+      padding: 8px;
+      font-size: 14px;
+    }
+  }
 
-    .input-container {
+  // Đáp ứng cho màn hình rất nhỏ (như điện thoại di động)
+  @media (max-width: 576px) {
+    // Chuyển bảng thành dạng danh sách cho dễ nhìn trên điện thoại
+    display: block;
+    overflow-x: auto;
+
+    th, td {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    tr {
       display: flex;
       flex-direction: column;
-      width: 48%;
-      flex-direction: column;
-      margin-bottom: 15px;
-
-
-      label {
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-
-      input {
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 14px;
-
-        &:focus {
-          border-color: #80bdff;
-          outline: none;
-          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
-        }
-      }
-
-      &.max-width-input {
-        width: 100%;
-      }
-
-      input {
-        border-radius: 3px;
-        border: 1px solid grey;
-        height: 30px;
-        outline: none;
-        padding: 0 10px;
-      }
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 10px;
     }
 
-    .modal-footer {
-      justify-content: center;
-
-      .btn {
-        min-width: 100px;
-        margin: 0 10px;
-      }
+    th {
+      background-color: #18ca24;
+      color: white;
     }
   }
-  
-
 }
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+
+  // Đáp ứng cho màn hình nhỏ
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+}
+
+.role-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  label {
+    font-weight: bold;
+  }
+
+  select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+
+    &:focus {
+      outline: none;
+      border-color: #18ca24;
+      box-shadow: 0 0 5px rgba(24, 202, 36, 0.5);
+    }
+  }
+
+  // Đáp ứng cho màn hình nhỏ
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.user-table {
+  margin-top: 30px;
+  width: 100%;
+
+  table {
+    width: 100%;
+  }
+}
+
+.btn-contact {
+  width: 50px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #007bff;
+  font-size: 18px;
+
+  &:hover {
+    color: #0056b3;
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+  }
+}
+
+
