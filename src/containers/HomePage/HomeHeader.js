@@ -25,6 +25,13 @@ class HomeHeader extends Component {
         this.props.history.push(path.LOGIN); // Redirect to the login page after logout
     }
 
+    navigateToMessages = () => {
+        const { userInfor, history } = this.props;
+        if (userInfor && userInfor.id) {
+            history.push(`${path.MESSAGE}/${userInfor.id}`); // Điều hướng tới trang tin nhắn cùng với userId
+        }
+    }
+
     render() {
         let language = this.props.language;
         const { isLoggedIn, userInfor } = this.props; // Use userInfor to display the user’s name
@@ -42,6 +49,12 @@ class HomeHeader extends Component {
                             {isLoggedIn && userInfor && (
                                 <div className="user-name">
                                     <span><FormattedMessage id="homeheader.welcome" /> {userInfor.firstName} {userInfor.lastName}</span>
+                                </div>
+                            )}
+
+                            {isLoggedIn && userInfor && userInfor.roleId === 'R3' && (
+                                <div className="message-icon">
+                                    <i className="fa-solid fa-envelope" onClick={this.navigateToMessages} title="Messages"></i>
                                 </div>
                             )}
 

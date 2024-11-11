@@ -53,6 +53,32 @@
             align-items: center;
             gap: 15px;
             padding-right: 20px;
+
+            .message-icon {
+                position: relative;
+                padding: 8px 10px;
+                background-color: #eaf5f9;
+                border-radius: 50%;
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+                cursor: pointer;
+                
+                i {
+                    color: #3498db; // Icon color for the message
+                    font-size: 18px;
+                }
+                
+                &:hover {
+                    background-color: #dff0f5;
+                    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+                    transform: translateY(-2px);
+                }
+        
+                &:active {
+                    transform: scale(0.95);
+                    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+                }
+            }
         
             .user-name {
                 font-size: 14px;

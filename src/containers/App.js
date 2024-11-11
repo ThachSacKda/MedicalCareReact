@@ -24,6 +24,7 @@ import MedicalRecord from './Patient/MedicalRecord/MedicalRecord'
 import PatientProfile from './Patient/MedicalRecord/PatientProfile';
 import Dashboard from '../containers/System/Admin/Dashboard';
 import BookingHistory from "../containers/Patient/BookingHistory"
+import PatientMessages from "../containers/Auth/Message/PatientMessages"
 
 class App extends Component {
 
@@ -69,7 +70,7 @@ class App extends Component {
                                 <Route path={`${path.MEDICAL_RECORD_BY_PATIENT_ID}/:id`} component={PatientProfile} />
                                 <Route path={path.DASHBOARD} component={Dashboard} />
                                 <Route path={path.BOOKING_HISTORY} component={BookingHistory} />
-
+                                <Route path="/patient-messages/:userId" component={PatientMessages} />
 
                             </Switch>
                         </CustomScrollbars>

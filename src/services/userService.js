@@ -139,6 +139,30 @@ const deleteBookingById = (bookingId) => {
     });
 };
 
+// API gửi tin nhắn
+export const sendMessage = async (data) => {
+    return await axios.post('/api/messages/send', data);
+};
+
+// API lấy tin nhắn giữa hai người dùng
+export const getMessagesBetweenUsers = async (senderId, receiverId) => {
+    return await axios.get('/api/messages/conversation', {
+        params: {
+            senderId,
+            receiverId
+        }
+    });
+};
+
+export const getAllMessagesForUser = async (userId) => {
+    console.log("Calling API with userId:", userId); // Kiểm tra userId truyền vào
+    return await axios.get('/api/messages/user', {
+        params: {
+            userId
+        }
+    });
+};
+
 
 
 
