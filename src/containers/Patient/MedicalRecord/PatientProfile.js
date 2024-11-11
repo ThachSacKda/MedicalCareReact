@@ -1,6 +1,6 @@
+// PatientProfile.js
 import React, { Component } from 'react';
 import './PatientProfile.scss';
-import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import { getPatientProfileById } from '../../../services/userService'; // Import API call
 import HomeHeader from '../../HomePage/HomeHeader';
@@ -18,7 +18,7 @@ class PatientProfile extends Component {
         this.handleSortByCreatedAt = this.handleSortByCreatedAt.bind(this); // Bind the sort handler
     }
 
-    // This function takes the buffer (binary data) and converts it to a Base64 string
+    // Helper function to convert binary data to Base64
     arrayBufferToBase64(buffer) {
         let binary = '';
         let bytes = new Uint8Array(buffer);
@@ -26,18 +26,8 @@ class PatientProfile extends Component {
         for (let i = 0; i < len; i++) {
             binary += String.fromCharCode(bytes[i]);
         }
-        return window.btoa(binary); // Convert binary string to Base64
+        return window.btoa(binary);
     }
-
-    // Fetch and convert the image
-    fetchImageAndConvertToBase64 = async (imageBlob) => {
-        // Assuming imageBlob is the binary data (BLOB)
-        const base64String = `data:image/jpeg;base64,${this.arrayBufferToBase64(imageBlob)}`;
-        console.log(base64String); // This will log the Base64 string
-        return base64String;
-    };
-
-
 
     fetchPatientProfile = async (patientId) => {
         try {
@@ -45,8 +35,8 @@ class PatientProfile extends Component {
 
             if (response && response.errCode === 0) {
                 const patientInfo = response.data.patientInfo;
-
                 let imageSrc = '';
+
                 if (patientInfo.image && patientInfo.image.data) {
                     imageSrc = `data:image/jpeg;base64,${this.arrayBufferToBase64(patientInfo.image.data)}`;
                 }
@@ -60,23 +50,19 @@ class PatientProfile extends Component {
         }
     };
 
-
-
-
     componentDidMount() {
-        const { userInfor } = this.props;
+        const patientId = this.props.match.params.id; // Get the patient ID from URL parameters
 
-        if (userInfor && userInfor.id) {
-            this.fetchPatientProfile(userInfor.id); // Fetch the profile using the logged-in user's ID
+        if (patientId) {
+            this.fetchPatientProfile(patientId); // Fetch the profile using the ID from the URL
         } else {
-            console.error('No user ID found for the logged-in user.');
+            console.error('No patient ID found in URL.');
         }
     }
 
-    // Sort handler for "Created Time"
     handleSortByCreatedAt() {
         const { sortOrder } = this.state;
-        const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc'; // Toggle between ascending and descending
+        const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
         this.setState({ sortOrder: newSortOrder });
     }
 
@@ -87,11 +73,10 @@ class PatientProfile extends Component {
             return <div>No medical records found.</div>;
         }
 
-        // Sort medical records based on the createdAt field
         const sortedRecords = [...patientInfo.medicalRecords].sort((a, b) => {
             const dateA = new Date(a.createdAt);
             const dateB = new Date(b.createdAt);
-            return sortOrder === 'asc' ? dateA - dateB : dateB - dateA; // Sort based on the sortOrder
+            return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
         });
 
         return (
@@ -102,16 +87,15 @@ class PatientProfile extends Component {
                         <th>Medicines</th>
                         <th>Note</th>
                         <th onClick={this.handleSortByCreatedAt} style={{ cursor: 'pointer' }}>
-                            Created Time {sortOrder === 'asc' ? '↑' : '↓'} {/* Show arrow based on sort order */}
+                            Created Time {sortOrder === 'asc' ? '↑' : '↓'}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     {sortedRecords.map((record, index) => {
-                        // Parse medicines if it's stored as a string
                         let medicinesArray = [];
                         try {
-                            medicinesArray = JSON.parse(record.medicines); // Attempt to parse medicines
+                            medicinesArray = JSON.parse(record.medicines);
                         } catch (error) {
                             console.error('Failed to parse medicines:', error);
                         }
@@ -140,51 +124,40 @@ class PatientProfile extends Component {
         );
     };
 
-   render() {
-    const { patientInfo, imageSrc } = this.state;
+    render() {
+        const { patientInfo, imageSrc } = this.state;
 
-    if (!patientInfo) {
-        return <div>Loading patient profile...</div>;
-    }
+        if (!patientInfo) {
+            return <div>Loading patient profile...</div>;
+        }
 
-    return (
-        <div>
-            <HomeHeader />
-            <div className="patient-profile-wrapper">
-                <div className="patient-info">
-                    <div className="patient-photo">
-                        {imageSrc ? (
-                            <img
-                                src={imageSrc}
-                                alt="Patient"
-                            />
-                        ) : (
-                            <span className="no-photo">No Photo</span>
-                        )}
+        return (
+            <div>
+                <HomeHeader />
+                <div className="patient-profile-wrapper">
+                    <div className="patient-info">
+                        <div className="patient-photo">
+                            {imageSrc ? (
+                                <img src={imageSrc} alt="Patient" />
+                            ) : (
+                                <span className="no-photo">No Photo</span>
+                            )}
+                        </div>
+
+                        <h1>{patientInfo.firstName || 'No First Name'} {patientInfo.lastName || 'No Last Name'}</h1>
+                        <p><strong>Email:</strong> {patientInfo.email || 'No Email'}</p>
+                        <p><strong>Gender:</strong> {patientInfo.gender === 'M' ? 'Male' : 'Female'}</p>
+                        <p><strong>Address:</strong> {patientInfo.address || 'No Address'}</p>
                     </div>
 
-                    <h1>{patientInfo.firstName || 'No First Name'} {patientInfo.lastName || 'No Last Name'}</h1>
-                    <p><strong>Email:</strong> {patientInfo.email || 'No Email'}</p>
-                    <p><strong>Gender:</strong> {patientInfo.gender === 'M' ? 'Male' : 'Female'}</p>
-                    <p><strong>Address:</strong> {patientInfo.address || 'No Address'}</p>
-                </div>
-
-                <div className="medical-records-section">
-                    <h2>Medical Records</h2>
-                    {this.renderMedicalRecords()}
+                    <div className="medical-records-section">
+                        <h2>Medical Records</h2>
+                        {this.renderMedicalRecords()}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
-}
-
-const mapStateToProps = state => {
-    return {
-        userInfor: state.user.userInfor, // Get the logged-in user information from Redux store
-        language: state.app.language,
-    };
-};
-
-export default withRouter(connect(mapStateToProps)(PatientProfile));
+export default withRouter(PatientProfile);

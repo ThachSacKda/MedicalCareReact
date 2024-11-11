@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './UserManage.scss';
 import { getAllUser } from '../../services/userService';
 import MessageBox from '../Auth/Message/MessageBox';
+import { path } from '../../utils'; // Import path constants
 
 class UserManage extends Component {
     constructor(props) {
@@ -18,7 +19,9 @@ class UserManage extends Component {
     }
 
     async componentDidMount() {
-        await this.getAllUsersFromReacts();
+        const { userInfor } = this.props;
+        const roleId = userInfor && userInfor.roleId === 'R4' ? 'R3' : 'All';
+        await this.getAllUsersFromReacts(roleId);
     }
 
     handleRoleChange = async (event) => {
@@ -30,7 +33,8 @@ class UserManage extends Component {
         let response = await getAllUser('All', roleId);
         if (response && response.errCode === 0) {
             this.setState({
-                arrUsers: response.users
+                arrUsers: response.users,
+                selectedRole: roleId
             });
         }
     };
@@ -39,7 +43,7 @@ class UserManage extends Component {
         this.setState({
             isMessageBoxOpen: true,
             selectedUserId: user.id,
-            selectedUserName: `${user.firstName} ${user.lastName}`, // Setting the recipient's full name
+            selectedUserName: `${user.firstName} ${user.lastName}`,
         });
     };
 
@@ -51,24 +55,33 @@ class UserManage extends Component {
         });
     };
 
+    // Updated function to navigate to the PatientProfile component
+    navigateToPatientProfile = (userId) => {
+        this.props.history.push(`${path.MEDICAL_RECORD_BY_PATIENT_ID}/${userId}`);
+    };
+
     render() {
         const { userInfor } = this.props;
+        const { arrUsers, isMessageBoxOpen, selectedUserId, selectedUserName, selectedRole } = this.state;
+        const isNurse = userInfor && userInfor.roleId === 'R4';
 
         return (
             <div className="users-container">
                 <div className="title text-center mt-5">Account Management</div>
 
-                <div className="role-filter mt-3">
-                    <label htmlFor="roleSelect">Filter by Role: </label>
-                    <select id="roleSelect" onChange={this.handleRoleChange}>
-                        <option value="All">All</option>
-                        <option value="R1">Admin</option>
-                        <option value="R2">Doctor</option>
-                        <option value="R3">Patient</option>
-                        <option value="R4">Nurse</option>
-                        <option value="R5">Pharmacy</option>
-                    </select>
-                </div>
+                {!isNurse && (
+                    <div className="role-filter mt-3">
+                        <label htmlFor="roleSelect">Filter by Role: </label>
+                        <select id="roleSelect" value={selectedRole} onChange={this.handleRoleChange}>
+                            <option value="All">All</option>
+                            <option value="R1">Admin</option>
+                            <option value="R2">Doctor</option>
+                            <option value="R3">Patient</option>
+                            <option value="R4">Nurse</option>
+                            <option value="R5">Pharmacy</option>
+                        </select>
+                    </div>
+                )}
 
                 <div className="table-container">
                     <div className="user-table mt-5">
@@ -83,14 +96,14 @@ class UserManage extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.arrUsers && this.state.arrUsers.map((item, index) => (
-                                    <tr key={index}>
+                                {arrUsers && arrUsers.map((item, index) => (
+                                    <tr key={index} onClick={() => this.navigateToPatientProfile(item.id)}>
                                         <td>{item.email}</td>
                                         <td>{item.firstName}</td>
                                         <td>{item.lastName}</td>
                                         <td>{item.address}</td>
                                         <td>
-                                            <button className="btn-contact" onClick={() => this.openMessageBox(item)}>
+                                            <button className="btn-contact" onClick={(e) => { e.stopPropagation(); this.openMessageBox(item); }}>
                                                 <i className="fa-solid fa-envelope"></i>
                                             </button>
                                         </td>
@@ -101,14 +114,13 @@ class UserManage extends Component {
                     </div>
                 </div>
 
-                {/* Display MessageBox when isMessageBoxOpen is true */}
-                {this.state.isMessageBoxOpen && userInfor && (
+                {isMessageBoxOpen && userInfor && (
                     <div className="message-box-modal">
                         <MessageBox
                             senderId={userInfor.id}
-                            receiverId={this.state.selectedUserId}
-                            receiverName={this.state.selectedUserName}
-                            onClose={this.closeMessageBox} // Pass closeMessageBox as onClose
+                            receiverId={selectedUserId}
+                            receiverName={selectedUserName}
+                            onClose={this.closeMessageBox}
                         />
                     </div>
                 )}
@@ -117,7 +129,6 @@ class UserManage extends Component {
     }
 }
 
-// mapStateToProps to retrieve userInfor from Redux store
 const mapStateToProps = (state) => ({
     userInfor: state.user.userInfor
 });
