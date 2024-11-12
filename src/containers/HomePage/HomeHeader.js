@@ -85,6 +85,16 @@ class HomeHeader extends Component {
                                 </div>
                             )}
 
+                            {isLoggedIn && userInfor && userInfor.roleId === 'R5' && (
+                                <div className="dashboard-link">
+                                    <Link to={path.MEDICINE}>
+                                        <span>Manage Medicine</span>
+                                    </Link>
+                                </div>
+                            )}
+
+                            
+
                             {isLoggedIn && userInfor && userInfor.roleId === 'R4' && (
                                 <div className="dashboard-link">
                                     <Link to='/system/user-manage'>
@@ -102,7 +112,7 @@ class HomeHeader extends Component {
                                     </Link>
                                 </div>
                             )}
-                            
+
                             <div className='register-link'>
                                 <Link to="/register">
                                     <span><FormattedMessage id="homeheader.register" /></span>

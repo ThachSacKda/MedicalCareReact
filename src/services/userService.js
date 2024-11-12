@@ -163,6 +163,23 @@ export const getAllMessagesForUser = async (userId) => {
     });
 };
 
+// Lấy số lượng tin nhắn chưa đọc
+export const getUnreadMessagesCount = (userId) => {
+    return axios.get('/api/unread-count', {
+        params: {
+            userId
+        }
+    });
+};
+
+// Đánh dấu các tin nhắn là đã đọc
+export const markMessagesAsRead = (senderId, receiverId) => {
+    return axios.post('/api/messages/mark-as-read', {
+        senderId,
+        receiverId
+    });
+};
+
 
 
 

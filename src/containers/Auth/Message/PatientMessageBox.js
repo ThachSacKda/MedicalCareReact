@@ -24,7 +24,6 @@ class PatientMessageBox extends Component {
     }
 
     startMessageInterval = () => {
-        // Load messages every 5 seconds
         this.messageInterval = setInterval(this.loadMessages, 1000);
     };
 
@@ -38,7 +37,6 @@ class PatientMessageBox extends Component {
     loadMessages = async () => {
         const { senderId, receiverId } = this.props;
         const response = await getMessagesBetweenUsers(senderId, receiverId);
-        console.log("Messages loaded:", response);
 
         if (response && response.errCode === 0) {
             this.setState({ messages: response.messages });
@@ -71,7 +69,7 @@ class PatientMessageBox extends Component {
 
     handleKeyPress = (event) => {
         if (event.key === 'Enter') {
-            event.preventDefault(); // Prevents new line on Enter
+            event.preventDefault();
             this.handleSendMessage();
         }
     };
@@ -100,7 +98,7 @@ class PatientMessageBox extends Component {
                         type="text"
                         value={newMessage}
                         onChange={this.handleInputChange}
-                        onKeyPress={this.handleKeyPress} // Add the onKeyPress event
+                        onKeyPress={this.handleKeyPress}
                         placeholder="Type a message..."
                     />
                     <button onClick={this.handleSendMessage}>Send</button>

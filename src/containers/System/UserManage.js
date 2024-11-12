@@ -1,10 +1,9 @@
-// UserManage.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './UserManage.scss';
-import { getAllUser } from '../../services/userService';
+import { getAllUser, getUnreadMessagesCount, markMessagesAsRead } from '../../services/userService';
 import MessageBox from '../Auth/Message/MessageBox';
-import { path } from '../../utils'; // Import path constants
+import { path } from '../../utils';
 
 class UserManage extends Component {
     constructor(props) {
@@ -14,37 +13,77 @@ class UserManage extends Component {
             selectedRole: 'All',
             isMessageBoxOpen: false,
             selectedUserId: null,
-            selectedUserName: null, // Stores recipient's name for the message box header
+            selectedUserName: null,
+            unreadCounts: {}, // Track unread message counts for each partner
         };
+        this.unreadInterval = null; // Interval to periodically check unread messages
     }
 
     async componentDidMount() {
         const { userInfor } = this.props;
         const roleId = userInfor && userInfor.roleId === 'R4' ? 'R3' : 'All';
         await this.getAllUsersFromReacts(roleId);
+        await this.loadUnreadCounts();
+
+        // Thiết lập polling để gọi loadUnreadCounts mỗi 5 giây
+        this.unreadInterval = setInterval(this.loadUnreadCounts, 1000);
     }
+
+    componentWillUnmount() {
+        // Xóa polling interval khi component bị unmount
+        if (this.unreadInterval) {
+            clearInterval(this.unreadInterval);
+        }
+    }
+
+    loadUnreadCounts = async () => {
+        const { userInfor } = this.props;
+        if (userInfor) {
+            const response = await getUnreadMessagesCount(userInfor.id);
+
+            if (response && response.errCode === 0) {
+                const unreadCounts = response.unreadCounts || {}; // Giả định response.unreadCounts là một đối tượng { partnerId: count }
+                console.log("Processed unread counts:", unreadCounts); // Debugging output
+                this.setState({ unreadCounts });
+            } else {
+                console.error("Error fetching unread counts:", response);
+            }
+        }
+    };
 
     handleRoleChange = async (event) => {
         const roleId = event.target.value;
         await this.getAllUsersFromReacts(roleId);
+        await this.loadUnreadCounts();
     };
 
     getAllUsersFromReacts = async (roleId = 'All') => {
-        let response = await getAllUser('All', roleId);
+        const response = await getAllUser('All', roleId);
         if (response && response.errCode === 0) {
             this.setState({
                 arrUsers: response.users,
-                selectedRole: roleId
+                selectedRole: roleId,
             });
         }
     };
 
-    openMessageBox = (user) => {
+    openMessageBox = async (user) => {
         this.setState({
             isMessageBoxOpen: true,
             selectedUserId: user.id,
             selectedUserName: `${user.firstName} ${user.lastName}`,
         });
+
+        const { userInfor } = this.props;
+        if (userInfor) {
+            await markMessagesAsRead(user.id, userInfor.id); // Mark messages as read
+            this.setState((prevState) => ({
+                unreadCounts: {
+                    ...prevState.unreadCounts,
+                    [user.id]: 0, // Reset unread count for this user
+                },
+            }));
+        }
     };
 
     closeMessageBox = () => {
@@ -55,14 +94,13 @@ class UserManage extends Component {
         });
     };
 
-    // Updated function to navigate to the PatientProfile component
     navigateToPatientProfile = (userId) => {
         this.props.history.push(`${path.MEDICAL_RECORD_BY_PATIENT_ID}/${userId}`);
     };
 
     render() {
         const { userInfor } = this.props;
-        const { arrUsers, isMessageBoxOpen, selectedUserId, selectedUserName, selectedRole } = this.state;
+        const { arrUsers, isMessageBoxOpen, selectedUserId, selectedUserName, selectedRole, unreadCounts } = this.state;
         const isNurse = userInfor && userInfor.roleId === 'R4';
 
         return (
@@ -105,6 +143,9 @@ class UserManage extends Component {
                                         <td>
                                             <button className="btn-contact" onClick={(e) => { e.stopPropagation(); this.openMessageBox(item); }}>
                                                 <i className="fa-solid fa-envelope"></i>
+                                                {unreadCounts[item.id] > 0 && (
+                                                    <span className="unread-count">{unreadCounts[item.id]}</span>
+                                                )}
                                             </button>
                                         </td>
                                     </tr>
@@ -130,7 +171,7 @@ class UserManage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    userInfor: state.user.userInfor
+    userInfor: state.user.userInfor,
 });
 
 export default connect(mapStateToProps)(UserManage);
