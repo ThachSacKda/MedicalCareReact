@@ -146,22 +146,7 @@ class HomeHeader extends Component {
                                 <input type='text' placeholder='Searching...' />
                             </div>
                         </div>
-                        <div className='content-down'>
-                            <div className='options'>
-                                <div className='options-child'>
-                                    <div className='icon-child'><i className="fa-regular fa-hospital"></i></div>
-                                    <div className='text-child'>Specialized examination</div>
-                                </div>
-                                <div className='options-child'>
-                                    <div className='icon-child'><i className="fa-solid fa-mobile"></i></div>
-                                    <div className='text-child'>Remote examination</div>
-                                </div>
-                                <div className='options-child'>
-                                    <div className='icon-child'><i className="fa-solid fa-truck-medical"></i></div>
-                                    <div className='text-child'>Medical tests</div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 }
             </React.Fragment>

@@ -336,15 +336,6 @@ class ManageDoctor extends Component {
                                 onChange={(selectedOption) => this.handleChangeSelectDoctorInfor(selectedOption, 'selectedSpecialty')}
                             />
                         </div>
-                        <div className='col-4 form-group'>
-                            <label>Chọn Phòng Khám</label>
-                            <Select
-                                value={this.state.selectedClinic}
-                                options={listClinic}
-                                placeholder={'Choose clinic'}
-                                onChange={(selectedOption) => this.handleChangeSelectDoctorInfor(selectedOption, 'selectedClinic')}
-                            />
-                        </div>
                     </div>
 
                 <div className='manage-doctor-editor'>

@@ -34,7 +34,6 @@ class HomePage extends Component {
             <div>
                 <HomeHeader isShowBanner={true} />
                 <Specialty />
-                <Consultation />
                 <OutstandingDoctor />
                 {/* <About /> */}
                 <HomeFooter />

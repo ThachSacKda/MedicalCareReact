@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom"; // Import Link từ react-router-dom
 import { push } from "connected-react-router";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import * as actions from "../../store/actions";
@@ -111,15 +112,10 @@ class Login extends Component {
                             </button>
                         </div>
                         <div className='col-12'>
-                            <span className='forgot-password'>Forgot your password</span>
+                            {/* Sử dụng Link để điều hướng đến trang đăng ký */}
+                            <Link to="/register" className='forgot-password'>Register</Link>
                         </div>
-                        <div className='col-12 text-center mt-3'>
-                            <span className='text-other-login'>Or Login with:</span>
-                            <div className='col-12 social-login'>
-                                <i className='fa-brands fa-google-plus-g google'></i>
-                                <i className='fa-brands fa-facebook-f facebook'></i>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
