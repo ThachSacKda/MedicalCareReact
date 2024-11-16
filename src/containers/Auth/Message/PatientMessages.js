@@ -1,8 +1,6 @@
-// components/PatientMessages.js
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getAllMessagesForUser, getUnreadMessagesCount, markMessagesAsRead } from '../../../services/userService';
+import { getAllUser, getAllMessagesForUser, getUnreadMessagesCount, markMessagesAsRead } from '../../../services/userService';
 import PatientMessageBox from './PatientMessageBox';
 import './PatientMessages.scss';
 import HomeHeader from '../../HomePage/HomeHeader';
@@ -11,7 +9,8 @@ class PatientMessages extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            conversations: [],
+            nurses: [], // Store all Nurse accounts
+            conversations: [], // Store conversation history
             selectedConversation: null,
             unreadCounts: {}, // Track unread message counts for each partner
         };
@@ -19,19 +18,28 @@ class PatientMessages extends Component {
     }
 
     async componentDidMount() {
-        await this.loadConversations();
-        await this.loadUnreadCounts();
+        await this.loadNurseAccounts(); // Load all Nurse accounts
+        await this.loadConversations(); // Load conversation history
+        await this.loadUnreadCounts(); // Load unread message counts
 
-        // Thiết lập polling để gọi loadUnreadCounts mỗi 5 giây
+        // Set polling to call loadUnreadCounts every 5 seconds
         this.unreadInterval = setInterval(this.loadUnreadCounts, 5000);
     }
 
     componentWillUnmount() {
-        // Xóa interval khi component bị unmount
+        // Clear interval when component unmounts
         if (this.unreadInterval) {
             clearInterval(this.unreadInterval);
         }
     }
+
+    loadNurseAccounts = async () => {
+        // Fetch all users with role 'R4' (Nurse)
+        const response = await getAllUser('All', 'R4');
+        if (response && response.errCode === 0) {
+            this.setState({ nurses: response.users });
+        }
+    };
 
     loadConversations = async () => {
         const userId = this.props.match.params.userId;
@@ -48,11 +56,8 @@ class PatientMessages extends Component {
         const userId = this.props.match.params.userId;
         const response = await getUnreadMessagesCount(userId);
 
-        console.log("Unread messages response:", response); // Debug: Check unread messages response
-
         if (response && response.errCode === 0) {
             const unreadCounts = response.unreadCounts || {}; // Assume response.unreadCounts is an object { partnerId: count }
-            console.log("Unread counts data after processing:", unreadCounts); // Debug: Log unread counts data after processing
             this.setState({ unreadCounts });
         }
     };
@@ -79,19 +84,18 @@ class PatientMessages extends Component {
         return Object.values(conversations);
     };
 
-    openConversation = async (conversation) => {
-        this.setState({ selectedConversation: conversation });
-        const { partnerId } = conversation;
+    openConversation = async (nurse) => {
+        this.setState({ selectedConversation: nurse });
         const userId = this.props.match.params.userId;
 
-        // Mark only messages from `partnerId` to the user as read
-        await markMessagesAsRead(partnerId, userId);
+        // Mark messages as read for the selected Nurse
+        await markMessagesAsRead(nurse.id, userId);
 
-        // Update unread counts immediately after marking as read for this partner
+        // Update unread counts immediately after marking messages as read
         this.setState((prevState) => ({
             unreadCounts: {
                 ...prevState.unreadCounts,
-                [partnerId]: 0, // Set unread count for this partner to 0 after marking as read
+                [nurse.id]: 0, // Reset unread count for this Nurse
             },
         }));
     };
@@ -101,24 +105,23 @@ class PatientMessages extends Component {
     };
 
     render() {
-        const { conversations, selectedConversation, unreadCounts } = this.state;
-        console.log("Render unread counts:", unreadCounts); // Debugging output to verify unread counts
+        const { nurses, conversations, selectedConversation, unreadCounts } = this.state;
 
         return (
             <div className="patient-messages-container">
                 <HomeHeader />
-                <h2>Your Messages</h2>
+                <h2>Messages with Nurses</h2>
                 <div className="conversations-list">
-                    {conversations.length === 0 ? (
-                        <div>No messages available.</div>
+                    {nurses.length === 0 ? (
+                        <div>No nurses available.</div>
                     ) : (
                         <ul>
-                            {conversations.map((conv, index) => (
-                                <li key={index} onClick={() => this.openConversation(conv)}>
-                                    <span>{conv.partnerName}</span>
-                                    {/* Hiển thị số lượng tin nhắn chưa đọc cho từng đối tác nếu có */}
-                                    {unreadCounts[conv.partnerId] > 0 && (
-                                        <span className="unread-count">{unreadCounts[conv.partnerId]}</span>
+                            {nurses.map((nurse, index) => (
+                                <li key={index} onClick={() => this.openConversation(nurse)}>
+                                    <span>{`${nurse.firstName} ${nurse.lastName}`}</span>
+                                    {/* Display the unread message count for each Nurse if available */}
+                                    {unreadCounts[nurse.id] > 0 && (
+                                        <span className="unread-count">{unreadCounts[nurse.id]}</span>
                                     )}
                                 </li>
                             ))}
@@ -129,8 +132,8 @@ class PatientMessages extends Component {
                 {selectedConversation && (
                     <PatientMessageBox
                         senderId={parseInt(this.props.match.params.userId, 10)}
-                        receiverId={selectedConversation.partnerId}
-                        receiverName={selectedConversation.partnerName}
+                        receiverId={selectedConversation.id}
+                        receiverName={`${selectedConversation.firstName} ${selectedConversation.lastName}`}
                         onClose={this.closeConversation}
                     />
                 )}

@@ -76,6 +76,15 @@ class HomeHeader extends Component {
                                 </div>
                             )}
 
+                            {/* New Link to Manage for doctor role */}
+                            {isLoggedIn && userInfor && userInfor.roleId === 'R2' && (
+                                <div className="dashboard-link">
+                                    <Link to='/doctor/manage-patient'>
+                                        <span>Manage Zone</span>
+                                    </Link>
+                                </div>
+                            )}
+
                             {/* Link to Dashboard for Admin Role */}
                             {isLoggedIn && userInfor && userInfor.roleId === 'R1' && (
                                 <div className="dashboard-link">

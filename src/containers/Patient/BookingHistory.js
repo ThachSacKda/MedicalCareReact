@@ -10,8 +10,9 @@ const BookingHistory = () => {
     const [bookingHistory, setBookingHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState(false); // Track modal visibility
+    const [selectedBookingId, setSelectedBookingId] = useState(null); // Track selected booking for cancellation
 
-    // Hàm để lấy dữ liệu lịch sử booking
     useEffect(() => {
         const fetchBookingHistory = async () => {
             try {
@@ -33,26 +34,35 @@ const BookingHistory = () => {
         fetchBookingHistory();
     }, [patientId]);
 
-    // Hàm định dạng ngày tháng
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-GB');
     };
 
-    // Hàm để xử lý hủy booking
-    const handleCancelBooking = async (bookingId) => {
+    const openCancelModal = (bookingId) => {
+        setSelectedBookingId(bookingId);
+        setShowModal(true);
+    };
+
+    const closeCancelModal = () => {
+        setSelectedBookingId(null);
+        setShowModal(false);
+    };
+
+    const handleConfirmCancel = async () => {
         try {
-            const response = await deleteBookingById(bookingId); // Gọi API để xóa booking
+            const response = await deleteBookingById(selectedBookingId);
             if (response.data.errCode === 0) {
                 alert("Booking canceled successfully.");
-                // Cập nhật lại danh sách booking sau khi xóa
-                setBookingHistory(prevHistory => prevHistory.filter(booking => booking.id !== bookingId));
+                setBookingHistory(prevHistory => prevHistory.filter(booking => booking.id !== selectedBookingId));
             } else {
                 alert(response.data.errMessage || "Error canceling booking.");
             }
         } catch (error) {
             alert("Error canceling booking.");
             console.error("Error canceling booking:", error);
+        } finally {
+            closeCancelModal();
         }
     };
 
@@ -90,7 +100,7 @@ const BookingHistory = () => {
                                         <td>
                                             <button
                                                 className="cancel-button"
-                                                onClick={() => handleCancelBooking(booking.id)}
+                                                onClick={() => openCancelModal(booking.id)}
                                             >
                                                 Cancel
                                             </button>
@@ -103,6 +113,20 @@ const BookingHistory = () => {
                             <FormattedMessage id="common.warningtext"/> 
                         </p>
                     </>
+                )}
+
+                {/* Modal for Confirmation */}
+                {showModal && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <h3>Confirm Cancellation</h3>
+                            <p>Are you sure you want to cancel this booking?</p>
+                            <div className="modal-buttons">
+                                <button onClick={handleConfirmCancel} className="confirm-button">Yes</button>
+                                <button onClick={closeCancelModal} className="cancel-modal-button">No</button>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>
