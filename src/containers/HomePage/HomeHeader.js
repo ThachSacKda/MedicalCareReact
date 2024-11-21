@@ -41,7 +41,6 @@ class HomeHeader extends Component {
                 <div className='home-header-cotainer'>
                     <div className='home-header-content'>
                         <div className='left-content'>
-                            <i className="fa-solid fa-bars"></i>
                             <div className='header-logo' onClick={() => this.returnToHome()}></div>
                         </div>
 
@@ -102,7 +101,7 @@ class HomeHeader extends Component {
                                 </div>
                             )}
 
-                            
+
 
                             {isLoggedIn && userInfor && userInfor.roleId === 'R4' && (
                                 <div className="dashboard-link">
@@ -150,14 +149,13 @@ class HomeHeader extends Component {
                         <div className='content-up'>
                             <div className='title1'>MEDICAL CARE PROVISION</div>
                             <div className='title2'>Comprehensive health care</div>
-                            <div className='search'>
-                                <i className="fa-solid fa-magnifying-glass"></i>
-                                <input type='text' placeholder='Searching...' />
+                            <div className='booking'>
+                                <button className='booking-button'>Booking Now</button>
                             </div>
                         </div>
-                        
                     </div>
                 }
+
             </React.Fragment>
         );
     }

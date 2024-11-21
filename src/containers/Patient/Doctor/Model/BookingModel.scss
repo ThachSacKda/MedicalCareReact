@@ -1,110 +1,117 @@
 .booking-modal-container {
+    .modal-content {
+        padding: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
     .booking-modal-content {
-        background-color: #fff;
-        border-radius: 12px;
-        padding: 20px;  // Reduce padding
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        max-height: 80vh;
-        overflow-y: auto;
+        background-color: #fff !important;
+        border-radius: 12px !important;
+        padding: 20px !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+        width: 90vw !important;
+        max-width: 1000px !important;
+        max-height: 90vh !important;
+        overflow-y: hidden !important;
 
         .booking-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #f1f1f1;
-            padding-bottom: 10px; // Reduce padding
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            border-bottom: 1px solid #f1f1f1 !important;
+            padding: 15px 0 !important;
 
             .left {
-                font-size: 20px;  // Reduce font size
-                font-weight: bold;
-                color: #333;
+                font-size: 24px !important;
+                font-weight: bold !important;
+                color: #333 !important;
             }
 
             .right {
-                font-size: 22px;  // Reduce font size
-                color: #ff5a5f;
-                cursor: pointer;
-                transition: color 0.3s ease;
+                font-size: 24px !important;
+                color: #ff5a5f !important;
+                cursor: pointer !important;
+                transition: color 0.3s ease !important;
 
-                &:hover {
-                    color: #ff1f1f;
-                }
-
-                i {
-                    font-size: 24px;  // Reduce icon size
-                }
+                &:hover { color: #ff1f1f !important; }
+                i { font-size: 26px !important; }
             }
         }
 
         .booking-modal-body {
-            padding: 15px 0;  // Reduce padding
+            padding: 20px 0 !important;
 
             .doctor-info {
-                margin-bottom: 20px;  // Reduce margin
-                padding: 10px;  // Reduce padding
-                background-color: #f7f7f7;
-                border-radius: 8px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                margin-bottom: 25px !important;
+                padding: 15px !important;
+                background-color: #f9f9f9 !important;
+                border-radius: 8px !important;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
             }
 
-            .form-group {
-                margin-bottom: 15px;  // Reduce margin
+            .row {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 20px !important;
 
-                label {
-                    font-weight: 600;
-                    margin-bottom: 5px;  // Reduce margin
-                    display: block;
-                    color: #333;
-                }
+                .form-group {
+                    flex: 1 !important;
+                    min-width: 200px !important;
 
-                input {
-                    padding: 8px;  // Reduce input padding
-                    border: 1px solid #dcdcdc;
-                    border-radius: 6px;
-                    font-size: 14px;  // Reduce font size
-                    transition: all 0.3s ease;
+                    label {
+                        font-weight: 600 !important;
+                        margin-bottom: 8px !important;
+                        display: block !important;
+                        color: #333 !important;
+                    }
 
-                    &:focus {
-                        border-color: #007bff;
-                        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+                    input {
+                        padding: 10px !important;
+                        border: 1px solid #dcdcdc !important;
+                        border-radius: 6px !important;
+                        font-size: 15px !important;
+                        width: 100% !important;
+                        transition: border-color 0.3s ease !important;
+
+                        &:focus {
+                            border-color: #007bff !important;
+                            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25) !important;
+                        }
                     }
                 }
             }
         }
 
         .booking-modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            padding-top: 10px;  // Reduce padding
-            border-top: 1px solid #f1f1f1;
+            display: flex !important;
+            justify-content: flex-end !important;
+            padding-top: 15px !important;
+            border-top: 1px solid #f1f1f1 !important;
 
             button {
-                padding: 10px 20px;  // Reduce button padding
-                font-size: 14px;  // Reduce font size
-                font-weight: bold;
-                border-radius: 6px;
-                cursor: pointer;
-                transition: all 0.3s ease;
+                padding: 10px 20px !important;
+                font-size: 15px !important;
+                font-weight: bold !important;
+                border-radius: 6px !important;
+                cursor: pointer !important;
+                margin-left: 10px !important;
 
                 &.confirm-btn {
-                    background-color: #28a745;
-                    color: white;
-                    margin-right: 8px;  // Reduce margin
+                    background-color: #28a745 !important;
+                    color: white !important;
+                    transition: background-color 0.3s ease !important;
 
-                    &:hover {
-                        background-color: #218838;
-                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-                    }
+                    &:hover { background-color: #218838 !important; }
                 }
 
                 &.close-btn {
-                    background-color: #6c757d;
-                    color: white;
+                    background-color: #6c757d !important;
+                    color: white !important;
+                    transition: background-color 0.3s ease !important;
 
-                    &:hover {
-                        background-color: #565e64;
-                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-                    }
+                    &:hover { background-color: #565e64 !important; }
                 }
             }
         }

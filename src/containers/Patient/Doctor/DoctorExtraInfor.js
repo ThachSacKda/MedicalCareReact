@@ -18,25 +18,31 @@ class DoctorExtraInfor extends Component {
 
     async componentDidMount() {
         if (this.props.doctorIdFromParent) {
-            let res = await getExtraInforDoctorById(this.props.doctorIdFromParent);
-            if (res && res.errCode === 0) {
-                this.setState({
-                    extraInfor: res.data,
-                    allAvailableTime: res.data.availableTimeSlots || [] // Assuming API returns available time slots
-                });
+            try {
+                let res = await getExtraInforDoctorById(this.props.doctorIdFromParent);
+                if (res && res.errCode === 0) {
+                    console.log('Fetched Doctor Extra Info:', res.data); // Log to check fetched data structure
+                    this.setState({
+                        extraInfor: res.data,
+                        allAvailableTime: res.data.availableTimeSlots || []
+                    });
+                } else {
+                    console.error('Failed to fetch extra information:', res);
+                }
+            } catch (error) {
+                console.error('Error fetching doctor information:', error);
             }
         }
     }
 
     handleClickScheduleTime = (timeSlot) => {
         if (timeSlot.isBooked) {
-            // Nếu thời gian đã được đặt, không làm gì cả
-            return;
+            return; // Do nothing if the time slot is already booked
         }
 
-        // Nếu thời gian chưa được đặt, mở BookingModel và đánh dấu `isBooked`
+        // If the time slot is not booked, open BookingModel and mark it as selected
         this.setState({
-            selectedTimeSlot: timeSlot, // lưu timeSlot để truyền cho BookingModel
+            selectedTimeSlot: timeSlot,
             isBookingModelOpen: true
         });
     }
@@ -46,7 +52,7 @@ class DoctorExtraInfor extends Component {
     }
 
     onBookingSuccess = (timeSlotId) => {
-        // Cập nhật trạng thái isBooked của timeSlot đã chọn
+        // Update the isBooked status of the selected time slot
         this.setState((prevState) => ({
             allAvailableTime: prevState.allAvailableTime.map((slot) =>
                 slot.id === timeSlotId ? { ...slot, isBooked: true } : slot
@@ -54,7 +60,6 @@ class DoctorExtraInfor extends Component {
             isBookingModelOpen: false
         }));
     }
-
 
     showHideDetailInfor = () => {
         this.setState({
@@ -65,6 +70,9 @@ class DoctorExtraInfor extends Component {
     render() {
         let { isShowDetailInfor, extraInfor, allAvailableTime } = this.state;
         let { language } = this.props;
+
+        console.log('Current Extra Information:', extraInfor); // Log to check the current state of extraInfor
+        console.log('Language:', language); // Log to confirm the current language
 
         return (
             <div className='doctor-extra-infor-container'>
@@ -86,7 +94,7 @@ class DoctorExtraInfor extends Component {
                             <span className='price-tag'>
                                 <FormattedMessage id='patient.extra-price' />
                                 <strong>
-                                    {extraInfor && extraInfor.priceTypeData && language === LANGUAGES.VI &&
+                                    {extraInfor.priceTypeData && language === LANGUAGES.VI &&
                                         <NumberFormat
                                             value={extraInfor.priceTypeData.valueVi}
                                             displayType={'text'}
@@ -94,7 +102,7 @@ class DoctorExtraInfor extends Component {
                                             suffix={' VND'}
                                         />
                                     }
-                                    {extraInfor && extraInfor.priceTypeData && language === LANGUAGES.EN &&
+                                    {extraInfor.priceTypeData && language === LANGUAGES.EN &&
                                         <NumberFormat
                                             value={extraInfor.priceTypeData.valueEn}
                                             displayType={'text'}
@@ -117,7 +125,7 @@ class DoctorExtraInfor extends Component {
                                 <div className='price'>
                                     <span className='left'><FormattedMessage id='patient.extra-price' /></span>
                                     <span className='right'>
-                                        {extraInfor && extraInfor.priceTypeData && language === LANGUAGES.VI &&
+                                        {extraInfor.priceTypeData && language === LANGUAGES.VI &&
                                             <NumberFormat
                                                 value={extraInfor.priceTypeData.valueVi}
                                                 displayType={'text'}
@@ -125,7 +133,7 @@ class DoctorExtraInfor extends Component {
                                                 suffix={' VND'}
                                             />
                                         }
-                                        {extraInfor && extraInfor.priceTypeData && language === LANGUAGES.EN &&
+                                        {extraInfor.priceTypeData && language === LANGUAGES.EN &&
                                             <NumberFormat
                                                 value={extraInfor.priceTypeData.valueEn}
                                                 displayType={'text'}
@@ -136,15 +144,15 @@ class DoctorExtraInfor extends Component {
                                     </span>
                                 </div>
                                 <div className='note'>
-                                    {extraInfor && extraInfor.note ? extraInfor.note : ''}
+                                    {extraInfor.note ? extraInfor.note : ''}
                                 </div>
                             </div>
                             <div className='payment'>
                                 <FormattedMessage id='patient.payment-method' />
-                                {extraInfor && extraInfor.paymentTypeData && language === LANGUAGES.VI
+                                {extraInfor.paymentTypeData && language === LANGUAGES.VI
                                     ? extraInfor.paymentTypeData.valueVi : ''}
 
-                                {extraInfor && extraInfor.paymentTypeData && language === LANGUAGES.EN
+                                {extraInfor.paymentTypeData && language === LANGUAGES.EN
                                     ? extraInfor.paymentTypeData.valueEn : ''}
                             </div>
                             <div className='hide-price'>
@@ -159,7 +167,7 @@ class DoctorExtraInfor extends Component {
                             <button
                                 key={index}
                                 className="time-button"
-                                disabled={item.isBooked} // Vô hiệu hóa nếu thời gian đã được đặt
+                                disabled={item.isBooked}
                                 onClick={() => this.handleClickScheduleTime(item)}
                             >
                                 <span>{language === LANGUAGES.VI ? item.timeTypeData.valueVi : item.timeTypeData.valueEn}</span>
