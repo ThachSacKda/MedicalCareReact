@@ -12,67 +12,78 @@ class DoctorExtraInfor extends Component {
         this.state = {
             isShowDetailInfor: false,
             extraInfor: {},
-            allAvailableTime: [], // Initialize to store available time slots
-        }
+            allAvailableTime: [], // Store available time slots
+            loading: true, // Add loading state to handle data fetching
+        };
     }
 
     async componentDidMount() {
         if (this.props.doctorIdFromParent) {
-            try {
-                let res = await getExtraInforDoctorById(this.props.doctorIdFromParent);
-                if (res && res.errCode === 0) {
-                    console.log('Fetched Doctor Extra Info:', res.data); // Log to check fetched data structure
-                    this.setState({
-                        extraInfor: res.data,
-                        allAvailableTime: res.data.availableTimeSlots || []
-                    });
-                } else {
-                    console.error('Failed to fetch extra information:', res);
-                }
-            } catch (error) {
-                console.error('Error fetching doctor information:', error);
-            }
+            this.fetchDoctorExtraInfo(this.props.doctorIdFromParent);
         }
     }
 
-    handleClickScheduleTime = (timeSlot) => {
-        if (timeSlot.isBooked) {
-            return; // Do nothing if the time slot is already booked
+    async componentDidUpdate(prevProps) {
+        if (prevProps.doctorIdFromParent !== this.props.doctorIdFromParent) {
+            this.fetchDoctorExtraInfo(this.props.doctorIdFromParent);
         }
+    }
 
-        // If the time slot is not booked, open BookingModel and mark it as selected
+    fetchDoctorExtraInfo = async (doctorId) => {
+        try {
+            let res = await getExtraInforDoctorById(doctorId);
+            console.log("Fetched Doctor Extra Info:", res); // Debug fetched data
+            if (res && res.errCode === 0) {
+                this.setState({
+                    extraInfor: res.data,
+                    allAvailableTime: res.data.availableTimeSlots || [],
+                    loading: false
+                });
+            } else {
+                console.error("Failed to fetch extra information:", res.errMessage);
+                this.setState({ loading: false });
+            }
+        } catch (error) {
+            console.error("Error fetching extra information:", error);
+            this.setState({ loading: false });
+        }
+    };
+
+    showHideDetailInfor = () => {
+        this.setState({
+            isShowDetailInfor: !this.state.isShowDetailInfor
+        });
+    };
+
+    handleClickScheduleTime = (timeSlot) => {
+        if (timeSlot.isBooked) return;
+
         this.setState({
             selectedTimeSlot: timeSlot,
             isBookingModelOpen: true
         });
-    }
+    };
 
     toggleBookingModel = () => {
         this.setState({ isBookingModelOpen: !this.state.isBookingModelOpen });
-    }
+    };
 
     onBookingSuccess = (timeSlotId) => {
-        // Update the isBooked status of the selected time slot
         this.setState((prevState) => ({
             allAvailableTime: prevState.allAvailableTime.map((slot) =>
                 slot.id === timeSlotId ? { ...slot, isBooked: true } : slot
             ),
             isBookingModelOpen: false
         }));
-    }
-
-    showHideDetailInfor = () => {
-        this.setState({
-            isShowDetailInfor: !this.state.isShowDetailInfor
-        });
-    }
+    };
 
     render() {
-        let { isShowDetailInfor, extraInfor, allAvailableTime } = this.state;
+        let { isShowDetailInfor, extraInfor, allAvailableTime, loading } = this.state;
         let { language } = this.props;
 
-        console.log('Current Extra Information:', extraInfor); // Log to check the current state of extraInfor
-        console.log('Language:', language); // Log to confirm the current language
+        if (loading) {
+            return <div>Loading...</div>; // Add a loading message while data is being fetched
+        }
 
         return (
             <div className='doctor-extra-infor-container'>
@@ -89,7 +100,7 @@ class DoctorExtraInfor extends Component {
                 </div>
 
                 <div className='content-down'>
-                    {!isShowDetailInfor && (
+                    {!isShowDetailInfor ? (
                         <div className='brief-info'>
                             <span className='price-tag'>
                                 <FormattedMessage id='patient.extra-price' />
@@ -116,9 +127,7 @@ class DoctorExtraInfor extends Component {
                                 <FormattedMessage id='patient.more-detail' />
                             </span>
                         </div>
-                    )}
-
-                    {isShowDetailInfor && (
+                    ) : (
                         <div className='detailed-info'>
                             <div className='title-price'><FormattedMessage id='patient.extra-price' /></div>
                             <div className='detail-infor'>
@@ -156,12 +165,13 @@ class DoctorExtraInfor extends Component {
                                     ? extraInfor.paymentTypeData.valueEn : ''}
                             </div>
                             <div className='hide-price'>
-                                <span onClick={this.showHideDetailInfor}><FormattedMessage id='patient.hide-price' /></span>
+                                <span onClick={this.showHideDetailInfor}>
+                                    <FormattedMessage id='patient.hide-price' />
+                                </span>
                             </div>
                         </div>
                     )}
 
-                    {/* Render available time slots with disabled functionality */}
                     <div className="time-content">
                         {allAvailableTime && allAvailableTime.map((item, index) => (
                             <button
