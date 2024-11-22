@@ -18,9 +18,9 @@ class PatientMessages extends Component {
     }
 
     async componentDidMount() {
-        await this.loadNurseAccounts(); // Load all Nurse accounts
-        await this.loadConversations(); // Load conversation history
-        await this.loadUnreadCounts(); // Load unread message counts
+        await this.loadNurseAccounts(); 
+        await this.loadConversations(); 
+        await this.loadUnreadCounts(); 
 
         // Set polling to call loadUnreadCounts every 5 seconds
         this.unreadInterval = setInterval(this.loadUnreadCounts, 5000);
