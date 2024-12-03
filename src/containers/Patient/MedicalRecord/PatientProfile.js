@@ -4,6 +4,9 @@ import './PatientProfile.scss';
 import { withRouter } from 'react-router-dom';
 import { getPatientProfileById } from '../../../services/userService'; // Import API call
 import HomeHeader from '../../HomePage/HomeHeader';
+import { LANGUAGES } from '../../../utils';
+import { FormattedMessage } from 'react-intl';
+
 
 class PatientProfile extends Component {
     constructor(props) {
@@ -83,11 +86,11 @@ class PatientProfile extends Component {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>Diagnosis</th>
-                        <th>Medicines</th>
-                        <th>Note</th>
+                        <th><FormattedMessage id="title.Diagnosis" /></th>
+                        <th><FormattedMessage id="title.Medicines" /></th>
+                        <th><FormattedMessage id="title.Note" /></th>
                         <th onClick={this.handleSortByCreatedAt} style={{ cursor: 'pointer' }}>
-                            Created Time {sortOrder === 'asc' ? '↑' : '↓'}
+                        <FormattedMessage id="title.time" /> {sortOrder === 'asc' ? '↑' : '↓'}
                         </th>
                     </tr>
                 </thead>
@@ -136,22 +139,14 @@ class PatientProfile extends Component {
                 <HomeHeader />
                 <div className="patient-profile-wrapper">
                     <div className="patient-info">
-                        <div className="patient-photo">
-                            {imageSrc ? (
-                                <img src={imageSrc} alt="Patient" />
-                            ) : (
-                                <span className="no-photo">No Photo</span>
-                            )}
-                        </div>
-
                         <h1>{patientInfo.firstName || 'No First Name'} {patientInfo.lastName || 'No Last Name'}</h1>
-                        <p><strong>Email:</strong> {patientInfo.email || 'No Email'}</p>
-                        <p><strong>Gender:</strong> {patientInfo.gender === 'M' ? 'Male' : 'Female'}</p>
-                        <p><strong>Address:</strong> {patientInfo.address || 'No Address'}</p>
+                        <p><strong><FormattedMessage id="title.Email" />:</strong> {patientInfo.email || 'No Email'}</p>
+                        <p><strong><FormattedMessage id="title.Gender" />:</strong> {patientInfo.gender === 'M' ? 'Male' : 'Female'}</p>
+                        <p><strong><FormattedMessage id="title.Address" />:</strong> {patientInfo.address || 'No Address'}</p>
                     </div>
 
                     <div className="medical-records-section">
-                        <h2>Medical Records</h2>
+                        <h2><FormattedMessage id="title.medicalrecord" /></h2>
                         {this.renderMedicalRecords()}
                     </div>
                 </div>

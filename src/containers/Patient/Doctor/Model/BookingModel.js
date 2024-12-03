@@ -12,6 +12,8 @@ import { postPatientBookingAppointment } from '../../../../services/userService'
 import { toast } from 'react-toastify';
 import NumberFormat from 'react-number-format';
 import moment from 'moment';
+import { FormattedMessage } from 'react-intl';
+
 
 class BookingModel extends Component {
     constructor(props) {
@@ -170,7 +172,7 @@ class BookingModel extends Component {
             >
                 <div className='booking-modal-content'>
                     <div className='booking-modal-header'>
-                        <span className='left'>Thông tin đặt lịch khám bệnh</span>
+                        <span className='left'><FormattedMessage id="homeheader.bookingInfor" /></span>
                         <span className='right' onClick={toggle}>
                             <i className="fa-regular fa-circle-xmark"></i>
                         </span>
@@ -187,7 +189,7 @@ class BookingModel extends Component {
                         </div>
                         <div className='row'>
                             <div className='col-6 form-group'>
-                                <label>Họ tên</label>
+                                <label><FormattedMessage id="homeheader.fullname"/></label>
                                 <input
                                     className='form-control'
                                     value={this.state.fullName}
@@ -195,7 +197,7 @@ class BookingModel extends Component {
                                 />
                             </div>
                             <div className='col-6 form-group'>
-                                <label>Phone</label>
+                                <label><FormattedMessage id="homeheader.phone" /></label>
                                 <input
                                     className='form-control'
                                     value={this.state.phoneNumber}
@@ -211,7 +213,7 @@ class BookingModel extends Component {
                                 />
                             </div>
                             <div className='col-6 form-group'>
-                                <label>Địa chỉ</label>
+                                <label><FormattedMessage id="homeheader.address" /></label>
                                 <input
                                     className='form-control'
                                     value={this.state.address}
@@ -219,7 +221,7 @@ class BookingModel extends Component {
                                 />
                             </div>
                             <div className='col-12 form-group'>
-                                <label>Lí do khám</label>
+                                <label><FormattedMessage id="homeheader.reason" /></label>
                                 <input
                                     className='form-control'
                                     value={this.state.reason}
@@ -227,7 +229,7 @@ class BookingModel extends Component {
                                 />
                             </div>
                             <div className='col-6 form-group'>
-                                <label>Ngày Sinh</label>
+                                <label><FormattedMessage id="homeheader.date" /></label>
                                 <DatePicker
                                     onChange={this.handleOnChangeDatePicker}
                                     className='form-control'
@@ -235,7 +237,7 @@ class BookingModel extends Component {
                                 />
                             </div>
                             <div className='col-6 form-group'>
-                                <label>Giới tính</label>
+                                <label><FormattedMessage id="homeheader.sex"/></label>
                                 <Select
                                     value={this.state.selectedGender}
                                     onChange={this.handleOnchangSelect}
@@ -245,8 +247,8 @@ class BookingModel extends Component {
                         </div>
                     </div>
                     <div className='booking-modal-footer'>
-                        <button className="confirm-btn" onClick={this.handleConfirmBooking}>Xác Nhận</button>
-                        <button className="close-btn" onClick={toggle}>Close</button>
+                        <button className="confirm-btn" onClick={this.handleConfirmBooking}><FormattedMessage id="homeheader.confirm" /></button>
+                        <button className="close-btn" onClick={toggle}><FormattedMessage id="homeheader.close" /></button>
                     </div>
                 </div>
             </Modal>

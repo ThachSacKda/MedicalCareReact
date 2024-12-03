@@ -56,8 +56,7 @@ class OutstandingDoctor extends Component {
             <div className='section-outstanding-doctor'>
                 <div className='specialty-container'>
                     <div className='specialty-header'>
-                        <span>Oustanding Doctor</span>
-                        <button><FormattedMessage id="homeheader.View-Details" /></button>
+                        <span><FormattedMessage id="homeheader.out-doctor" /></span>
                     </div>
                     <Slider {...settings}>
                         {arrDoctors && arrDoctors.length > 0 

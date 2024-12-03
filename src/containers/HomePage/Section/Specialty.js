@@ -48,7 +48,6 @@ class Specialty extends Component {
                 <div className='specialty-container'>
                     <div className='specialty-header'>
                         <span><FormattedMessage id="homeheader.Popular-specialties" /></span>
-                        <button><FormattedMessage id="homeheader.View-Details" /></button>
                     </div>
 
                     <Slider {...settings}>

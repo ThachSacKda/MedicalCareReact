@@ -13,10 +13,26 @@
         "Consultation": "Consultation",
         "View-Details": "View Details",
         "welcome": "Welcome",
+        "Profile": "Profile",
+        "History": "Booking History",
+        "Manage": "Manage Zone",
+        "ManageMedicine": "Manage Medicine",
+        "chat": "Message",
+        "Booknow": "Booking Now",
+        "out-doctor":"Outstanding Doctor",
         "view-profile": "View Profile",
         "Medical-Record": "Medical Record",
         "login": "Login",
-        "register": "Register"
+        "register": "Register",
+        "bookingInfor": "Booking Information",
+        "fullname":"Full Name",
+        "phone": "Phone",
+        "address": "Address",
+        "reason": "Reason Booking",
+        "date": "Date",
+        "sex": "Sex",
+        "confirm":"Confirm",
+        "close":"Close"
     },
 
     "common": {
@@ -184,5 +200,17 @@
         "payment-method": "Customers can pay fees in the form of:",
         "hide-price": "Hiden Price"
 
-      }
+      },
+
+    "title": {
+        "Diagnosis": "Diagnosis",
+        "Medicines": "Medicines",
+        "Note": "Note",
+        "time": "Time",
+        "medicalrecord": "Medical Record",
+        "Email": "Email",
+        "Gender": "Gender",
+        "Address": "Address"
+
+    }
 }

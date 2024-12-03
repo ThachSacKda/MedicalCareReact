@@ -61,7 +61,7 @@ class HomeHeader extends Component {
                             {isLoggedIn && userInfor && userInfor.roleId === 'R3' && (
                                 <div className="profile-link">
                                     <Link to={`${path.MEDICAL_RECORD_BY_PATIENT_ID}/${userInfor.id}`}>
-                                        <span>Profile</span>
+                                        <span><FormattedMessage id="homeheader.Profile" /></span>
                                     </Link>
                                 </div>
                             )}
@@ -70,7 +70,7 @@ class HomeHeader extends Component {
                             {isLoggedIn && userInfor && userInfor.roleId === 'R3' && (
                                 <div className="history-link">
                                     <Link to={`${path.BOOKING_HISTORY.replace(':patientId', userInfor.id)}`}>
-                                        <span>Booking History</span>
+                                        <span><FormattedMessage id="homeheader.History" /></span>
                                     </Link>
                                 </div>
                             )}
@@ -79,7 +79,7 @@ class HomeHeader extends Component {
                             {isLoggedIn && userInfor && userInfor.roleId === 'R2' && (
                                 <div className="dashboard-link">
                                     <Link to='/doctor/manage-patient'>
-                                        <span>Manage Zone</span>
+                                        <span><FormattedMessage id="homeheader.Manage" /></span>
                                     </Link>
                                 </div>
                             )}
@@ -88,7 +88,7 @@ class HomeHeader extends Component {
                             {isLoggedIn && userInfor && userInfor.roleId === 'R1' && (
                                 <div className="dashboard-link">
                                     <Link to={path.DASHBOARD}>
-                                        <span>Manage Zone</span>
+                                        <span><FormattedMessage id="homeheader.Manage" /></span>
                                     </Link>
                                 </div>
                             )}
@@ -96,7 +96,7 @@ class HomeHeader extends Component {
                             {isLoggedIn && userInfor && userInfor.roleId === 'R5' && (
                                 <div className="dashboard-link">
                                     <Link to={path.MEDICINE}>
-                                        <span>Manage Medicine</span>
+                                        <span><FormattedMessage id="homeheader.ManageMedicine" /></span>
                                     </Link>
                                 </div>
                             )}
@@ -106,7 +106,7 @@ class HomeHeader extends Component {
                             {isLoggedIn && userInfor && userInfor.roleId === 'R4' && (
                                 <div className="dashboard-link">
                                     <Link to='/system/user-manage'>
-                                        <span>Manage Chat</span>
+                                        <span><FormattedMessage id="homeheader.chat" /></span>
                                     </Link>
                                 </div>
                             )}
@@ -150,7 +150,7 @@ class HomeHeader extends Component {
                             <div className='title1'>MEDICAL CARE PROVISION</div>
                             <div className='title2'>Comprehensive health care</div>
                             <div className='booking'>
-                                <button className='booking-button'>Booking Now</button>
+                                <button className='booking-button'><FormattedMessage id="homeheader.Booknow" /></button>
                             </div>
                         </div>
                     </div>

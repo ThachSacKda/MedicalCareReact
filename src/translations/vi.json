@@ -13,14 +13,28 @@
         "Consultation": "Tư vấn",
         "View-Details": "Xem chi tiết",
         "welcome": "Xin chào",
-
+        "Profile": "Hồ Sơ",
+        "History": "Lịch sử đặt lịch",
+        "Manage": "Quản lí",
+        "ManageMedicine": "Quản lí thuốc",
+        "chat": "Tin Nhắn",
+        "Booknow": "Đặt Lịch Ngay",
+        "out-doctor":"Bác Sĩ Nổi Bật",
         "view-profile": "Xem Hồ Sơ",
         "Medical-Record": "Hồ Sơ Bệnh Án",
         "login": "Đăng nhập",
-        "register": "Tạo Tài Khoản"
+        "register": "Tạo Tài Khoản",
+        "bookingInfor": "Thông tin đặt lịch khám bệnh",
+        "fullname":"Tên đầy đủ",
+        "phone": "Điện thoại",
+        "address": "Địa chỉ",
+        "reason": "Lí do khám",
+        "date": "Ngày sinh",
+        "sex": "Giới tính",
+        "confirm":"Xác nhận",
+        "close":"Đóng"
 
     },
-
 
     "common": {
         "add": "Thêm",
@@ -175,7 +189,7 @@
         "save":"Lưu Thông Tin"
     },
     
-        "patient": {
+    "patient": {
           "detail-doctor": {
             "schedule": "Lịch khám",
             "no-schedule": "Bác sĩ không có lịch hẹn trong thời gian này, vui lòng chọn thời gian khác.",
@@ -188,7 +202,18 @@
           "payment-method": "Khách hàng có thể thanh toán chi phí bằng hình thức:",
           "hide-price": "Ẩn bảng giá"
 
-        }
+    },
+
+    "title": {
+            "Diagnosis": "Chẩn đoán",
+            "Medicines": "Tên Thuốc",
+            "Note": "Ghi Chú",
+            "time": "Ngày và Giờ",
+            "medicalrecord": "Hồ Sơ Bệnh Án",
+            "Email": "Email",
+            "Gender": "Giới tính",
+            "Address": "Địa Chỉ"
+    }
       
       
     
