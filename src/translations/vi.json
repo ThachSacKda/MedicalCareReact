@@ -212,7 +212,8 @@
             "medicalrecord": "Hồ Sơ Bệnh Án",
             "Email": "Email",
             "Gender": "Giới tính",
-            "Address": "Địa Chỉ"
+            "Address": "Địa Chỉ",
+            "Phone": "Điện Thoại"
     }
       
       

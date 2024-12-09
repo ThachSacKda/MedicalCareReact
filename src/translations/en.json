@@ -210,7 +210,9 @@
         "medicalrecord": "Medical Record",
         "Email": "Email",
         "Gender": "Gender",
-        "Address": "Address"
+        "Address": "Address",
+        "Phone": "Phone"
+
 
     }
 }

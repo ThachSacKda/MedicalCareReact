@@ -12,21 +12,7 @@ class HomePage extends Component {
     componentDidMount() {
         const { isLoggedIn, userInfor } = this.props;
         
-        if (isLoggedIn && userInfor) {
-            Swal.fire({
-                icon: 'success',
-                title: `Welcome, ${userInfor.firstName}!`,
-                text: 'You have successfully logged in.',
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#3085d6',
-                timer: 2000, // Set timer to 3 seconds
-                timerProgressBar: true, // Show the timer progress bar
-                willClose: () => {
-                    // This function will be triggered when the alert is closed (after 3 seconds or when the user clicks OK)
-                    console.log('Alert closed');
-                }
-            });
-        }
+        
     }
 
     render() {

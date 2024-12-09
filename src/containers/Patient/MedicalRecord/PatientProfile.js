@@ -143,6 +143,8 @@ class PatientProfile extends Component {
                         <p><strong><FormattedMessage id="title.Email" />:</strong> {patientInfo.email || 'No Email'}</p>
                         <p><strong><FormattedMessage id="title.Gender" />:</strong> {patientInfo.gender === 'M' ? 'Male' : 'Female'}</p>
                         <p><strong><FormattedMessage id="title.Address" />:</strong> {patientInfo.address || 'No Address'}</p>
+                        <p><strong><FormattedMessage id="title.Phone" />:</strong> {patientInfo.phonenumber || 'No Phone Number'}</p>
+
                     </div>
 
                     <div className="medical-records-section">

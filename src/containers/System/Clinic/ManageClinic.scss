@@ -6,6 +6,8 @@
     max-width: 900px;
     margin: 0 auto;
     background-color: #f0f8f5;
+    position: relative; // Đảm bảo z-index được áp dụng chính xác
+    z-index: 1;
 }
 
 .ms-title {
@@ -15,11 +17,15 @@
     margin-bottom: 30px;
     color: #2d6a4f;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
 }
 
 .add-new-specialty {
     display: flex;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
 
     .form-group {
         margin-bottom: 20px;
@@ -63,6 +69,8 @@
     .col-6 {
         width: 48%;
         margin-right: 2%;
+        position: relative;
+        z-index: 2;
     }
 
     .col-6:last-child {
@@ -76,15 +84,19 @@
     border: 1px solid #74c69d;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
 
     .editor-preview {
         background-color: #e9f5ee;
         padding: 15px;
         border-top: 1px solid #74c69d;
+        z-index: 2;
     }
 
     .editor-toolbar {
         border-bottom: 1px solid #74c69d;
+        z-index: 2;
     }
 
     .editor-input {
@@ -92,6 +104,7 @@
         font-size: 16px;
         border-bottom: 1px solid #74c69d;
         background-color: #ffffff;
+        z-index: 2;
     }
 }
 
@@ -106,6 +119,8 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
+    position: relative;
+    z-index: 3; // Đảm bảo nút luôn ở phía trên các thành phần khác
 
     &:hover {
         background-color: #2d6a4f;
